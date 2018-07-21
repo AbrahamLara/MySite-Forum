@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+import re
+
+>>>>>>> Abraham
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import login as auth_login
 from django.shortcuts import render
@@ -59,7 +64,11 @@ def signup(request):
 
 		name, username, email, password, password_conf, activation_code = data
 
-		if password != password_conf:
+		pattern = '[a-zA-Z0-9_]'
+
+		if not re.match(pattern, username):
+			context['error'] = 'Username must be alphanumeric'
+		elif password != password_conf:
 			context['error'] = 'Password confirmation does not match'
 		elif activation_code != 'ThisIsMySite:D':
 			context['error'] = 'Invalid activation code'
