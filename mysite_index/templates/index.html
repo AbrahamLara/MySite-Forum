@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+
+{% block title %}
+<title>My Site</title>
+{% endblock %}
+
+{% block contentCSS %}
+<link rel="stylesheet" type="text/css" href="/static/mysite_index/stylesheets/style.css">
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		{% if user.is_staff %}
+		<div class="container center-text">
+			Get to work Admin!!!!
+		</div>
+		{% else %}	
+		<div class="container center-text">
+			Hello, World!!!
+			<br>
+			This web app is currently a work in progress :D
+		</div>
+		{% endif %}
+	</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html'%}
+
+{% block title %}
+<title>Sign Up</title>
+{% endblock %}
+
+{% block contentCSS %}
+<link rel="stylesheet" type="text/css" href="/static/mysite_auth/stylesheets/style.css">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="container col-lg-6">
+		<br>
+		{% if error %}
+		<div class="text-danger">{{ error }}</div>
+		<br>
+		{% endif %}
+		<form action="/signup/" method="POST">
+			<div  class="form-group">
+				<input class="form-control" value="{{ name }}" placeholder="Name" type="text" name="name" required>	
+			</div>
+			<div  class="form-group">
+				<input class="form-control" value="{{ username }}" placeholder="Username" type="text" name="username" required>	
+			</div>
+			<div  class="form-group">
+				<input class="form-control" value="{{ email }}" placeholder="Email" type="email" name="email" required>	
+			</div>
+			<div  class="form-group">
+				<input class="form-control" value="{{ password }}" placeholder="Password" type="password" name="password" required>	
+			</div>
+			<div  class="form-group">
+				<input class="form-control" value="{{ passwordConf }}" placeholder="Re-enter password" type="password" name="passwordConf" required>
+			</div>
+			<div  class="form-group">
+				<input class="form-control" value="{{ activationCode }}" placeholder="Activation Code" name="activationCode" required>
+			</div>
+			<input class="form-control btn btn-info" type="submit">
+			{% csrf_token %}
+		</form>
+	</div>
+</div>
+{% endblock%}

@@ -1,0 +1,8 @@
+.btn-link:hover {
+	text-decoration: none !important;
+}
+
+.rm-pad {
+	padding-top: 0;
+	padding-bottom: 0;
+}
