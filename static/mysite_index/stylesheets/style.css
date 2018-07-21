@@ -1,0 +1,11 @@
+.center-content {
+	min-height: 100%;
+	padding-bottom: 120px;
+	display: flex;
+	align-items: center;
+}
+
+.center-text {
+	text-align: center;
+	font-size: 30px;
+}
