@@ -1,6 +1,5 @@
 import re
 
->>>>>>> f94eea777553570632fb8a187cc5b138c385f584
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth import login as auth_login
 from django.shortcuts import render
