@@ -17,8 +17,18 @@
 				<ul class="nav justify-content-end">
 					<li class="nav-item">
 						<a class="nav-link disabled" href="#">Disabled</a>
-					<li class="nav-item">
-						<a class="nav-link active" href="/logout">@{{ user.username }}</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-info" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@{{ user.username }}</a>
+						<div class="dropdown-menu dropdown-menu-right">
+							{% if user.is_staff %}							
+							<a class="dropdown-item" href="/users_json">Users JSON</a>
+							{% else %}
+							<a class="dropdown-item" href="#">Placeholder Text</a>
+							{% endif %}
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="/logout">Logout</a>
+						</div>
 					</li>
 				</ul>
 				{% else %}
