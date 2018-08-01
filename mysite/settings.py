@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mysite_auth',
-    'mysite_user'
+    'mysite_user',
+    'mysite_email',
 ]
 
 MIDDLEWARE = [
