@@ -16,3 +16,4 @@ def users_json(request):
 	json_users = serializers.serialize('json', users)
 
 	return HttpResponse(json.dumps(json_users), content_type='application/json')
+

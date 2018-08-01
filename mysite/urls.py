@@ -18,14 +18,13 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path
 
-import mysite_index.views
 import mysite_auth.views
 import mysite_user.views
 import mysite_user.json_views
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('', mysite_index.views.index, name='index'),
+	path('', mysite_user.views.index, name='index'),
 ]
 
 urlpatterns.extend([
