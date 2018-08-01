@@ -15,14 +15,20 @@
 			<div class="form-inline">
 				{% if user.is_authenticated %}
 				<ul class="nav justify-content-end">
+					{% if user.is_staff %}
+					<li class="nav-item">
+						<a class="nav-link" href="/users_json">Users JSON</a>
+					</li>
+					{% else %}
 					<li class="nav-item">
 						<a class="nav-link disabled" href="#">Disabled</a>
 					</li>
+					{% endif %}
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle text-info" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@{{ user.username }}</a>
 						<div class="dropdown-menu dropdown-menu-right">
 							{% if user.is_staff %}							
-							<a class="dropdown-item" href="/users_json">Users JSON</a>
+							<a class="dropdown-item" href="/admin">Admin Page</a>
 							{% else %}
 							<a class="dropdown-item" href="#">Placeholder Text</a>
 							{% endif %}

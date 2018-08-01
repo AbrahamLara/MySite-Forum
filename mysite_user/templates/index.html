@@ -9,17 +9,17 @@
 {% endblock %}
 
 {% block content %}
-	<div class="container">
-		{% if user.is_staff %}
-		<div class="container center-text">
-			Get to work Admin!!!!
-		</div>
-		{% else %}	
-		<div class="container center-text">
-			Hello, World!!!
-			<br>
-			This web app is currently a work in progress :D
-		</div>
-		{% endif %}
+<div class="container">
+	{% if user.is_staff %}
+	<div class="container center-text">
+		Get to work Admin!!!!
 	</div>
+	{% else %}	
+	<div class="container center-text">
+		Hello, World!!!
+		<br>
+		This web app is currently a work in progress :D
+	</div>
+	{% endif %}
+</div>
 {% endblock %}
