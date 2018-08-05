@@ -10,37 +10,54 @@
 		{% endblock %}
 	</head>
 	<body>
-		<nav class="navbar border border-info border-top-0 border-left-0 border-right-0">
+		<nav class="navbar navbar-expand-md navbar-light border border-info border-top-0 border-left-0 border-right-0">
 			<a class="navbar-brand text-info" href="/">MySite</a>
-			<div class="form-inline">
-				{% if user.is_authenticated %}
-				<ul class="nav justify-content-end">
-					{% if user.is_staff %}
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
 					<li class="nav-item">
-						<a class="nav-link" href="/users_json">Users JSON</a>
+						<a class="nav-link" href="#">Link</a>
 					</li>
-					{% else %}
 					<li class="nav-item">
 						<a class="nav-link disabled" href="#">Disabled</a>
 					</li>
-					{% endif %}
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle text-info" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@{{ user.username }}</a>
-						<div class="dropdown-menu dropdown-menu-right">
-							{% if user.is_staff %}							
-							<a class="dropdown-item" href="/admin">Admin Page</a>
-							{% else %}
-							<a class="dropdown-item" href="#">Placeholder Text</a>
-							{% endif %}
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/logout">Logout</a>
-						</div>
-					</li>
 				</ul>
-				{% else %}
-				<a class="btn btn{{ signup_status }}-info mr-sm-2" href="/signup">Register</a>
-				<a class="btn btn{{ login_status }}-info btn-active" href="/login">Login</a>
-				{% endif %}
+				<form class="form-inline my-lg-0">
+					<ul class="navbar-nav mr-auto justify-content-end">
+					{% if user.is_authenticated %}
+						{% if user.is_staff %}
+						<li class="nav-item">
+							<a class="nav-link text-info" href="/users_json">Users JSON</a>
+						</li>
+						{% else %}
+						<li class="nav-item">
+							<a class="nav-link disabled" href="#">Disabled</a>
+						</li>
+						{% endif %}
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle text-info" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@{{ user.username }}</a>
+							<div class="dropdown-menu dropdown-menu-right">
+								{% if user.is_staff %}							
+								<a class="dropdown-item" href="/admin">Admin Page</a>
+								{% else %}
+								<a class="dropdown-item" href="#">Placeholder Text</a>
+								{% endif %}
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="/logout">Logout</a>
+							</div>
+						</li>
+					{% else %}
+						<li class="nav-item">
+							<a class="nav-link text-info" href="/login">Login</a>
+						</li>
+						<li class="nav-item">
+							<a class="btn btn-outline-info mr-sm-2" href="/signup">Register</a>
+						</li>
+					{% endif %}
+					</ul>
+				</form>
 			</div>
 		</nav>
 		{% block content %}
@@ -50,6 +67,16 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
 		{% if user.is_authenticated %}
 		<script src="/static/mysite_auth/javascripts/logout.js"></script>
+		<script>
+		function myFunction() {
+		    var x = document.getElementById("myTopnav");
+		    if (x.className === "topnav") {
+		        x.className += " responsive";
+		    } else {
+		        x.className = "topnav";
+		    }
+		}
+		</script>
 		{% endif %}
 		{% block contentJS %}
 		{% endblock %}

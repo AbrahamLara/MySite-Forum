@@ -25,9 +25,7 @@ def login(request):
 		return HttpResponseRedirect('/')
 
 	if request.method == 'GET':
-		context =  {'signup_status': '-outline'}
-		
-		return render(request, 'login.html', context)
+		return render(request, 'login.html')
 	elif request.method == 'POST':
 		context, data = fetch_context_and_data(request, [
 			'username', 'password',
@@ -35,10 +33,9 @@ def login(request):
 
 		username, password = data
 
-		auth_user = authenticate(username = username, password = password)
+		auth_user = authenticate(username = username[:80], password = password)
 
 		if not auth_user:
-			context['signup_status'] = '-outline'
 			context['error'] = 'Incorrect username or password'
 			return render(request, 'login.html', context)
 
@@ -50,16 +47,16 @@ def login(request):
 def signup(request):
 	if request.user.is_authenticated:
 		return HttpResponseRedirect('/')
+
 	if request.method == 'GET':
-		context =  {'login_status': '-outline'}
-		return render(request, 'signup.html', context)
+		return render(request, 'signup.html')
 	elif request.method == 'POST':
 		context, data = fetch_context_and_data(request, [
 			'name', 'username', 'email', 'password',
-			'passwordConf', 'activationCode'
+			'passwordConf'
 		])
 
-		name, username, email, password, password_conf, activation_code = data
+		name, username, email, password, password_conf = data
 
 		pattern = '[a-zA-Z0-9_]'
 
@@ -67,21 +64,18 @@ def signup(request):
 			context['error'] = 'Username must be alphanumeric'
 		elif password != password_conf:
 			context['error'] = 'Password confirmation does not match'
-		elif activation_code != 'ThisIsMySite:D':
-			context['error'] = 'Invalid activation code'
 		elif User.objects.filter(email = email).exists():
 			context['error'] = 'Email already in use'
 		elif User.objects.filter(username = username).exists():
 			context['error'] = 'Username already in use'
 
 		if 'error' in context:
-			context['login_status'] = '-outline'
 			return render(request, 'signup.html', context)
 
 		user = User.objects.create_user(
-			name = name,
-			username = username,
-			email = email,
+			name = name[:20],
+			username = username[:80],
+			email = email[:40],
 			password = password
 		)
 
