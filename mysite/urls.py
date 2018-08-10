@@ -16,11 +16,13 @@ Including another URLconf
 from django.contrib.auth.views import logout
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 
 import mysite_auth.views
 import mysite_user.views
 import mysite_user.json_views
+import mysite_email.views
+
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
@@ -36,3 +38,19 @@ urlpatterns.extend([
 urlpatterns.extend([
     path('users_json/', mysite_user.json_views.users_json, name='users_json'),
 ])
+
+verification_regex = r'^verify/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$'
+reset_regex = r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$'
+urlpatterns.extend([
+    re_path(verification_regex, mysite_email.views.verify_account, name='verify'),
+    re_path(reset_regex, mysite_email.views.reset_password, name='reset'),
+    path('forgot_password/', mysite_email.views.forgot_password, name='forgot_password'),
+    path('send_verification/', mysite_email.views.send_verification, name='send_verification'),
+    path('send_reset_password/', mysite_email.views.send_reset_password, name='reset_password'),
+    path('confirm_password_change/', mysite_email.views.confirm_password_change, name='confirm_password_change')
+])
+
+
+
+
+

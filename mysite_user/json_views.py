@@ -11,6 +11,14 @@ from mysite_user.models import MySiteUser
 @login_required
 @require_http_methods(['GET'])
 def users_json(request):
+	
+	not_staff = not request.user.is_staff
+
+	not_authenticated = not request.user.is_authenticated
+
+	if not_staff:
+		return render(request, 'access_denied.html')
+
 	users = MySiteUser.objects.all()
 
 	json_users = serializers.serialize('json', users)

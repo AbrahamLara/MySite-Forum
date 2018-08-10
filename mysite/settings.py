@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import mysite_email.creds as creds
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -73,6 +74,12 @@ TEMPLATES = [
         },
     },
 ]
+
+EMAIL_HOST = creds.EMAIL_HOST
+EMAIL_HOST_USER = creds.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = creds.EMAIL_HOST_PASSWORD
+EMAIL_PORT = creds.EMAIL_PORT
+EMAIL_USE_TLS = creds.EMAIL_USE_TLS
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
