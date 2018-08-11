@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    populateAccordion(1);
+    populateAccordion(50);
 });
 
 const populateAccordion = function(length=0) {
