@@ -11,8 +11,7 @@
 {% block content %}
 <div class="container">
 	{% if user.is_staff %}
-	<div class="container center-text">
-		Get to work Admin!!!!
+	<div class="accordion" id="data">
 	</div>
 	{% else %}	
 	<div class="container center-text">
@@ -22,4 +21,8 @@
 	</div>
 	{% endif %}
 </div>
+{% endblock %}
+
+{% block contentJS %}
+<script src="/static/mysite_user/javascripts/index.js"></script>
 {% endblock %}

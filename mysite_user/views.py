@@ -6,6 +6,4 @@ from mysite_user.models import MySiteUser
 
 def index(request):
 
-	context = {'login_status': '-outline', 'signup_status': '-outline'}
-
-	return render(request, 'index.html', context)
+	return render(request, 'index.html')
