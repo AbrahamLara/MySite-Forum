@@ -11,7 +11,8 @@
 {% block content %}
 <div class="container">
 	{% if user.is_staff %}
-	<div class="accordion" id="data">
+	<input class="form-control margin-top rmOtln" type="text" autocomplete="off" placeholder="Search" id="search-bar">
+	<div class="accordion margin-top" id="data">
 	</div>
 	{% else %}	
 	<div class="container center-text">
@@ -24,5 +25,7 @@
 {% endblock %}
 
 {% block contentJS %}
+{% if user.is_staff %}
 <script src="/static/mysite_user/javascripts/index.js"></script>
+{% endif %}
 {% endblock %}

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mysite_auth',
     'mysite_user',
+    'mysite_search',
 ]
 
 MIDDLEWARE = [

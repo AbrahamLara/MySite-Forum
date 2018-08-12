@@ -10,10 +10,14 @@
 	font-size: 1.5rem;
 }
 
-.accordion {
+.margin-top {
 	margin: 1rem 0;
 }
 
 .btn-link:hover {
 	text-decoration: none;
+}
+
+.card-body {
+	white-space: nowrap !important;
 }

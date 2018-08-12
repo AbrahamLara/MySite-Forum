@@ -14,8 +14,6 @@ def users_json(request):
 	
 	not_staff = not request.user.is_staff
 
-	not_authenticated = not request.user.is_authenticated
-
 	if not_staff:
 		return render(request, 'access_denied.html')
 
