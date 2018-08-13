@@ -9,7 +9,7 @@ const displayResults = function() {
     
     if (input !== '') {
         $.ajax({
-            url: `search/${input}`,
+            url: `search/users/${input}`,
             dataType: 'json',
             success: function(data) {
                 populateAccordion(JSON.parse(data));

@@ -21,7 +21,7 @@ from django.urls import path, re_path
 import mysite_auth.views
 import mysite_user.views
 import mysite_user.json_views
-import mysite_search.views
+import mysite_search.json_views
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
@@ -39,5 +39,5 @@ urlpatterns.extend([
 ])
 
 urlpatterns.extend([
-    path('search/<input>', mysite_search.views.search, name='search'),
+    path('search/users/<input>', mysite_search.json_views.search_users, name='search_users'),
 ])
