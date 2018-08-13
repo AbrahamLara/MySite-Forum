@@ -33,7 +33,7 @@ const populateAccordion = function(data) {
             'aria-expanded': 'true', 
             'aria-controls': `#a${data[i].fields.username}`
         });
-        collapse = $('<div>', 
+        collapse = $('<div>',
         {
             'class': 'collapse',
             'id': `${data[i].fields.username}`,
@@ -43,7 +43,7 @@ const populateAccordion = function(data) {
         card_body = $('<div>', {'class': 'card-body'});
 
         button.text(`${data[i].fields.name}`);
-        card_body.text(`${data[i].fields.email}`);
+        card_body.text(`Email: ${data[i].fields.email}\nUsername: ${data[i].fields.username}\nStaff: ${data[i].fields.is_staff}`);
 
         collapse.append(card_body);
         h5.append(button);

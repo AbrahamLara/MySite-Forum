@@ -19,5 +19,5 @@
 }
 
 .card-body {
-	white-space: nowrap !important;
+	white-space: pre;
 }

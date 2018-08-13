@@ -16,7 +16,7 @@ def search(request, input):
 
     filter = Q(name__icontains=input)
 
-    queryset = MySiteUser.objects.filter(filter)
+    queryset = MySiteUser.objects.filter(filter).only('name','username','email','is_staff')
 
     json_queryset = serializers.serialize('json', queryset)
 
