@@ -15,9 +15,10 @@ from mysite_user.models import MySiteUser
 def search(request, input):
 
     filter = Q(name__icontains=input)
+    fields = ('name','username','email','is_staff')
 
-    queryset = MySiteUser.objects.filter(filter).only('name','username','email','is_staff')
+    queryset = MySiteUser.objects.filter(filter)
 
-    json_queryset = serializers.serialize('json', queryset)
+    json_queryset = serializers.serialize('json', queryset, fields=fields)
 
     return HttpResponse(json.dumps(json_queryset), content_type='application/json')
