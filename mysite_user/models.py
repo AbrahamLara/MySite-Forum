@@ -24,7 +24,7 @@ class MySiteUser(AbstractBaseUser, PermissionsMixin):
 	USERNAME_FIELD = 'username'
 	REQUIRED_FIELDS = ['email']
 
-	def essentials_json(self, fields):
+	def essentials_json(self):
 		return {
 			'name': self.name,
 			'email': self.email,
@@ -33,6 +33,3 @@ class MySiteUser(AbstractBaseUser, PermissionsMixin):
 	
 	def __str__(self):
 		return '{0} - {1}'.format(self.name, self.email)
-
-	def queryset(self):
-		return self.objects.all()
