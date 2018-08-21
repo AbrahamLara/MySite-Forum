@@ -13,6 +13,9 @@ from mysite_user.models import MySiteUser
 @require_http_methods(['GET'])
 def search_users(request, input):
 
+    if not request.user.is_authenticated:
+        return HttpResponseBadRequest({'error': 'You are not allowed access to this content'})
+
     filter = Q(name__icontains=input)
     fields = ('name','username','email','is_staff')
 

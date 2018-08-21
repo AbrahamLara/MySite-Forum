@@ -11,11 +11,9 @@ from mysite_user.models import MySiteUser
 @login_required
 @require_http_methods(['GET'])
 def users_json(request):
-	
-	not_staff = not request.user.is_staff
 
-	if not_staff:
-		return render(request, 'access_denied.html')
+	if not request.user.is_staff:
+		return HttpResponseRedirect('/')
 
 	users = MySiteUser.objects.all()
 
