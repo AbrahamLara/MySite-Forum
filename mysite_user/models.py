@@ -30,3 +30,9 @@ class MySiteUser(AbstractBaseUser, PermissionsMixin):
 			'email': self.email,
 			'username': self.username
 		}
+	
+	def __str__(self):
+		return '{0} - {1}'.format(self.name, self.email)
+
+	def queryset(self):
+		return self.objects.all()

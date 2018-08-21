@@ -5,15 +5,15 @@
 {% endblock %}
 
 {% block contentCSS %}
-<link rel="stylesheet" type="text/css" href="/static/mysite_user/stylesheets/style.css">
+<link rel="stylesheet" href="/static/mysite_user/css/index.css">
 {% endblock %}
 
 {% block content %}
 <div class="container">
 	{% if user.is_staff %}
-	<input class="form-control margin-top rmOtln" type="text" autocomplete="off" placeholder="Search" id="search-bar">
-	<div class="accordion margin-top" id="data">
-	</div>
+	<div class="container center-text">
+		Get to work admin!!!
+	</div>	
 	{% else %}	
 	<div class="container center-text">
 		Hello, World!!!
@@ -26,6 +26,5 @@
 
 {% block contentJS %}
 {% if user.is_staff %}
-<script src="/static/mysite_user/javascripts/index.js"></script>
 {% endif %}
 {% endblock %}

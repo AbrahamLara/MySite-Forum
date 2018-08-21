@@ -1,16 +1,22 @@
 $(document).ready(function() {
-    $('#search-bar').keyup(displayResults);
+    $('.search-bar').on('keyup', checkIfEnter);
+    $('#search-btn').on('click', displayResults);
 });
+
+const checkIfEnter = function(event) {
+    if (event.keyCode == 13) $('#search-btn').click(); 
+}
 
 const displayResults = function() {
     $('.accordion').empty();
 
-    var input = $(this).val();
+    var input = $('.search-bar').val();
     
     if (input !== '') {
         $.ajax({
-            url: `search/users/${input}`,
+            url: `users/${input}`,
             dataType: 'json',
+            contentType: 'application/json',
             success: function(data) {
                 populateAccordion(JSON.parse(data));
             }
