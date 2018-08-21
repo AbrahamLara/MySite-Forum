@@ -13,11 +13,6 @@ from mysite_user.models import MySiteUser
 @require_http_methods(['GET'])
 def search_users(request, input):
 
-    not_staff = not request.user.is_staff
-
-    if not_staff:
-        return render(request, 'access_denied.html')
-
     filter = Q(name__icontains=input)
     fields = ('name','username','email','is_staff')
 

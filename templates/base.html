@@ -20,10 +20,11 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarContent">
 				<ul class="navbar-nav mr-auto">
+					{% if user.is_authenticated %}
 					<li class="nav-item">
 						<a class="nav-link text-info" href="/search">Search</a>
 					</li>
-					{% if user.is_authenticated %}
+					{% endif %}
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Dropdown
@@ -35,40 +36,39 @@
 							<a class="dropdown-item" href="#">Something else here</a>
 						</div>
 					</li>
-					{% endif %}
 				</ul>
-					<ul class="navbar-nav justify-content-end">
-					{% if user.is_authenticated %}
-						{% if user.is_staff %}
-						<li class="nav-item">
-							<a class="nav-link text-info" href="/users_json">Users JSON</a>
-						</li>
-						{% else %}
-						<li class="nav-item">
-							<a class="nav-link disabled" href="#">Disabled</a>
-						</li>
-						{% endif %}
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-info rmOtln" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@{{ user.username }}</a>
-							<div class="dropdown-menu dropdown-menu-right">
-								{% if user.is_staff %}							
-								<a class="dropdown-item" href="/admin">Admin Page</a>
-								{% else %}
-								<a class="dropdown-item" href="#">Placeholder Text</a>
-								{% endif %}
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="/logout">Logout</a>
-							</div>
-						</li>
+				<ul class="navbar-nav justify-content-end">
+				{% if user.is_authenticated %}
+					{% if user.is_staff %}
+					<li class="nav-item">
+						<a class="nav-link text-info" href="/users_json">Users JSON</a>
+					</li>
 					{% else %}
-						<li class="nav-item">
-							<a class="nav-link text-info" href="/login">Login</a>
-						</li>
-						<li class="nav-item">
-							<a class="btn btn-outline-info mr-sm-2" href="/signup">Register</a>
-						</li>
+					<li class="nav-item">
+						<a class="nav-link disabled" href="#">Disabled</a>
+					</li>
 					{% endif %}
-					</ul>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-info rmOtln" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@{{ user.username }}</a>
+						<div class="dropdown-menu dropdown-menu-right">
+							{% if user.is_staff %}							
+							<a class="dropdown-item" href="/admin">Admin Page</a>
+							{% else %}
+							<a class="dropdown-item" href="#">Placeholder Text</a>
+							{% endif %}
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="/logout">Logout</a>
+						</div>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link text-info" href="/login">Login</a>
+					</li>
+					<li class="nav-item">
+						<a class="btn btn-outline-info mr-sm-2" href="/signup">Register</a>
+					</li>
+				{% endif %}
+				</ul>
 			</div>
 		</nav>
 		{% block content %}
