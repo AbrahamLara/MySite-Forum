@@ -1,30 +1,25 @@
 {% extends 'base.html'%}
 
-{% block title %}
-<title>My Site</title>
-{% endblock %}
-
 {% block contentCSS %}
 <link rel="stylesheet" href="/static/mysite_user/css/index.css">
 {% endblock %}
 
 {% block content %}
 <div class="container">
+	<div class="container center-text">
 	{% if user.is_staff %}
-	<div class="container center-text">
 		Get to work admin!!!
-	</div>	
 	{% else %}	
-	<div class="container center-text">
 		Hello, World!!!
 		<br>
 		This web app is currently a work in progress :D
-	</div>
 	{% endif %}
+	</div>
 </div>
 {% endblock %}
 
 {% block contentJS %}
-{% if user.is_staff %}
+{% if user.is_authenticated %}
+<script src="/static/mysite_user/js/index.js"></script>
 {% endif %}
 {% endblock %}
