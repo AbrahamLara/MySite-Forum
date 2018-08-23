@@ -30,12 +30,6 @@ class MySiteUserManager(BaseUserManager):
 	def create_superuser(self,username, email, password=None, **extra_fields):
 		return self._create_user(username, email, password, True, True, **extra_fields)
 
-	def fetch_user(self, curr_id):
-		try:
-			return self.get(pk = curr_id)
-		except ObjectDoesNotExist:
-			return None
-
 	def try_fetch(self, *args, **kwargs):
 		try:
 			return self.get(*args, **kwargs)
