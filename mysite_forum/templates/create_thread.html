@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block contentCSS %}
+<link rel="stylesheet" href="/static/mysite_forum/css/forum.css">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form action="/forum/create" method="POST">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text bg-info text-light border-info" id="basic-addon1">Thread Title</span>
+            </div>
+            <input type="text" class="form-control" name="title" placeholder="Type here..." aria-label="Title" aria-describedby="basic-addon1" maxlength="170">
+        </div>
+        <div class="input-group-body">
+            <span class="input-group-text bg-info text-light border-info textarea" id="basic-addon1">Thread Body</span>
+        </div>
+        <div class="input-group mb-3">
+            <textarea class="form-control" rows="7" name="body" placeholder="Type thread body here..." aria-label="With textarea"></textarea>
+        </div>
+        <input type="submit" class="btn btn-outline-info" value="Create Thread">
+        {% csrf_token %}
+    </form>
+</div>
+{% endblock %}
+
+{% block contentJS %}
+
+{% endblock %}

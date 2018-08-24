@@ -1,0 +1,32 @@
+.create-btn {
+    border-radius: 42px;
+    right: 50;
+    bottom: 50;
+    position: absolute;
+    color: white;
+}
+
+/* forum create page */
+form {
+    margin-top: 10px;
+}
+
+.form-control {
+    outline: none !important;
+    box-shadow: unset !important;
+}
+
+span.input-group-text.textarea {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+input.form-control {
+    border-left: unset;
+}
+
+textarea.form-control {
+    border-top: unset;
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}
