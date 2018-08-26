@@ -6,3 +6,12 @@
     outline: none !important;
     box-shadow: none !important;
 }
+
+.navbar-light, .navbar-toggler {
+    border: none;
+}
+
+.navbar-toggler:focus {
+    outline: none;
+    box-shadow: unset;
+}

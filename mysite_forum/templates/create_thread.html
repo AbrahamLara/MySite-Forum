@@ -18,6 +18,7 @@
                 placeholder="Type here..." 
                 aria-label="Title"
                 maxlength="170"
+                autocomplete="off"
                 required
             >
         </div>
@@ -25,7 +26,14 @@
             <span class="input-group-text bg-info text-light border-info textarea">Thread Body</span>
         </div>
         <div class="input-group mb-3">
-            <textarea class="form-control" rows="7" name="body" placeholder="Type thread body here..." aria-label="With textarea"></textarea>
+            <textarea 
+                class="form-control" 
+                rows="7" 
+                name="body" 
+                placeholder="Type thread body here..." 
+                aria-label="With textarea"
+                autocomplete="off"
+            ></textarea>
         </div>
         <input type="submit" class="btn btn-outline-info" value="Create Thread" required>
         {% csrf_token %}

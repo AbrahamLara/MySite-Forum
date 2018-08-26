@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block contentCSS %}
+<style>
+    .display-4 {
+        font-size: 2rem;
+    }
+
+    .lead {
+        white-space: pre-line;
+        width: inherit;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">{{ title }} - {{ author}}</h1>
+            <div class="lead">{{ body }}</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block contentJS %}
+{% endblock %}

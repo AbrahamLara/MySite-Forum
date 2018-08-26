@@ -1,11 +1,36 @@
 .create-btn {
-    border-radius: 42px;
+    border-radius: 40px;
+    padding: 0;
     right: 50;
     bottom: 50;
     position: fixed;
-    color: white;
+}
+
+img {
+    height: 80px;
 }
 
 div.card-body {
-    white-space: pre;
+    white-space: pre-line;
+}
+
+button.title:hover {
+    text-decoration: none;
+}
+
+a.link {
+    float: right;
+}
+
+@media (max-width: 916px) {
+
+    button.btn.title {
+        white-space: normal;
+        max-width: 34rem;
+        overflow: hidden;
+    }
+
+    button.title::after {
+        text-overflow: clip;
+    }
 }
