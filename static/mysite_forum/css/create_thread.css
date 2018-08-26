@@ -1,0 +1,28 @@
+form {
+    margin-top: 10px;
+}
+
+.form-control {
+    outline: none !important;
+    box-shadow: unset !important;
+}
+
+/* .form-control:focus {
+    outline: #17a2b8!important;
+} */
+
+span.input-group-text.textarea {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+input.form-control {
+    border-left: unset;
+}
+
+textarea.form-control {
+    max-height: 25rem;
+    border-top: unset;
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}

@@ -13,7 +13,20 @@ class Thread(models.Model):
 	body = models.TextField(_('body'))
 	date_created = models.DateTimeField(_('date created'), default=timezone.now)
 
-	object = ThreadManager()
+	objects = ThreadManager()
+
+	def get_threads(self):
+		threads = self.objects.all()
+
+		return [self._json_threads(thread) for thread in threads]
+
+	def _json_threads(self, thread):
+		return {
+			'pk': thread.pk,
+			'author': thread.author.username,
+			'title': thread.title,
+			'body': thread.body
+		}
 
 class Post(models.Model):
 
@@ -22,7 +35,7 @@ class Post(models.Model):
 	thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
 	date_posted = models.DateTimeField(_('date posted'), default=timezone.now)
 
-	object = PostManager()
+	objects = PostManager()
 
 class Reply(models.Model):
 
@@ -32,4 +45,4 @@ class Reply(models.Model):
 	thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
 	date_replied = models.DateTimeField(_('date replied'), default=timezone.now)
 
-	object = ReplyManager()
+	objects = ReplyManager()

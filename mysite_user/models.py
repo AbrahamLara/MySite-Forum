@@ -10,7 +10,7 @@ from mysite_forum.models import Thread, Post, Reply
 # Create your models here.
 class MySiteUser(AbstractBaseUser, PermissionsMixin):
 	
-	name = models.CharField(_('name'), max_length=20, default='MySite User')
+	name = models.CharField(_('name'), max_length=80, default='MySite User')
 	username = models.CharField(_('username'), max_length=80, unique=True, db_index=True)
 	email = models.CharField(_('email'), max_length=40, unique=True)
 	date_joined = models.DateTimeField(_('date joined'), default=timezone.now)

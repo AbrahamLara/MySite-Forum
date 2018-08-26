@@ -16,7 +16,7 @@ def create(request):
         title = request.POST.get('title')
         body = request.POST.get('body')
 
-        Thread.object.create_thread(title,request.user,body)
+        Thread.objects.create_thread(title,request.user,body)
 
         return HttpResponseRedirect('/')
     else: return HttpResponseBadRequest('Something went wrong');

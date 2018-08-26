@@ -1,7 +1,6 @@
 import json
 
 from django.db.models import Q
-from django.shortcuts import render
 from django.core import serializers
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required

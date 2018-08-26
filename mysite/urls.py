@@ -22,8 +22,9 @@ import mysite_auth.views
 import mysite_user.views
 import mysite_user.json_views
 import mysite_search.views
-import mysite_forum.views
 import mysite_search.json_views
+import mysite_forum.views
+import mysite_forum.json_views
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
@@ -40,6 +41,7 @@ urlpatterns.extend([
     path('forum/', mysite_forum.views.forum, name='forum'),
     path('forum/thread/<thread>', mysite_forum.views.forum, name='thread'),
     path('forum/create', mysite_forum.views.create, name='create'),
+    path('forum/threads/fetch_threads', mysite_forum.json_views.fetch_threads, name='fetch_threads'),
 ])
 
 urlpatterns.extend([
