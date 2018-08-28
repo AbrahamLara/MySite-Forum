@@ -1,5 +1,5 @@
 .create-btn {
-    border-radius: 40px;
+    border-radius: 35px;
     padding: 0;
     right: 50;
     bottom: 50;
@@ -7,7 +7,15 @@
 }
 
 img {
-    height: 80px;
+    height: 70px;
+}
+
+.card-header {
+    background-color: unset;
+}
+
+.btm-border {
+    border-bottom: 1px solid rgba(0,0,0,.125);
 }
 
 div.card-body {
@@ -22,7 +30,7 @@ a.link {
     float: right;
 }
 
-@media (max-width: 916px) {
+@media (max-width: 921px) {
 
     button.btn.title {
         white-space: normal;
@@ -32,5 +40,16 @@ a.link {
 
     button.title::after {
         text-overflow: clip;
+    }
+
+    .create-btn {
+        right: 10;
+        bottom: 10;
+    }
+
+    .card-body {
+        max-height: 200px;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
     }
 }
