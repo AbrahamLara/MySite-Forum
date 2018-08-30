@@ -21,9 +21,6 @@ class ThreadManager(models.Manager):
 
 		return thread
 
-	def retreive_posts(self):
-		return PostManager.filter(thread=self)
-
 	def try_fetch(self, *args, **kwargs):
 		try:
 			return self.get(*args, **kwargs)

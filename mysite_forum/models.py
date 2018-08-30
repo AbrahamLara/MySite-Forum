@@ -15,17 +15,17 @@ class Thread(models.Model):
 
 	objects = ThreadManager()
 
-	def get_threads(self):
+	def get_threads_json(self):
 		threads = self.objects.all()
 
-		return [self._json_threads(thread) for thread in threads]
+		return [self._json_thread(thread) for thread in threads]
 
-	def _json_threads(self, thread):
+	def _json_thread(self):
 		return {
-			'pk': thread.pk,
-			'author': thread.author.username,
-			'title': thread.title,
-			'body': thread.body
+			'pk': self.pk,
+			'author': self.author.name,
+			'title': self.title,
+			'body': self.body,
 		}
 
 class Post(models.Model):
@@ -36,6 +36,19 @@ class Post(models.Model):
 	date_posted = models.DateTimeField(_('date posted'), default=timezone.now)
 
 	objects = PostManager()
+
+	def get_posts(self):
+
+		posts = Post.objects.filter(thread=self)
+
+		return [Post._json_post(post) for post in posts]
+
+	def _json_post(self):
+		return {
+			'pk': self.pk,
+			'author': self.author.name,
+			'post': self.post
+		}
 
 class Reply(models.Model):
 

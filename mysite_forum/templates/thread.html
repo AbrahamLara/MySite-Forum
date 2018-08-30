@@ -5,15 +5,44 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="modal fade" id="PostCenterBox" tabindex="-1" role="dialog" aria-labelledby="PostCenterBoxTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PostCenterBoxTitle">Post Modal</h5>
+            </div>
+            <form class="modal-body">
+                <textarea name="reply" id="reply-area" rows="10" placeholder="Make a comment..."></textarea>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
     <div class="jumbotron-fluid">
-        <div class="container">
-            <h1 class="display-4">{{ title }} - {{ author}}</h1>
-            <div class="lead">{{ body }}</div>
+        <h1 class="display-4">{{ title }}</h1>
+        <h5 class="author">- {{ author }}</h5>
+        <div class="lead">{{ body }}</div>
+    </div>
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#PostCenterBox">
+        Post Comment
+    </button>
+    <div class="posts-container">
+        <div class="post-count">
+            n Post(s)
+        </div>
+        <div class="post-cell">
+            <div class="post">Placeholder text</div>
+            <div class="author post-author">- James C.</div>
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block contentJS %}
+<script src="/static/mysite_forum/js/thread.js"></script>
 {% endblock %}

@@ -1,12 +1,71 @@
-.container {
-    
+.container-fluid {
+    margin-top: 10px;
+}
+
+.author {
+    font-weight: 1;
 }
 
 .display-4 {
-    font-size: 2rem;
+    font-size: 1.5rem;
+    font-weight: 300;
 }
 
 .lead {
     white-space: pre-line;
     width: inherit;
+    font-size: 1rem;
+}
+
+.reply-submission {
+    display: block;
+    width: inherit;
+}
+
+#reply-area {
+    width: 100%;
+    resize: none;
+    box-shadow: unset;
+    outline: none;
+    border: none;
+}
+
+.posts-container {
+    margin-top: 10px;
+    display: block;
+    border: 2px solid lightgray;
+    border-radius: 5px;
+}
+
+.post-count {
+    border-bottom: inherit;
+}
+
+.post {
+    white-space: pre-line;
+}
+
+.post-author {
+    text-align: right;
+}
+
+.my-4 {
+    margin-bottom: 1px !important;
+}
+
+/* SkyBlue Color */
+.sky-blue-bg {
+    background-color: #9FFFFF;
+}
+
+.sky-blue-bg:hover {
+    background-color: #DFFFFF;
+}
+
+.sky-blue-bg:active {
+    color: #000000;
+}
+
+.sky-blue-txt {
+    color: #DFFFFF;
 }
