@@ -2,6 +2,10 @@
     margin-top: 10px;
 }
 
+.jumbotron-fluid {
+    margin-bottom: 20px;
+}
+
 .author {
     font-weight: 1;
 }
@@ -17,12 +21,7 @@
     font-size: 1rem;
 }
 
-.reply-submission {
-    display: block;
-    width: inherit;
-}
-
-#reply-area {
+#post-area {
     width: 100%;
     resize: none;
     box-shadow: unset;
@@ -33,12 +32,6 @@
 .posts-container {
     margin-top: 10px;
     display: block;
-    border: 1px solid;
-    /* border-radius: 5px; */
-}
-
-.post-cell {
-    border-top: inherit;
 }
 
 .post {

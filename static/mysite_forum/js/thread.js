@@ -10,7 +10,7 @@ const displayPosts = function(posts) {
 
     for (i = posts.length-1; i >= 0; --i) {
         
-        post_cell = $('<div>', {'class': 'post-cell', 'id': posts[i].pk});
+        post_cell = $('<div>', {'class': 'border border-info border-right-0 border-left-0 border-bottom-0 post-cell', 'id': posts[i].pk});
         post = $('<div>', {'class': 'post', 'text': posts[i].post});
         author = $('<div>', {'class': 'author post-author', 'text': `- ${posts[i].author}`});
 

@@ -30,7 +30,7 @@ a.link {
     float: right;
 }
 
-@media (max-width: 921px) {
+@media (max-width: 991px) {
 
     button.btn.title {
         white-space: normal;

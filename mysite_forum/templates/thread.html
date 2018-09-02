@@ -12,7 +12,7 @@
                 <h5 class="modal-title" id="PostCenterBoxTitle">Post Modal</h5>
             </div>
             <form id="post-form" class="modal-body" method="POST" action="{{ pk }}/post/create">
-                <textarea name="post" id="reply-area" rows="10" placeholder="Make a comment..."></textarea>
+                <textarea name="post" id="post-area" rows="10" placeholder="Make a comment..."></textarea>
                 {% csrf_token %}
             </form>
             <div class="modal-footer">
