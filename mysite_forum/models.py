@@ -15,6 +15,29 @@ class Thread(models.Model):
 
 	objects = ThreadManager()
 
+	def get_dictionary(self):
+		return {
+			'pk': self.pk,
+			'title': self.title,
+			'author': self.author.name,
+			'body': self.body,
+			'date_created': self.date_created,
+			'n_posts': Post.objects.filter(thread=self).count(),
+			'thread_posts': self.get_posts_json()
+		}
+
+	def get_posts_json(self):
+		posts = Post.objects.filter(thread=self)
+
+		return [self._get_posts(post) for post in posts]
+
+	def _get_posts(self, post):
+		return {
+			'pk': post.pk,
+			'author': post.author.name,
+			'post': post.post
+		}
+
 	def get_threads_json(self):
 		threads = self.objects.all()
 
@@ -36,19 +59,6 @@ class Post(models.Model):
 	date_posted = models.DateTimeField(_('date posted'), default=timezone.now)
 
 	objects = PostManager()
-
-	def get_posts(self):
-
-		posts = Post.objects.filter(thread=self)
-
-		return [Post._json_post(post) for post in posts]
-
-	def _json_post(self):
-		return {
-			'pk': self.pk,
-			'author': self.author.name,
-			'post': self.post
-		}
 
 class Reply(models.Model):
 

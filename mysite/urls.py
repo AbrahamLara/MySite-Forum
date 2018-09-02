@@ -40,6 +40,7 @@ urlpatterns.extend([
 urlpatterns.extend([
     path('forum/', mysite_forum.views.forum, name='forum'),
     path('forum/thread/<id>', mysite_forum.views.thread, name='thread'),
+    path('forum/thread/<id>/post/create', mysite_forum.views.post, name='create_post'),
     path('forum/create', mysite_forum.views.create, name='create'),
     path('forum/threads/fetch_threads', mysite_forum.json_views.fetch_threads, name='fetch_threads'),
 ])

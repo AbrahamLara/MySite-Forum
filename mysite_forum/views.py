@@ -8,21 +8,11 @@ from mysite_user.models import MySiteUser
 def forum(request):
     return render(request, 'forum_page.html')
 
-def thread_context(thread):
-    dictionary = {}
-
-    dictionary['title'] = thread.title
-    dictionary['author'] = thread.author.name
-    dictionary['body'] = thread.body
-    dictionary['date_created'] = thread.date_created
-
-    return dictionary
-
 def thread(request,id):
 
     thread = Thread.objects.try_fetch(pk=id)
 
-    context = thread_context(thread)
+    context = thread.get_dictionary();
 
     return render(request, 'thread.html', context)
 
@@ -37,4 +27,14 @@ def create(request):
         Thread.objects.create_thread(title,request.user,body)
 
         return HttpResponseRedirect('/')
-    else: return HttpResponseBadRequest('Something went wrong');
+    else: return HttpResponseBadRequest('Something went wrong')
+
+def post(request, id):
+
+    post = request.POST.get('post')
+
+    thread = Thread.objects.try_fetch(pk=id)
+
+    Post.objects.create_post(post,request.user,thread)
+
+    return HttpResponseRedirect('/forum/thread/{}'.format(id))

@@ -11,12 +11,13 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="PostCenterBoxTitle">Post Modal</h5>
             </div>
-            <form class="modal-body">
-                <textarea name="reply" id="reply-area" rows="10" placeholder="Make a comment..."></textarea>
+            <form id="post-form" class="modal-body" method="POST" action="{{ pk }}/post/create">
+                <textarea name="post" id="reply-area" rows="10" placeholder="Make a comment..."></textarea>
+                {% csrf_token %}
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-info">Save changes</button>
+                <button id="post-btn" type="button" class="btn btn-info">Post</button>
             </div>
         </div>
     </div>
@@ -31,18 +32,21 @@
     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#PostCenterBox">
         Post Comment
     </button>
-    <div class="posts-container">
+    <div class="posts-container border-info">
         <div class="post-count">
-            n Post(s)
-        </div>
-        <div class="post-cell">
-            <div class="post">Placeholder text</div>
-            <div class="author post-author">- James C.</div>
+            {% if n_posts == 0 %}
+            Be the first to post on this thread!!!
+            {% else %}
+            {{ n_posts }} Post(s)
+            {% endif%}
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block contentJS %}
+<script>
+    let posts = {{ thread_posts|safe }};
+</script>
 <script src="/static/mysite_forum/js/thread.js"></script>
 {% endblock %}

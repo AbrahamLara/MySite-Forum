@@ -33,12 +33,12 @@
 .posts-container {
     margin-top: 10px;
     display: block;
-    border: 2px solid lightgray;
-    border-radius: 5px;
+    border: 1px solid;
+    /* border-radius: 5px; */
 }
 
-.post-count {
-    border-bottom: inherit;
+.post-cell {
+    border-top: inherit;
 }
 
 .post {
