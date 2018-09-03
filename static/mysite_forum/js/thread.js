@@ -3,6 +3,7 @@ $(document).ready(function() {
     displayPosts(posts);
 
     $('#post-btn').on('click', submitForm);
+    $('#reply-btn').on('click', submitForm);
 });
 
 const displayPosts = function(posts) {
@@ -24,10 +25,15 @@ const displayPosts = function(posts) {
 }
 
 const displayReplyBox = function(e) {
-    id = e.target.value;
-    console.log(id);
+    post_id = e.target.value;
+    thread_id = $('#reply-btn').attr('value');
+    $('#reply-form').attr('action',`${thread_id}/post/${post_id}/reply/create`);
 }
 
 const submitForm = function() {
-    $('#post-form').submit();
+    if ($('#PostCenterBox').hasClass('show')) 
+        $('#post-form').submit();
+    
+    if ($('#ReplyCenterBox').hasClass('show')) 
+        $('#reply-form').submit();
 }

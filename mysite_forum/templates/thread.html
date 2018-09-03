@@ -12,7 +12,7 @@
                 <h5 class="modal-title" id="PostCenterBoxTitle">Type your post below!</h5>
             </div>
             <form id="post-form" class="modal-body" method="POST" action="{{ pk }}/post/create">
-                <textarea name="post" id="post-area" rows="10" placeholder="Make a comment..."></textarea>
+                <textarea name="post" id="post-area" rows="10" placeholder="Post here..."></textarea>
                 {% csrf_token %}
             </form>
             <div class="modal-footer">
@@ -22,20 +22,19 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="ReplyCenterBox" tabindex="-1" role="dialog" aria-labelledby="ReplyCenterBoxTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ReplyCenterBoxTitle">Type your reply below!</h5>
             </div>
-            <form id="post-form" class="modal-body" method="POST" action="">
-                <textarea name="reply" id="post-area" rows="10" placeholder="Make a comment..."></textarea>
+            <form id="reply-form" class="modal-body" method="POST">
+                <textarea name="reply" id="reply-area" rows="10" placeholder="Reply here..."></textarea>
                 {% csrf_token %}
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button id="post-btn" type="button" class="btn btn-info">Post</button>
+                <button id="reply-btn" value="{{ pk }}" type="button" class="btn btn-info">Reply</button>
             </div>
         </div>
     </div>

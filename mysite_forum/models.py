@@ -21,21 +21,8 @@ class Thread(models.Model):
 			'title': self.title,
 			'author': self.author.name,
 			'body': self.body,
-			'date_created': self.date_created,
 			'n_posts': Post.objects.filter(thread=self).count(),
-			'thread_posts': self.get_posts_json()
-		}
-
-	def get_posts_json(self):
-		posts = Post.objects.filter(thread=self)
-
-		return [self._get_posts(post) for post in posts]
-
-	def _get_posts(self, post):
-		return {
-			'pk': post.pk,
-			'author': post.author.name,
-			'post': post.post
+			'thread_posts': Post().get_posts_json(self)
 		}
 
 	def get_threads_json(self):
@@ -60,6 +47,19 @@ class Post(models.Model):
 
 	objects = PostManager()
 
+	def get_posts_json(self, thread):
+		posts = Post.objects.filter(thread=thread)
+
+		return [self._json_posts(post) for post in posts]
+
+	def _json_posts(self, post):
+		return {
+			'pk': post.pk,
+			'author': post.author.name,
+			'post': post.post,
+			'post_replies': Reply().get_replies_json(post=post)
+		}
+
 class Reply(models.Model):
 
 	reply = models.TextField(_('reply'))
@@ -69,3 +69,15 @@ class Reply(models.Model):
 	date_replied = models.DateTimeField(_('date replied'), default=timezone.now)
 
 	objects = ReplyManager()
+
+	def get_replies_json(self, post):
+		replies = Reply.objects.filter(post=post)
+
+		return [self._json_replies(reply) for reply in replies]
+
+	def _json_replies(self, reply):
+		return {
+			'pk': reply.pk,
+			'author': reply.author.name,
+			'reply': reply.reply
+		}

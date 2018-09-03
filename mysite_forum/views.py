@@ -8,15 +8,15 @@ from mysite_user.models import MySiteUser
 def forum(request):
     return render(request, 'forum_page.html')
 
-def thread(request,id):
+def thread(request,idT):
 
-    thread = Thread.objects.try_fetch(pk=id)
+    thread = Thread.objects.try_fetch(pk=idT)
 
     context = thread.get_dictionary();
 
     return render(request, 'thread.html', context)
 
-def create(request):
+def create_thread(request):
     if request.method == 'GET':
         return render(request, 'create_thread.html')
     elif request.method == 'POST':
@@ -29,12 +29,24 @@ def create(request):
         return HttpResponseRedirect('/')
     else: return HttpResponseBadRequest('Something went wrong')
 
-def post(request, id):
+def create_post(request, idT):
 
     post = request.POST.get('post')
 
-    thread = Thread.objects.try_fetch(pk=id)
+    thread = Thread.objects.try_fetch(pk=idT)
 
     Post.objects.create_post(post,request.user,thread)
 
-    return HttpResponseRedirect('/forum/thread/{}'.format(id))
+    return HttpResponseRedirect('/forum/thread/{}'.format(idT))
+
+def create_reply(request,idT,idP):
+
+    reply = request.POST.get('reply')
+
+    thread = Thread.objects.try_fetch(pk=idT);
+
+    post = Post.objects.try_fetch(pk=idP)
+
+    Reply.objects.create_reply(reply,request.user,post,thread)
+
+    return HttpResponseRedirect('/forum/thread/{}'.format(idT))
