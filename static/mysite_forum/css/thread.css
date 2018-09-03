@@ -34,6 +34,10 @@
     display: block;
 }
 
+.btn-link {
+    padding: 0;
+}
+
 .post {
     white-space: pre-line;
 }
