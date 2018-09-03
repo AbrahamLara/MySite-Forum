@@ -11,7 +11,7 @@ const displayPosts = function(posts) {
         
         post_cell = $('<div>', {'class': 'border border-info border-right-0 border-left-0 border-bottom-0 post-cell', 'id': `post-cell-${posts[i].pk}`});
         post = $('<div>', {'class': 'post', 'text': posts[i].post});
-        reply = $('<button>', {'class': 'btn btn-link text-info', 'value':`${posts[i].pk}`, 'text': 'Reply'});
+        reply = $('<button>', {'class': 'btn btn-link text-info', 'value':`${posts[i].pk}`, 'text': 'Reply', 'data-toggle': 'modal', 'data-target': '#ReplyCenterBox'});
         author = $('<div>', {'class': 'author post-author'});
 
         reply.on('click', displayReplyBox);

@@ -23,6 +23,24 @@
     </div>
 </div>
 
+<div class="modal fade" id="ReplyCenterBox" tabindex="-1" role="dialog" aria-labelledby="ReplyCenterBoxTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ReplyCenterBoxTitle">Type your reply below!</h5>
+            </div>
+            <form id="post-form" class="modal-body" method="POST" action="">
+                <textarea name="reply" id="post-area" rows="10" placeholder="Make a comment..."></textarea>
+                {% csrf_token %}
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="post-btn" type="button" class="btn btn-info">Post</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid">
     <div class="jumbotron-fluid">
         <h1 class="display-4">{{ title }}</h1>
