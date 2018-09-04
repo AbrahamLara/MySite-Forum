@@ -39,14 +39,15 @@ urlpatterns.extend([
 
 urlpatterns.extend([
     path('forum/', mysite_forum.views.forum, name='forum'),
-    path('forum/create', mysite_forum.views.create_thread, name='create_thread'),
     path('forum/thread/<idT>', mysite_forum.views.thread, name='thread'),
+    path('forum/create', mysite_forum.views.create_thread, name='create_thread'),
     path('forum/thread/<idT>/post/create', mysite_forum.views.create_post, name='create_post'),
     path('forum/thread/<idT>/post/<idP>/reply/create', mysite_forum.views.create_reply, name='create_reply'),
 ])
 
 urlpatterns.extend([
     path('forum/threads/fetch_threads', mysite_forum.json_views.fetch_threads, name='fetch_threads'),
+    path('forum/thread/post/<idP>/fetch_replies', mysite_forum.json_views.fetch_replies, name='fetch_replies'),
 ])
 
 urlpatterns.extend([

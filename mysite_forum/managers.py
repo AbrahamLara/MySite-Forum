@@ -21,6 +21,15 @@ class ThreadManager(models.Manager):
 
 		return thread
 
+	def increment_n_posts(self, thread):
+		self._update_n_posts(thread,1)
+
+	def decrement_n_posts(self, thread):
+		self._update_n_posts(thread,-1)
+
+	def _update_n_posts(self, thread, change):
+		self.filter(pk=thread.pk).update(n_posts=F('n_posts')+change)
+
 	def try_fetch(self, *args, **kwargs):
 		try:
 			return self.get(*args, **kwargs)
@@ -42,6 +51,15 @@ class PostManager(models.Manager):
 		thread_post.save()
 
 		return thread_post
+
+	def increment_n_replies(self, post):
+		self._update_n_replies(post,1)
+
+	def decrement_n_replies(self, post):
+		self._update_n_replies(post,-1)
+
+	def _update_n_replies(self, post, change):
+		self.filter(post=post).update(n_replies=F('n_replies')+change)
 
 	def try_fetch(self, *args, **kwargs):
 		try:

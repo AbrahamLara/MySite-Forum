@@ -8,10 +8,11 @@ from .managers import ThreadManager, PostManager, ReplyManager
 # Create your models here.
 class Thread(models.Model):
 	
-	title = models.CharField(_('title'), max_length=170)
-	author = models.ForeignKey('mysite_user.MySiteUser', on_delete=models.CASCADE)
-	body = models.TextField(_('body'))
-	date_created = models.DateTimeField(_('date created'), default=timezone.now)
+	title 			= models.CharField(_('title'), max_length=170)
+	author 			= models.ForeignKey('mysite_user.MySiteUser', on_delete=models.CASCADE)
+	body 			= models.TextField(_('body'))
+	date_created 	= models.DateTimeField(_('date_created'), default=timezone.now)
+	n_posts 		= models.IntegerField(_('n_posts'), default=0)
 
 	objects = ThreadManager()
 
@@ -21,7 +22,7 @@ class Thread(models.Model):
 			'title': self.title,
 			'author': self.author.name,
 			'body': self.body,
-			'n_posts': Post.objects.filter(thread=self).count(),
+			'n_posts': self.n_posts,
 			'thread_posts': Post().get_posts_json(self)
 		}
 
@@ -30,22 +31,28 @@ class Thread(models.Model):
 
 		return [self._json_thread(thread) for thread in threads]
 
-	def _json_thread(self):
+	def _json_thread(self, thread):
 		return {
-			'pk': self.pk,
-			'author': self.author.name,
-			'title': self.title,
-			'body': self.body,
+			'pk': thread.pk,
+			'author': thread.author.name,
+			'title': thread.title,
+			'body': thread.body,
 		}
 
 class Post(models.Model):
 
-	post = models.TextField(_('post'))
-	author = models.ForeignKey('mysite_user.MySiteUser', on_delete=models.CASCADE)
-	thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
-	date_posted = models.DateTimeField(_('date posted'), default=timezone.now)
+	post 		= models.TextField(_('post'))
+	author 		= models.ForeignKey('mysite_user.MySiteUser', on_delete=models.CASCADE)
+	thread 		= models.ForeignKey(Thread, on_delete=models.CASCADE)
+	date_posted = models.DateTimeField(_('date_posted'), default=timezone.now)
+	n_replies 	= models.IntegerField(_('n_replies'), default=0)
 
 	objects = PostManager()
+
+	def get_post_replies(self):
+		return {
+			'post_replies': Reply().get_replies_json(post=self)
+		}
 
 	def get_posts_json(self, thread):
 		posts = Post.objects.filter(thread=thread)
@@ -57,16 +64,17 @@ class Post(models.Model):
 			'pk': post.pk,
 			'author': post.author.name,
 			'post': post.post,
+			'n_replies': post.n_replies,
 			'post_replies': Reply().get_replies_json(post=post)
 		}
 
 class Reply(models.Model):
 
-	reply = models.TextField(_('reply'))
-	author = models.ForeignKey('mysite_user.MySiteUser', on_delete=models.CASCADE)
-	post = models.ForeignKey(Post, on_delete=models.CASCADE)
-	thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
-	date_replied = models.DateTimeField(_('date replied'), default=timezone.now)
+	reply 			= models.TextField(_('reply'))
+	author 			= models.ForeignKey('mysite_user.MySiteUser', on_delete=models.CASCADE)
+	post 			= models.ForeignKey(Post, on_delete=models.CASCADE)
+	thread 			= models.ForeignKey(Thread, on_delete=models.CASCADE)
+	date_replied 	= models.DateTimeField(_('date_replied'), default=timezone.now)
 
 	objects = ReplyManager()
 

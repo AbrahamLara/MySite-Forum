@@ -16,3 +16,13 @@ def fetch_threads(request):
     json_threads = serializers.serialize('json', threads)
 
     return HttpResponse(json.dumps(json_threads), content_type='application/json')
+
+@login_required
+@require_http_methods(['GET'])
+def fetch_replies(request, idP):
+
+    post = Post.objects.get(pk=idP)
+    
+    replies = Reply().get_replies_json(post=post)
+
+    return HttpResponse(json.dumps(replies), content_type='applicatopn/json')

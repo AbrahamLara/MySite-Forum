@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import F
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 
 from mysite_forum.models import Thread, Post, Reply
@@ -8,11 +9,11 @@ from mysite_user.models import MySiteUser
 def forum(request):
     return render(request, 'forum_page.html')
 
-def thread(request,idT):
+def thread(request, idT):
 
     thread = Thread.objects.try_fetch(pk=idT)
 
-    context = thread.get_dictionary();
+    context = thread.get_dictionary()
 
     return render(request, 'thread.html', context)
 
@@ -37,15 +38,19 @@ def create_post(request, idT):
 
     Post.objects.create_post(post,request.user,thread)
 
+    Thread.objects.increment_n_posts(thread)
+
     return HttpResponseRedirect('/forum/thread/{}'.format(idT))
 
-def create_reply(request,idT,idP):
+def create_reply(request, idT, idP):
 
     reply = request.POST.get('reply')
 
-    thread = Thread.objects.try_fetch(pk=idT);
+    thread = Thread.objects.try_fetch(pk=idT)
 
     post = Post.objects.try_fetch(pk=idP)
+
+    Post.objects.increment_n_replies(post)
 
     Reply.objects.create_reply(reply,request.user,post,thread)
 
