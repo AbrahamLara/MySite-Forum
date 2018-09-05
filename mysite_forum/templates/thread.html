@@ -49,6 +49,11 @@
     <button type="button" class="btn btn-info" data-toggle="modal" data-target="#PostCenterBox">
         Post Comment
     </button>
+    <script>
+        $('#test').on('click', function(e) {
+            console.log(e.target.value);
+        });
+    </script>
     <div class="posts-container border-info">
         <div class="post-count">
             {% if n_posts == 0 %}

@@ -10,20 +10,22 @@ const displayPosts = function(posts) {
 
     for (i = posts.length-1; i >= 0; --i) {
         
-        post_cell = $('<div>', {'class': 'border border-info border-right-0 border-left-0 border-bottom-0 post-cell', 'id': `post-cell-${posts[i].pk}`});
+        pk = posts[i].pk;
+
+        post_cell = $('<div>', {'class': 'border border-info border-right-0 border-left-0 border-bottom-0 post-cell', 'id': `post-cell-${pk}`});
         post = $('<div>', {'class': 'post', 'text': posts[i].post});
-        reply = $('<a>', {'class': 'btn btn-link text-info', 'value': `${posts[i].pk}`, 'text': 'Reply', 'data-toggle': 'modal', 'data-target': '#ReplyCenterBox'});
-        replies = $('<a>', {'class': 'btn btn-link text-info', 'value': `${posts[i].pk}`, 'id': `repliesFor${posts[i].pk}`, 'text': `Replies(${posts[i].n_replies})`});
+        reply = $('<a>', {'class': 'btn btn-link text-info', 'value': `${pk}`, 'text': 'Reply', 'data-toggle': 'modal', 'data-target': '#ReplyCenterBox'});
+        replies = $('<a>', {'class': 'btn btn-link text-info', 'value': `${pk}`, 'display': true, 'id': `repliesFor${pk}`, 'text': `Replies(${posts[i].n_replies})`});
         author = $('<div>', {'class': 'author post-author', 'text': `- ${posts[i].author}`});
         post_actions = $('<div>', {'class': 'container-fluid no-padding'});
-        replies_container = $('<div>', {'class': 'container-fluid', 'id': `reply-container-${posts[i].pk}`, 'css': {'whitespace': 'pre-line'}});
-
-        post_actions.append(reply,':',replies)
+        replies_container = $('<div>', {'class': 'container-fluid', 'id': `reply-container-${pk}`, 'css': {'whitespace': 'pre-line'}});
 
         replies.on('click', fetchReplies);
         reply.on('click', displayReplyBox);
 
-        post_cell.append(post,author, post_actions, replies_container);
+        post_actions.append(reply,' - ',replies)
+
+        post_cell.append(post,author,post_actions,replies_container);
 
         $('.posts-container').append(post_cell);
     }
@@ -32,23 +34,25 @@ const displayPosts = function(posts) {
 const fetchReplies = function() {
     post_id = $(this).attr('value');
 
-    $.ajax({
-        url: `post/${post_id}/fetch_replies`,
-        contentType: 'application/json',
-        success: function(data) {
-            replies_container = $(`#reply-container-${post_id}`);
-
-            for (i = data.length-1; i >= 0; --i) {
-                author = data[i].author;
-                reply = data[i].reply;
-
-                console.log(author + ' - ' + reply);
+    if (true) {
+        $.ajax({
+            url: `post/${post_id}/fetch_replies`,
+            contentType: 'application/json',
+            success: function(data) {
+                for (i = data.length-1; i >= 0; --i) {
+                    reply = $('<div>', {'class': '', 'text': data[i].reply});
+                    author = $('<div>', {'class': '', 'text': `- ${data[i].author}`});
+    
+                    $(`#reply-container-${post_id}`).append(reply,author);
+                }
+            },
+            error: function(error) {
+                
             }
-        },
-        error: function(error) {
-
-        }
-    });
+        });
+    } else {
+        $(`#reply-container-${post_id}`).empty();
+    }
 }
 
 const displayReplyBox = function(e) {
