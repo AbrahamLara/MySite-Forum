@@ -13,14 +13,17 @@ const displayPosts = function(posts) {
         post_cell = $('<div>', {'class': 'border border-info border-right-0 border-left-0 border-bottom-0 post-cell', 'id': `post-cell-${posts[i].pk}`});
         post = $('<div>', {'class': 'post', 'text': posts[i].post});
         reply = $('<a>', {'class': 'btn btn-link text-info', 'value': `${posts[i].pk}`, 'text': 'Reply', 'data-toggle': 'modal', 'data-target': '#ReplyCenterBox'});
-        replies = $('<a>', {'class': 'btn btn-link text-info', 'value': `${posts[i].pk}`, 'id': `repliesFor${posts[i].pk}`, 'text': 'Replies'});
-        author = $('<div>', {'class': 'author post-author'});
+        replies = $('<a>', {'class': 'btn btn-link text-info', 'value': `${posts[i].pk}`, 'id': `repliesFor${posts[i].pk}`, 'text': `Replies(${posts[i].n_replies})`});
+        author = $('<div>', {'class': 'author post-author', 'text': `- ${posts[i].author}`});
+        post_actions = $('<div>', {'class': 'container-fluid no-padding'});
+        replies_container = $('<div>', {'class': 'container-fluid', 'id': `reply-container-${posts[i].pk}`, 'css': {'whitespace': 'pre-line'}});
+
+        post_actions.append(reply,':',replies)
 
         replies.on('click', fetchReplies);
         reply.on('click', displayReplyBox);
 
-        author.append(`- ${posts[i].author}`);
-        post_cell.append(post,author, reply, ' - ', replies, `(${posts[i].n_replies})`);
+        post_cell.append(post,author, post_actions, replies_container);
 
         $('.posts-container').append(post_cell);
     }
@@ -33,7 +36,14 @@ const fetchReplies = function() {
         url: `post/${post_id}/fetch_replies`,
         contentType: 'application/json',
         success: function(data) {
-            console.log(data);
+            replies_container = $(`#reply-container-${post_id}`);
+
+            for (i = data.length-1; i >= 0; --i) {
+                author = data[i].author;
+                reply = data[i].reply;
+
+                console.log(author + ' - ' + reply);
+            }
         },
         error: function(error) {
 
