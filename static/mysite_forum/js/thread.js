@@ -34,16 +34,17 @@ const displayPosts = function(posts) {
 const fetchReplies = function() {
     post_id = $(this).attr('value');
 
-    if ($(this).attr('display') == false) return;
+    console.log($(this).attr('display') == 'true');
 
-    if (true) {
+    if ($(this).attr('display') == 'true') {
+        $(this).attr('display', false);
         $.ajax({
             url: `post/${post_id}/fetch_replies`,
             contentType: 'application/json',
             success: function(data) {
                 for (i = data.length-1; i >= 0; --i) {
-                    reply = $('<div>', {'class': '', 'text': data[i].reply});
-                    author = $('<div>', {'class': '', 'text': `- ${data[i].author}`});
+                    reply = $('<div>', {'class': 'reply', 'text': data[i].reply});
+                    author = $('<div>', {'class': 'author reply-author', 'text': `- ${data[i].author}`});
     
                     $(`#reply-container-${post_id}`).append(reply,author);
                 }
@@ -53,6 +54,7 @@ const fetchReplies = function() {
             }
         });
     } else {
+        $(this).attr('display', true);
         $(`#reply-container-${post_id}`).empty();
     }
 }
