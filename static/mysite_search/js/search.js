@@ -25,7 +25,6 @@ const displayResults = function() {
 }
 
 const populateAccordion = function(data) {
-    console.log(data)
     for(i = 0; i < data.length; i++) {
         
         card = $('<div>', {'class': 'card'});
@@ -50,7 +49,7 @@ const populateAccordion = function(data) {
         card_body = $('<div>', {'class': 'card-body'});
 
         button.text(`${data[i].fields.title}`);
-        card_body.text(`Email: ${data[i].fields.body}\nUsername: ${data[i].fields.author}`);
+        card_body.text(`Email: ${data[i].fields.body}`);
 
         collapse.append(card_body);
         h5.append(button);

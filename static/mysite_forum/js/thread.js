@@ -43,8 +43,13 @@ const fetchReplies = function() {
                 for (i = data.length-1; i >= 0; --i) {
                     reply = $('<div>', {'class': 'reply', 'text': data[i].reply});
                     author = $('<div>', {'class': 'author reply-author', 'text': `- ${data[i].author}`});
+                    line_break = $('<hr>', {'class': 'my-4 bg-dark'});
     
                     $(`#reply-container-${post_id}`).append(reply,author);
+
+                    if(i != 0) {
+                        $(`#reply-container-${post_id}`).append(line_break);
+                    }
                 }
             },
             error: function(error) {

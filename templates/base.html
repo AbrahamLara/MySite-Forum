@@ -37,11 +37,10 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle text-info rmOtln" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@{{ user.username }}</a>
 						<div class="dropdown-menu dropdown-menu-right">
-							{% if user.is_staff %}							
+							{% if user.is_staff %}
 							<a class="dropdown-item" href="/admin">Admin Page</a>
-							{% else %}
-							<a class="dropdown-item" href="#">Placeholder Text</a>
 							{% endif %}
+							<a class="dropdown-item" href="/profile/{{ user.pk }}">Profile Page</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="/logout">Logout</a>
 						</div>
