@@ -25,6 +25,7 @@ const displayResults = function() {
 }
 
 const populateAccordion = function(data) {
+    console.log(data)
     for(i = 0; i < data.length; i++) {
         
         card = $('<div>', {'class': 'card'});
@@ -35,21 +36,21 @@ const populateAccordion = function(data) {
             'class': 'btn btn-link text-info', 
             'type': 'button',
             'data-toggle': 'collapse', 
-            'data-target': `#${data[i].fields.username}`,
+            'data-target': `#a${data[i].fields.author}`,
             'aria-expanded': 'true', 
-            'aria-controls': `#a${data[i].fields.username}`
+            'aria-controls': `#a${data[i].fields.author}`
         });
         collapse = $('<div>',
         {
             'class': 'collapse',
-            'id': `${data[i].fields.username}`,
+            'id': `a${data[i].fields.author}`,
             'aria-labelledby': `${data[i].pk}`,
             'data-parent': '#data'
         });
         card_body = $('<div>', {'class': 'card-body'});
 
-        button.text(`${data[i].fields.name}`);
-        card_body.text(`Email: ${data[i].fields.email}\nUsername: ${data[i].fields.username}\nStaff: ${data[i].fields.is_staff}`);
+        button.text(`${data[i].fields.title}`);
+        card_body.text(`Email: ${data[i].fields.body}\nUsername: ${data[i].fields.author}`);
 
         collapse.append(card_body);
         h5.append(button);
