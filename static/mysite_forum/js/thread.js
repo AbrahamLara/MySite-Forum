@@ -34,8 +34,6 @@ const displayPosts = function(posts) {
 const fetchReplies = function() {
     post_id = $(this).attr('value');
 
-    console.log($(this).attr('display') == 'true');
-
     if ($(this).attr('display') == 'true') {
         $(this).attr('display', false);
         $.ajax({
