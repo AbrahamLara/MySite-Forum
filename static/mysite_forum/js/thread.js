@@ -34,6 +34,8 @@ const displayPosts = function(posts) {
 const fetchReplies = function() {
     post_id = $(this).attr('value');
 
+    return;
+
     if (true) {
         $.ajax({
             url: `post/${post_id}/fetch_replies`,
