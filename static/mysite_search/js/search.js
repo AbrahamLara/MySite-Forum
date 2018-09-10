@@ -50,8 +50,8 @@ const populateAccordion = function(data) {
         card_body = $('<div>', {'class': 'card-body'});
 
         button.text(`${data[i].fields.title}`);
-        
-        card_body.text(`Email: ${data[i].fields.body}`);
+
+        card_body.text(`${data[i].fields.body}`);
 
         collapse.append(card_body);
         h5.append(button);
