@@ -16,6 +16,9 @@ class Thread(models.Model):
 
 	objects = ThreadManager()
 
+	class Meta:
+		ordering = ['date_created']
+
 	def get_dictionary(self):
 		return {
 			'pk': self.pk,
@@ -49,6 +52,9 @@ class Post(models.Model):
 
 	objects = PostManager()
 
+	class Meta:
+		ordering = ['date_posted']
+
 	def get_post_replies(self):
 		return {
 			'post_replies': Reply().get_replies_json(post=self)
@@ -77,6 +83,9 @@ class Reply(models.Model):
 	date_replied 	= models.DateTimeField(_('date_replied'), default=timezone.now)
 
 	objects = ReplyManager()
+
+	class Meta:
+		ordering = ['date_replied']
 
 	def get_replies_json(self, post):
 		replies = Reply.objects.filter(post=post)

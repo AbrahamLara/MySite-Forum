@@ -14,6 +14,7 @@ def thread(request, idT):
     thread = Thread.objects.try_fetch(pk=idT)
 
     context = thread.get_dictionary()
+    context['author_id'] = thread.author.pk
 
     return render(request, 'thread.html', context)
 

@@ -54,6 +54,10 @@
     margin-bottom: 1px !important;
 }
 
+.author-link:hover {
+    text-decoration: none;
+}
+
 /* SkyBlue Color */
 .sky-blue-bg {
     background-color: #9FFFFF;

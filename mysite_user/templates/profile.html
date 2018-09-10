@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block contentCSS %}
+<link rel="stylesheet" href="/static/mysite_user/css/profile.css">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="container-fluid user-name">{{ profile_user }}</div>
+    <div class="thread-container">
+        <div class="header border border-info border-top-0 border-left-0 border-right-0">Threads Created: {{ n_threads }}</div>
+        {% for thread in threads %}
+        <div class="thread">
+            <a href="/forum/thread/{{ thread.pk }}" class="thread-name text-info">{{ thread.title }}</a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="post-container">
+        <div class="header border border-info border-top-0 border-left-0 border-right-0">Posts Created: {{ n_posts }}</div>
+        {% for post in posts %}
+        <div class="post">
+            <a href="/forum/thread/{{ post.thread.pk }}" class="thread-name text-info">{{ post.post }}</a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="reply-container">
+        <div class="header border border-info border-top-0 border-left-0 border-right-0">Replies Created: {{ n_replies }}</div>
+        {% for reply in replies %}
+        <div class="reply">
+            <a href="/forum/thread/{{ reply.thread.pk }}" class="thread-name text-info">{{ reply.reply }}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block contentJS %}
+{% endblock %}

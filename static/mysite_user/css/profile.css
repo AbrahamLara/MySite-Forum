@@ -1,0 +1,10 @@
+.user-name {
+    text-align: center;
+    font-size: 2rem;
+}
+
+.thread, .post, .reply {
+    white-space: pre-line;
+    margin-bottom: 10px;
+}
+

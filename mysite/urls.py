@@ -29,6 +29,7 @@ import mysite_forum.json_views
 urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('', mysite_user.views.index, name='index'),
+    path('profile/<uid>', mysite_user.views.profile, name='profile_page'),
 ]
 
 urlpatterns.extend([

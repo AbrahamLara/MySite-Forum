@@ -47,9 +47,9 @@ const fetchReplies = function() {
     
                     $(`#reply-container-${post_id}`).append(reply,author);
 
-                    if(i != 0) {
+                    if(i != 0)
                         $(`#reply-container-${post_id}`).append(line_break);
-                    }
+                    
                 }
             },
             error: function(error) {

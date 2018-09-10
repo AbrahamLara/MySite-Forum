@@ -59,7 +59,7 @@ class PostManager(models.Manager):
 		self._update_n_replies(post,-1)
 
 	def _update_n_replies(self, post, change):
-		self.filter(post=post).update(n_replies=F('n_replies')+change)
+		self.filter(pk=post.pk).update(n_replies=F('n_replies')+change)
 
 	def try_fetch(self, *args, **kwargs):
 		try:
