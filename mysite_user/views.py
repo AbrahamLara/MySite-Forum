@@ -25,8 +25,6 @@ def profile(request, uid):
 	context = {
 		'profile_user': user.name,
 		'threads': threads,
-		'posts': posts,
-		'replies': replies,
 		'n_threads': threads.count(),
 		'n_posts': posts.count(),
 		'n_replies': replies.count()
