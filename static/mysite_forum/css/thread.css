@@ -58,6 +58,10 @@
     text-decoration: none;
 }
 
+.more-btn:hover {
+    cursor: pointer;
+}
+
 /* SkyBlue Color */
 .sky-blue-bg {
     background-color: #9FFFFF;

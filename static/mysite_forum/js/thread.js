@@ -59,7 +59,7 @@ const fetchReplies = function() {
                 }
 
                 if (data.length > 5) {
-                    more = $('<a>', {'class': 'text-info', 'post-Id': post_id, 'value': data.length-5});
+                    more = $('<a>', {'class': 'more-btn text-info', 'post-Id': post_id, 'value': data.length-5});
                     more.text('more...');
                     more.on('click', fetchMoreReplies);
                     $(`#reply-container-${post_id}`).append(more);
