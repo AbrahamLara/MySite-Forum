@@ -29,7 +29,6 @@ const displayPosts = function(posts) {
         reply.on('click', displayReplyBox);
 
         post_actions.append(reply,' - ',replies)
-
         post_cell.append(post,author,post_actions,replies_container);
 
         $('.posts-container').append(post_cell);
@@ -45,7 +44,9 @@ const fetchReplies = function() {
             url: `post/${post_id}/fetch_replies`,
             contentType: 'application/json',
             success: function(data) {
-                for (i = data.length-1; i >= 0; --i) {
+                if (data.length == 0) return;
+
+                for (i = data.length-1; i >= data.length-5; --i) {
                     reply = $('<div>', {'class': 'reply', 'text': data[i].reply});
                     author = $('<div>', {'class': 'author reply-author', 'text': `- ${data[i].author}`});
                     line_break = $('<hr>', {'class': 'my-4 bg-dark'});
@@ -56,15 +57,53 @@ const fetchReplies = function() {
                         $(`#reply-container-${post_id}`).append(line_break);
                     
                 }
-            },
-            error: function(error) {
-                
+
+                if (data.length > 5) {
+                    more = $('<a>', {'class': 'text-info', 'post-Id': post_id, 'value': data.length-5});
+                    more.text('more...');
+                    more.on('click', fetchMoreReplies);
+                    $(`#reply-container-${post_id}`).append(more);
+                }
             }
         });
     } else {
         $(this).attr('display', true);
         $(`#reply-container-${post_id}`).empty();
     }
+}
+
+const fetchMoreReplies = function() {
+
+    more = $(this);
+    $(this).remove();
+    
+    postId = $(this).attr('post-id');
+    position = $(this).attr('value');
+
+    $.ajax({
+        url: `post/${postId}/fetch_replies/${position}`,
+        data: {'position': position},
+        contentType: 'application/json',
+        success: function(data) {
+            for(i = data.replies.length-1; i >= 0; --i) {
+                reply = $('<div>', {'class': 'reply', 'text': data.replies[i].reply});
+                author = $('<div>', {'class': 'author reply-author', 'text': `- ${data.replies[i].author}`});
+                line_break = $('<hr>', {'class': 'my-4 bg-dark'});
+
+                $(`#reply-container-${post_id}`).append(reply,author);
+
+                if(i != 0)
+                    $(`#reply-container-${post_id}`).append(line_break);
+                
+            }
+
+            if (data.more == true) {
+                more.attr('value', position-5);
+                more.on('click', fetchMoreReplies);
+                $(`#reply-container-${postId}`).append(more);
+            }
+        },
+    });
 }
 
 const displayReplyBox = function(e) {
