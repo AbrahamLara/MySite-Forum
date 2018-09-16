@@ -13,12 +13,17 @@ const displayPosts = function(posts) {
         pk = posts[i].pk;
 
         post_cell = $('<div>', {'class': 'border border-info border-right-0 border-left-0 border-bottom-0 post-cell', 'id': `post-cell-${pk}`});
-        post = $('<div>', {'class': 'post', 'text': posts[i].post});
-        reply = $('<a>', {'class': 'btn btn-link text-info', 'value': `${pk}`, 'text': 'Reply', 'data-toggle': 'modal', 'data-target': '#ReplyCenterBox'});
-        replies = $('<a>', {'class': 'btn btn-link text-info', 'value': `${pk}`, 'display': true, 'id': `repliesFor${pk}`, 'text': `Replies(${posts[i].n_replies})`});
-        author = $('<div>', {'class': 'author post-author', 'text': `- ${posts[i].author}`});
+        post = $('<div>', {'class': 'post'});
+        reply = $('<a>', {'class': 'btn btn-link text-info', 'value': `${pk}`, 'data-toggle': 'modal', 'data-target': '#ReplyCenterBox'});
+        replies = $('<a>', {'class': 'btn btn-link text-info', 'value': `${pk}`, 'display': true, 'id': `repliesFor${pk}`});
+        author = $('<div>', {'class': 'author post-author'});
         post_actions = $('<div>', {'class': 'container-fluid no-padding'});
         replies_container = $('<div>', {'class': 'container-fluid', 'id': `reply-container-${pk}`, 'css': {'whitespace': 'pre-line'}});
+
+        post.text(posts[i].post);
+        reply.text('Reply');
+        replies.text(`Replies(${posts[i].n_replies})`);
+        author.text(`- ${posts[i].author}`);
 
         replies.on('click', fetchReplies);
         reply.on('click', displayReplyBox);

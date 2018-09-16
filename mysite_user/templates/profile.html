@@ -12,6 +12,16 @@
         <div class="model-name">Posts Created: {{ n_posts }}</div>
         <div class="model-name">Replies Created: {{ n_replies }}</div>
     </div>
+    <div class="user-threads">
+        <header>Threads:</header>
+        <div class="threads">
+            {% for thread in threads %}
+            <div class="thread">
+                <a href="/forum/thread/{{ thread.id }}">{{ thread.title }}</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock %}
 

@@ -17,3 +17,12 @@
 .model-name {
     padding: 10px;
 }
+
+.thread {
+    display: block;
+}
+
+header {
+    font-weight: bold;
+    font-size: 2rem;
+}

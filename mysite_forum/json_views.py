@@ -23,6 +23,6 @@ def fetch_replies(request, idP):
 
     post = Post.objects.get(pk=idP)
     
-    replies = Reply().get_replies_json(post=post)
+    replies = Reply().get_replies_json(post=post)[:5]
 
     return HttpResponse(json.dumps(replies), content_type='applicatopn/json')
