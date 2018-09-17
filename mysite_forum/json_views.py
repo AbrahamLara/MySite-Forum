@@ -20,9 +20,11 @@ def fetch_threads(request):
 def fetch_replies(request, idP, position):
     post = Post.objects.get(pk=idP)
 
+    DISPLAY_N_REPLIES = 5
+
     position = int(position)
 
-    offset = position-5
+    offset = position-DISPLAY_N_REPLIES
 
     if offset < 0:
         offset = 0
@@ -33,5 +35,6 @@ def fetch_replies(request, idP, position):
     
     context['replies'] = replies
     context['more'] = offset != 0
+    context['offset'] = DISPLAY_N_REPLIES
 
     return HttpResponse(json.dumps(context), content_type='application/json')

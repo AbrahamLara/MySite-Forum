@@ -74,17 +74,14 @@ const fetchReplies = function() {
                 }
 
                 if (data.more) {
-                    if (more != null) {
-                        more.attr('position', position-5);
-                        more.on('click', fetchReplies);
-                        $(`#reply-container-${post_id}`).append(more);
-                    } else {
+                    if (more == null) {
                         more = $('<a>', {'class': `more-btn more-btn-${post_id} text-info`, 'value': post_id});
-                        more.attr('position', position-5);
                         more.text('more...');
-                        more.on('click', fetchReplies);
-                        $(`#reply-container-${post_id}`).append(more);
                     }
+
+                    more.attr('position', position-data.offset);
+                    more.on('click', fetchReplies);
+                    $(`#reply-container-${post_id}`).append(more);
                 }
             }
         });
