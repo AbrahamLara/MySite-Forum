@@ -17,18 +17,7 @@ def fetch_threads(request):
     return HttpResponse(json.dumps(json_threads), content_type='application/json')
 
 @require_http_methods(['GET'])
-def fetch_replies(request, idP):
-
-    post = Post.objects.get(pk=idP)
-    
-    replies = Reply().get_replies_json(post=post)
-
-    print(replies.__len__())
-
-    return HttpResponse(json.dumps(replies), content_type='application/json')
-
-@require_http_methods(['GET'])
-def fetch_more_replies(request, idP, position):
+def fetch_replies(request, idP, position):
     post = Post.objects.get(pk=idP)
 
     position = int(position)
@@ -43,9 +32,6 @@ def fetch_more_replies(request, idP, position):
     replies = Reply().get_replies_json(post=post)[offset:position]
     
     context['replies'] = replies
-    context['more'] = False
-
-    if offset != 0:
-        context['more'] = True
+    context['more'] = offset != 0
 
     return HttpResponse(json.dumps(context), content_type='application/json')

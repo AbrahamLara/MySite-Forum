@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     displayPosts(posts);
 
     $('#post-btn').on('click', submitForm);
@@ -56,7 +55,7 @@ const fetchReplies = function() {
             more = $(this);
             $(this).remove();
         } else 
-            $(this).attr('display', false);;
+            $(this).attr('display', false);
 
         $.ajax({
             url: `post/${post_id}/fetch_replies/${position}`,
@@ -68,17 +67,17 @@ const fetchReplies = function() {
                     line_break = $('<hr>', {'class': 'my-4 bg-dark'});
     
                     $(`#reply-container-${post_id}`).append(reply,author);
-    
-                    if(i != 0)
+                
+                    if(data.more || i != 0)
                         $(`#reply-container-${post_id}`).append(line_break);
                     
                 }
 
-                if (data.more == true) {
-                    if (is_more_btn) {
+                if (data.more) {
+                    if (more != null) {
                         more.attr('position', position-5);
                         more.on('click', fetchReplies);
-                        $(`#reply-container-${postId}`).append(more);
+                        $(`#reply-container-${post_id}`).append(more);
                     } else {
                         more = $('<a>', {'class': `more-btn more-btn-${post_id} text-info`, 'value': post_id});
                         more.attr('position', position-5);
