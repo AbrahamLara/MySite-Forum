@@ -20,6 +20,8 @@ const displayPosts = function(posts) {
         post_actions = $('<div>', {'class': 'container-fluid no-padding'});
         replies_container = $('<div>', {'class': 'container-fluid', 'id': `reply-container-${pk}`, 'css': {'whitespace': 'pre-line'}});
 
+        replies.attr('position', posts[i].n_replies);
+
         post.text(posts[i].post);
         reply.text('Reply');
         replies.text(`Replies(${posts[i].n_replies})`);
@@ -37,32 +39,53 @@ const displayPosts = function(posts) {
 
 const fetchReplies = function() {
     post_id = $(this).attr('value');
+    position = $(this).attr('position');
 
-    if ($(this).attr('display') == 'true') {
-        $(this).attr('display', false);
+    if (position == 0) 
+        return;
+
+    is_more_btn = $(this).hasClass(`more-btn-${post_id}`);
+
+    flag = is_more_btn ? true : $(this).attr('display') == 'true';
+
+    if (flag) {
+
+        var more;
+
+        if(is_more_btn) {
+            more = $(this);
+            $(this).remove();
+        } else 
+            $(this).attr('display', false);;
+
         $.ajax({
-            url: `post/${post_id}/fetch_replies`,
+            url: `post/${post_id}/fetch_replies/${position}`,
             contentType: 'application/json',
             success: function(data) {
-                if (data.length == 0) return;
-
-                for (i = data.length-1; i >= data.length-5; --i) {
-                    reply = $('<div>', {'class': 'reply', 'text': data[i].reply});
-                    author = $('<div>', {'class': 'author reply-author', 'text': `- ${data[i].author}`});
+                for(i = data.replies.length-1; i >= 0; --i) {
+                    reply = $('<div>', {'class': 'reply', 'text': data.replies[i].reply});
+                    author = $('<div>', {'class': 'author reply-author', 'text': `- ${data.replies[i].author}`});
                     line_break = $('<hr>', {'class': 'my-4 bg-dark'});
     
                     $(`#reply-container-${post_id}`).append(reply,author);
-
+    
                     if(i != 0)
                         $(`#reply-container-${post_id}`).append(line_break);
                     
                 }
 
-                if (data.length > 5) {
-                    more = $('<a>', {'class': 'more-btn text-info', 'post-Id': post_id, 'value': data.length-5});
-                    more.text('more...');
-                    more.on('click', fetchMoreReplies);
-                    $(`#reply-container-${post_id}`).append(more);
+                if (data.more == true) {
+                    if (is_more_btn) {
+                        more.attr('position', position-5);
+                        more.on('click', fetchReplies);
+                        $(`#reply-container-${postId}`).append(more);
+                    } else {
+                        more = $('<a>', {'class': `more-btn more-btn-${post_id} text-info`, 'value': post_id});
+                        more.attr('position', position-5);
+                        more.text('more...');
+                        more.on('click', fetchReplies);
+                        $(`#reply-container-${post_id}`).append(more);
+                    }
                 }
             }
         });
@@ -70,40 +93,6 @@ const fetchReplies = function() {
         $(this).attr('display', true);
         $(`#reply-container-${post_id}`).empty();
     }
-}
-
-const fetchMoreReplies = function() {
-
-    more = $(this);
-    $(this).remove();
-    
-    postId = $(this).attr('post-id');
-    position = $(this).attr('value');
-
-    $.ajax({
-        url: `post/${postId}/fetch_replies/${position}`,
-        data: {'position': position},
-        contentType: 'application/json',
-        success: function(data) {
-            for(i = data.replies.length-1; i >= 0; --i) {
-                reply = $('<div>', {'class': 'reply', 'text': data.replies[i].reply});
-                author = $('<div>', {'class': 'author reply-author', 'text': `- ${data.replies[i].author}`});
-                line_break = $('<hr>', {'class': 'my-4 bg-dark'});
-
-                $(`#reply-container-${post_id}`).append(reply,author);
-
-                if(i != 0)
-                    $(`#reply-container-${post_id}`).append(line_break);
-                
-            }
-
-            if (data.more == true) {
-                more.attr('value', position-5);
-                more.on('click', fetchMoreReplies);
-                $(`#reply-container-${postId}`).append(more);
-            }
-        },
-    });
 }
 
 const displayReplyBox = function(e) {

@@ -23,6 +23,8 @@ def fetch_replies(request, idP):
     
     replies = Reply().get_replies_json(post=post)
 
+    print(replies.__len__())
+
     return HttpResponse(json.dumps(replies), content_type='application/json')
 
 @require_http_methods(['GET'])
@@ -30,17 +32,16 @@ def fetch_more_replies(request, idP, position):
     post = Post.objects.get(pk=idP)
 
     position = int(position)
-    print(position)
 
     offset = position-5
 
-    if offset < 0 :
+    if offset < 0:
         offset = 0
 
     context = dict()
 
     replies = Reply().get_replies_json(post=post)[offset:position]
-
+    
     context['replies'] = replies
     context['more'] = False
 
