@@ -19,7 +19,7 @@ const displayPosts = function(posts) {
         post_actions = $('<div>', {'class': 'container-fluid no-padding'});
         replies_container = $('<div>', {'class': 'container-fluid', 'id': `reply-container-${pk}`, 'css': {'whitespace': 'pre-line'}});
 
-        replies.attr('position', posts[i].n_replies);
+        replies.attr('index', posts[i].n_replies);
 
         post.text(posts[i].post);
         reply.text('Reply');
@@ -38,9 +38,9 @@ const displayPosts = function(posts) {
 
 const fetchReplies = function() {
     post_id = $(this).attr('value');
-    position = $(this).attr('position');
+    index = $(this).attr('index');
 
-    if (position == 0) 
+    if (index == 0) 
         return;
 
     is_more_btn = $(this).hasClass(`more-btn-${post_id}`);
@@ -58,7 +58,7 @@ const fetchReplies = function() {
             $(this).attr('display', false);
 
         $.ajax({
-            url: `post/${post_id}/fetch_replies/${position}`,
+            url: `post/${post_id}/fetch_replies/${index}`,
             contentType: 'application/json',
             success: function(data) {
                 for(i = data.replies.length-1; i >= 0; --i) {
@@ -79,7 +79,7 @@ const fetchReplies = function() {
                         more.text('more...');
                     }
 
-                    more.attr('position', position-data.offset);
+                    more.attr('index', index-data.offset);
                     more.on('click', fetchReplies);
                     $(`#reply-container-${post_id}`).append(more);
                 }

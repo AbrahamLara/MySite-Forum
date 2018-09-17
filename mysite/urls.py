@@ -48,7 +48,7 @@ urlpatterns.extend([
 
 urlpatterns.extend([
     path('forum/threads/fetch_threads', mysite_forum.json_views.fetch_threads, name='fetch_threads'),
-    path('forum/thread/post/<idP>/fetch_replies/<position>', mysite_forum.json_views.fetch_replies, name='fetch_more_replies'),
+    path('forum/thread/post/<idP>/fetch_replies/<index>', mysite_forum.json_views.fetch_replies, name='fetch_more_replies'),
 ])
 
 urlpatterns.extend([

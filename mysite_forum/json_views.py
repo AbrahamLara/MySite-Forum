@@ -17,21 +17,21 @@ def fetch_threads(request):
     return HttpResponse(json.dumps(json_threads), content_type='application/json')
 
 @require_http_methods(['GET'])
-def fetch_replies(request, idP, position):
+def fetch_replies(request, idP, index):
     post = Post.objects.get(pk=idP)
 
     DISPLAY_N_REPLIES = 5
 
-    position = int(position)
+    index = int(index)
 
-    offset = position-DISPLAY_N_REPLIES
+    offset = index-DISPLAY_N_REPLIES
 
     if offset < 0:
         offset = 0
 
     context = dict()
 
-    replies = Reply().get_replies_json(post=post)[offset:position]
+    replies = Reply().get_json(post=post)[offset:index]
     
     context['replies'] = replies
     context['more'] = offset != 0

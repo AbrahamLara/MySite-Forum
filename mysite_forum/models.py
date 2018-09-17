@@ -26,10 +26,10 @@ class Thread(models.Model):
 			'author': self.author.name,
 			'body': self.body,
 			'n_posts': self.n_posts,
-			'thread_posts': Post().get_posts_json(self)
+			'thread_posts': Post().get_json(self)
 		}
 
-	def get_threads_json(self):
+	def get_json(self):
 		threads = self.objects.all()
 
 		return [self._json_thread(thread) for thread in threads]
@@ -57,10 +57,10 @@ class Post(models.Model):
 
 	def get_post_replies(self):
 		return {
-			'post_replies': Reply().get_replies_json(post=self)
+			'post_replies': Reply().get_json(post=self)
 		}
 
-	def get_posts_json(self, thread):
+	def get_json(self, thread):
 		posts = Post.objects.filter(thread=thread)
 
 		return [self._json_posts(post) for post in posts]
@@ -71,7 +71,7 @@ class Post(models.Model):
 			'author': post.author.name,
 			'post': post.post,
 			'n_replies': post.n_replies,
-			'post_replies': Reply().get_replies_json(post=post)
+			'post_replies': Reply().get_json(post=post)
 		}
 
 class Reply(models.Model):
@@ -87,7 +87,7 @@ class Reply(models.Model):
 	class Meta:
 		ordering = ['date_replied']
 
-	def get_replies_json(self, post):
+	def get_json(self, post):
 		replies = Reply.objects.filter(post=post)
 
 		return [self._json_replies(reply) for reply in replies]
