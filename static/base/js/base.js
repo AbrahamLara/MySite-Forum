@@ -8,7 +8,7 @@ class ForumPopulator {
         this.setting = setting;
     }
 
-    static _createTheadPostObject(post_data) {
+    static _createPostObjectInThread(post_data) {
         const pk = posts[i].pk;
 
         const post_object = $('<div>', {'class': 'border border-info border-right-0 border-left-0 border-bottom-0 post-cell', 'id': `post-cell-${pk}`});
@@ -35,7 +35,7 @@ class ForumPopulator {
         return post_object;
     }
 
-    static _createThreadReplyObject(reply_data) {
+    static _createReplyObjectInThread(reply_data) {
         const reply_object = $('<div>');
         const reply = $('<div>', {'class': 'reply', 'text': reply_data.reply});
         const author = $('<div>', {'class': 'author reply-author', 'text': `- ${reply_data.author}`});
@@ -49,9 +49,9 @@ class ForumPopulator {
         var object;
 
         if ('reply' in data)
-            object = ForumPopulator._createThreadReplyObject(data);
+            object = ForumPopulator._createReplyObjectInThread(data);
         else if ('post' in data)
-            object = ForumPopulator._createTheadPostObject(data);
+            object = ForumPopulator._createPostObjectInThread(data);
         else
             console.log('This is a thread');
         
