@@ -1,3 +1,5 @@
+const forumPopulator = new ForumPopulator(ForumSettings.THREAD_PAGE());
+
 $(document).ready(function() {
     displayPosts(posts);
 
@@ -6,33 +8,8 @@ $(document).ready(function() {
 });
 
 const displayPosts = function(posts) {
-
     for (i = posts.length-1; i >= 0; --i) {
-        
-        pk = posts[i].pk;
-
-        post_cell = $('<div>', {'class': 'border border-info border-right-0 border-left-0 border-bottom-0 post-cell', 'id': `post-cell-${pk}`});
-        post = $('<div>', {'class': 'post'});
-        reply = $('<a>', {'class': 'btn btn-link text-info', 'value': `${pk}`, 'data-toggle': 'modal', 'data-target': '#ReplyCenterBox'});
-        replies = $('<a>', {'class': 'btn btn-link text-info', 'value': `${pk}`, 'display': true, 'id': `repliesFor${pk}`});
-        author = $('<div>', {'class': 'author post-author'});
-        post_actions = $('<div>', {'class': 'container-fluid no-padding'});
-        replies_container = $('<div>', {'class': 'container-fluid', 'id': `reply-container-${pk}`, 'css': {'whitespace': 'pre-line'}});
-
-        replies.attr('index', posts[i].n_replies);
-
-        post.text(posts[i].post);
-        reply.text('Reply');
-        replies.text(`Replies(${posts[i].n_replies})`);
-        author.text(`- ${posts[i].author}`);
-
-        replies.on('click', fetchReplies);
-        reply.on('click', displayReplyBox);
-
-        post_actions.append(reply,' - ',replies)
-        post_cell.append(post,author,post_actions,replies_container);
-
-        $('.posts-container').append(post_cell);
+        forumPopulator.addObjectToContainer(posts[i], $('.posts-container'));
     }
 }
 
@@ -44,7 +21,6 @@ const fetchReplies = function() {
         return;
 
     is_more_btn = $(this).hasClass(`more-btn-${post_id}`);
-
     flag = is_more_btn ? true : $(this).attr('display') == 'true';
 
     if (flag) {
@@ -54,20 +30,16 @@ const fetchReplies = function() {
         if(is_more_btn) {
             more = $(this);
             $(this).remove();
-        } else 
-            $(this).attr('display', false);
+        } else $(this).attr('display', false);
 
         $.ajax({
             url: `post/${post_id}/fetch_replies/${index}`,
             contentType: 'application/json',
             success: function(data) {
                 for(i = data.replies.length-1; i >= 0; --i) {
-                    reply = $('<div>', {'class': 'reply', 'text': data.replies[i].reply});
-                    author = $('<div>', {'class': 'author reply-author', 'text': `- ${data.replies[i].author}`});
+                    forumPopulator.addObjectToContainer(data.replies[i], $(`#reply-container-${post_id}`));
                     line_break = $('<hr>', {'class': 'my-4 bg-dark'});
-    
-                    $(`#reply-container-${post_id}`).append(reply,author);
-                
+
                     if(data.more || i != 0)
                         $(`#reply-container-${post_id}`).append(line_break);
                     
@@ -78,8 +50,7 @@ const fetchReplies = function() {
                         more = $('<a>', {'class': `more-btn more-btn-${post_id} text-info`, 'value': post_id});
                         more.text('more...');
                     }
-
-                    more.attr('index', index-data.offset);
+                    more.attr('index', index - data.offset);
                     more.on('click', fetchReplies);
                     $(`#reply-container-${post_id}`).append(more);
                 }
