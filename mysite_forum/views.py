@@ -1,9 +1,12 @@
+import json
+
 from django.shortcuts import render
 from django.db.models import F
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 
 from mysite_forum.models import Thread, Post, Reply
 from mysite_user.models import MySiteUser
+from mysite_forum.forum_paginator import ForumPaginator
 
 # Create your views here.
 def forum(request):
@@ -11,10 +14,13 @@ def forum(request):
 
 def thread(request, idT):
 
-    thread = Thread.objects.try_fetch(pk=idT)
+    thread = Thread.objects.get(pk=idT)
 
     context = thread.get_dictionary()
-    context['author_id'] = thread.author.pk
+
+    json_posts = ForumPaginator(context['n_posts']).fetch_posts_context(thread)
+
+    context['thread_posts'] = json.dumps(json_posts)
 
     return render(request, 'thread.html', context)
 

@@ -1,16 +1,29 @@
 const forumPopulator = new ForumPopulator(ForumSettings.THREAD_PAGE());
 
 $(document).ready(function() {
-    displayPosts(posts);
+    displayPosts(json_context);
 
     $('#post-btn').on('click', submitForm);
     $('#reply-btn').on('click', submitForm);
 });
 
-const displayPosts = function(posts) {
-    for (i = posts.length-1; i >= 0; --i) {
-        forumPopulator.addObjectToContainer(posts[i], $('.posts-container'));
+const displayPosts = function(context) {
+    for (i = context.posts.length-1; i >= 0; --i) {
+        forumPopulator.addObjectToContainer(context.posts[i], $('.posts-container'));
     }
+
+    if (context.more) {
+        more = forumPopulator.createMoreButton('posts', context.thread_id);
+        
+        more.attr('index', context.index - context.offset);
+        more.on('click', fetchPosts);
+        
+        $('.posts-container').append(more);
+    }
+}
+
+const fetchPosts = function() {
+    console.log('More posts to fetch');
 }
 
 const fetchReplies = function() {
@@ -20,7 +33,7 @@ const fetchReplies = function() {
     if (index == 0) 
         return;
 
-    is_more_btn = $(this).hasClass(`more-btn-${post_id}`);
+    is_more_btn = $(this).hasClass(`more-btn-for-replies-${post_id}`);
     flag = is_more_btn ? true : $(this).attr('display') == 'true';
 
     if (flag) {
@@ -47,8 +60,7 @@ const fetchReplies = function() {
 
                 if (data.more) {
                     if (more == null) {
-                        more = $('<a>', {'class': `more-btn more-btn-${post_id} text-info`, 'value': post_id});
-                        more.text('more...');
+                        more = forumPopulator.createMoreButton('replies', post_id);
                     }
                     more.attr('index', index - data.offset);
                     more.on('click', fetchReplies);

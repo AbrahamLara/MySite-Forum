@@ -22,11 +22,11 @@ class Thread(models.Model):
 	def get_dictionary(self):
 		return {
 			'pk': self.pk,
+			'author_id': self.author.id,
 			'title': self.title,
 			'author': self.author.name,
 			'body': self.body,
 			'n_posts': self.n_posts,
-			'thread_posts': Post().get_json(self)
 		}
 
 	def get_json(self):

@@ -63,7 +63,7 @@
 
 {% block contentJS %}
 <script>
-    let posts = {{ thread_posts|safe }};
+    let json_context = {{ thread_posts|safe }};
 </script>
 <script src="/static/mysite_forum/js/thread.js"></script>
 {% endblock %}
