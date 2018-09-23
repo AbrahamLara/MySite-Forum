@@ -63,10 +63,9 @@ const displayThreads = function(threads) {
 /**
  * [BUG]
  * Since the thread data has author as its model object id
- * instead of the authors actual name. It the same author
- * creates multiple threads, the threads with the same data-target
- * and aria-control attributes will trigger resulting in multiple threads
- * having their cards expanded.
+ * instead of the authors actual name. If a user creates multiple threads
+ * their thread cards will have the same data-target and aria-control
+ * attributes resulting in multiple threads having their cards expanded.
  */
 /**
  * @param {*} thread
