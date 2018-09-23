@@ -20,7 +20,6 @@ const displayThreads = function(threads) {
     threads  = JSON.parse(threads);
 
     for(i = threads.length-1; i >= 0; i--) {
-        
         /**
          * Creates the card for each element to display the title and
          * body for each thread while also creating a button to send the
@@ -60,6 +59,15 @@ const displayThreads = function(threads) {
     if(threads.length == 1) $('.cards').addClass('btm-border');
 }
 
+
+/**
+ * [BUG]
+ * Since the thread data has author as its model object id
+ * instead of the authors actual name. It the same author
+ * creates multiple threads, the threads with the same data-target
+ * and aria-control attributes will trigger resulting in multiple threads
+ * having their cards expanded.
+ */
 /**
  * @param {*} thread
  * These constants define how the elements within a
@@ -68,14 +76,6 @@ const displayThreads = function(threads) {
  * behaviour of displaying it's own body upon
  * clicking its title and its own button that takes
  * the user to its thread page.
- */
-/**
- * [BUG]
- * Since the thread data has author as its model object id
- * instead of the authors actual name. It the same author
- * creates multiple threads, the threasd with the same data-target
- * and aria-control will be trigger resulting in multiple threads
- * having the body displayed.
  */
 const buttonAttrs = function(thread) {
     return {
