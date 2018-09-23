@@ -20,7 +20,9 @@ def fetch_threads(request):
 @require_http_methods(['GET'])
 def fetch_posts(request, idT, index):
     
-    context = ForumPaginator(index).fetch_posts_context(idT)
+    thread = Thread.objects.get(pk=idT)
+
+    context = ForumPaginator(index).fetch_posts_context(thread)
     
     return HttpResponse(json.dumps(context), content_type='application/json')
 

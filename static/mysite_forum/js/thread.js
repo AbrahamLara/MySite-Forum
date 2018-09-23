@@ -23,7 +23,29 @@ const displayPosts = function(context) {
 }
 
 const fetchPosts = function() {
-    console.log('More posts to fetch');
+    thread_id = $(this).attr('value');
+    index = $(this).attr('index');
+
+    if (index == 0) 
+        return;
+
+    is_more_btn = $(this).hasClass(`more-btn-for-posts`);
+    flag = is_more_btn ? true : $(this).attr('display') == 'true';
+
+    var more;
+
+    if(is_more_btn) {
+        more = $(this);
+        $(this).remove();
+    } else $(this).attr('display', false);
+
+    $.ajax({
+        url: `${thread_id}/fetch_posts/${index}`,
+        contentType: 'application/json',
+        success: function(data) {
+            displayPosts(data);
+        }
+    });
 }
 
 const fetchReplies = function() {
@@ -37,7 +59,6 @@ const fetchReplies = function() {
     flag = is_more_btn ? true : $(this).attr('display') == 'true';
 
     if (flag) {
-
         var more;
 
         if(is_more_btn) {
@@ -62,7 +83,7 @@ const fetchReplies = function() {
                     if (more == null) {
                         more = forumPopulator.createMoreButton('replies', post_id);
                     }
-                    more.attr('index', index - data.offset);
+                    more.attr('index', data.index - data.offset);
                     more.on('click', fetchReplies);
                     $(`#reply-container-${post_id}`).append(more);
                 }

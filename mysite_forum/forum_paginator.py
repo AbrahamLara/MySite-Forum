@@ -40,7 +40,7 @@ class ForumPaginator(object):
         context['posts'] = posts
         context['thread_id'] = thread.id
         context['more'] = offset != 0
-        context['index'] = thread.n_posts
+        context['index'] = self._index
         context['offset'] = self._DISPLAY_N_POSTS
 
         return context
@@ -57,6 +57,7 @@ class ForumPaginator(object):
         
         context['replies'] = replies
         context['more'] = offset != 0
+        context['index'] = self._index
         context['offset'] = self._DISPLAY_N_REPLIES
 
         return context
