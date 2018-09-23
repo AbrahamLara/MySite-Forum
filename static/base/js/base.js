@@ -27,7 +27,7 @@ class ForumPopulator {
         replies.text(`Replies(${post_data.n_replies})`);
         author.text(`- ${post_data.author}`);
 
-        replies.on('click', fetchReplies);
+        replies.on('click', fetchObects);
         reply.on('click', displayReplyBox);
 
         post_actions.append(reply, ' - ', replies)

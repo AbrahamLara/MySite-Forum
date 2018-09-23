@@ -56,6 +56,7 @@ class ForumPaginator(object):
         replies = Reply().get_json(post=post)[offset:self._index]
         
         context['replies'] = replies
+        context['post_id'] = post.id
         context['more'] = offset != 0
         context['index'] = self._index
         context['offset'] = self._DISPLAY_N_REPLIES

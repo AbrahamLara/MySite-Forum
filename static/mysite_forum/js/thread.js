@@ -7,95 +7,89 @@ $(document).ready(function() {
     $('#reply-btn').on('click', submitForm);
 });
 
-const displayPosts = function(context) {
+const displayPosts = function(context, more_btn) {
     for (i = context.posts.length-1; i >= 0; --i) {
         forumPopulator.addObjectToContainer(context.posts[i], $('.posts-container'));
     }
 
     if (context.more) {
-        more = forumPopulator.createMoreButton('posts', context.thread_id);
+        if (more_btn == null)
+            more_btn = forumPopulator.createMoreButton('posts', context.thread_id);
         
-        more.attr('index', context.index - context.offset);
-        more.on('click', fetchPosts);
-        
-        $('.posts-container').append(more);
+        more_btn.attr('index', context.index - context.offset);
+        more_btn.on('click', fetchObects);
+        $('.posts-container').append(more_btn);
     }
 }
 
-const fetchPosts = function() {
-    thread_id = $(this).attr('value');
-    index = $(this).attr('index');
+const displayReplies = function(context, more_btn) {
+    for(i = context.replies.length-1; i >= 0; --i) {
+        forumPopulator.addObjectToContainer(context.replies[i], $(`#reply-container-${context.post_id}`));
+        line_break = $('<hr>', {'class': 'my-4 bg-dark'});
 
-    if (index == 0) 
-        return;
+        if(context.more || i != 0)
+            $(`#reply-container-${context.post_id}`).append(line_break);   
+    }
 
-    is_more_btn = $(this).hasClass(`more-btn-for-posts`);
-    flag = is_more_btn ? true : $(this).attr('display') == 'true';
-
-    var more;
-
-    if(is_more_btn) {
-        more = $(this);
-        $(this).remove();
-    } else $(this).attr('display', false);
-
-    $.ajax({
-        url: `${thread_id}/fetch_posts/${index}`,
-        contentType: 'application/json',
-        success: function(data) {
-            displayPosts(data);
-        }
-    });
+    if (context.more) {
+        if (more_btn == null)
+            more_btn = forumPopulator.createMoreButton('replies', context.post_id);
+        
+        more_btn.attr('index', context.index - context.offset);
+        more_btn.on('click', fetchObects);
+        $(`#reply-container-${context.post_id}`).append(more_btn);
+    }
 }
 
-const fetchReplies = function() {
-    post_id = $(this).attr('value');
+const fetchObects = function() {
+    id = $(this).attr('value');
     index = $(this).attr('index');
 
-    if (index == 0) 
+    if (index == 0)
         return;
 
-    is_more_btn = $(this).hasClass(`more-btn-for-replies-${post_id}`);
+    is_more_btn = $(this).hasClass(`more-btn-for-posts`) ||  $(this).hasClass(`more-btn-for-replies-${id}`);
     flag = is_more_btn ? true : $(this).attr('display') == 'true';
 
     if (flag) {
         var more;
 
+        /**
+         * This checks for whether 'this' is a 'more' button for retrieving more
+         * posts/replies or is the button for displaying the first set of replies
+         * for a post.
+         * The 'Replies(n)' button.
+         */
         if(is_more_btn) {
             more = $(this);
             $(this).remove();
-        } else $(this).attr('display', false);
+        } else 
+            $(this).attr('display', false);
 
-        $.ajax({
-            url: `post/${post_id}/fetch_replies/${index}`,
-            contentType: 'application/json',
-            success: function(data) {
-                for(i = data.replies.length-1; i >= 0; --i) {
-                    forumPopulator.addObjectToContainer(data.replies[i], $(`#reply-container-${post_id}`));
-                    line_break = $('<hr>', {'class': 'my-4 bg-dark'});
-
-                    if(data.more || i != 0)
-                        $(`#reply-container-${post_id}`).append(line_break);
-                    
-                }
-
-                if (data.more) {
-                    if (more == null) {
-                        more = forumPopulator.createMoreButton('replies', post_id);
-                    }
-                    more.attr('index', data.index - data.offset);
-                    more.on('click', fetchReplies);
-                    $(`#reply-container-${post_id}`).append(more);
-                }
-            }
-        });
+        if ($(this).is('.more-btn-for-posts'))
+            fetchObjectsAjax(`${id}/fetch_posts/${index}`, more);
+        else
+            fetchObjectsAjax(`post/${id}/fetch_replies/${index}`, more);
     } else {
         $(this).attr('display', true);
-        $(`#reply-container-${post_id}`).empty();
+        $(`#reply-container-${id}`).empty();
     }
 }
 
-const displayReplyBox = function(e) {
+const fetchObjectsAjax = function(url, more) {
+    $.ajax({
+        url: url,
+        contentType: 'application/json',
+        success: function(data) {
+            if ('replies' in data)
+                displayReplies(data, more);
+            else if ('posts' in data) 
+                displayPosts(data, more);
+        }
+    });
+}
+
+const displayReplyBox = function() {
     post_id = $(this).attr('value');
     thread_id = $('#reply-btn').attr('value');
     $('#reply-form').attr('action',`${thread_id}/post/${post_id}/reply/create`);
@@ -104,7 +98,6 @@ const displayReplyBox = function(e) {
 const submitForm = function() {
     if ($('#PostCenterBox').hasClass('show')) 
         $('#post-form').submit();
-    
-    if ($('#ReplyCenterBox').hasClass('show')) 
+    else if ($('#ReplyCenterBox').hasClass('show')) 
         $('#reply-form').submit();
 }
