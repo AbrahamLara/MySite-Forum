@@ -7,7 +7,9 @@
 {% block content %}
 <div class="container">
     <div class="accordion threads" id="threads">
-        <!-- Threads will be displayed here -->
+        {% for thread in forum_context.threads reversed %}
+            {% include 'partials/thread_card.html' with thread=thread %}
+        {% endfor %}
     </div>
 </div>
 <a class="btn btn-info text-light create-btn" id="create-thread" href="/forum/create">
@@ -16,5 +18,12 @@
 {% endblock %}
 
 {% block contentJS %}
+<script>
+    {% if n_threads|add:"-{{ forum_context.offset }}" < 0 %}
+    const index = 0;
+    {% else %}
+    const index = {{ n_threads }} - {{ forum_context.offset }};
+    {% endif %}
+</script>
 <script src="/static/mysite_forum/js/forum.js"></script>
 {% endblock %}

@@ -10,7 +10,15 @@ from mysite_forum.forum_paginator import ForumPaginator
 
 # Create your views here.
 def forum(request):
-    return render(request, 'forum_page.html')
+    
+    context = dict()
+
+    context['n_threads'] = Thread.objects.all().count();
+
+    context['forum_context'] = ForumPaginator(context['n_threads']).fetch_threads_context();
+    print(context['forum_context'])
+
+    return render(request, 'forum_page.html', context)
 
 def thread(request, idT):
 

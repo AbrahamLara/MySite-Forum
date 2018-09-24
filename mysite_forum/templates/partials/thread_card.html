@@ -1,0 +1,17 @@
+<div class="card">
+    <div class="card-header" id="{{ thread.pk }}">
+        <h5 class="mb-0">
+            <button class="btn btn-link text-info title" type="button" data-toggle="collapse" data-target="#{{ thread.author }}{{ thread.pk }}" aria-expanded="true" aria-controls="#{{ thread.author }}{{ thread.pk }}">
+            {{ thread.title }}
+            </button>
+            <a class="btn btn-outline-info link" href="/forum/thread/{{ thread.pk }}">View</a>
+        </h5>
+    </div>
+    <div id="{{ thread.author }}{{ thread.pk }}" class="collapse" aria-labelledby="{{ thread.pk }}" data-parent="#threads">
+        {% if thread.body|length > 1270 %}
+        <div class="card-body">{{ thread.body|slice:"0:1271" }}...</div>
+        {% else %}
+        <div class="card-body">{{ thread.body }}</div>
+        {% endif %}
+    </div>
+</div>

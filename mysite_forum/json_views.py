@@ -9,13 +9,10 @@ from mysite_forum.models import Thread, Post, Reply
 from mysite_forum.forum_paginator import ForumPaginator
 
 @require_http_methods(['GET'])
-def fetch_threads(request):
-
-    threads = Thread.objects.all()
-
-    json_threads = serializers.serialize('json', threads)
-
-    return HttpResponse(json.dumps(json_threads), content_type='application/json')
+def fetch_threads(request, index):
+    context = ForumPaginator(index).fetch_threads_context();
+    print(context)
+    return HttpResponse(json.dumps(context), content_type='application/json')
 
 @require_http_methods(['GET'])
 def fetch_posts(request, idT, index):

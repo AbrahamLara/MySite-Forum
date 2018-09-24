@@ -30,14 +30,14 @@ class Thread(models.Model):
 		}
 
 	def get_json(self):
-		threads = self.objects.all()
+		threads = Thread.objects.all()
 
 		return [self._json_thread(thread) for thread in threads]
 
 	def _json_thread(self, thread):
 		return {
 			'pk': thread.pk,
-			'author': thread.author.name,
+			'author': thread.author.username,
 			'title': thread.title,
 			'body': thread.body,
 		}

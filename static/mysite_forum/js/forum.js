@@ -4,7 +4,7 @@ $(document).ready(function() {
 
 const fetchThreads = function() {
     $.ajax({
-        url: 'threads/fetch_threads',
+        url: `threads/fetch_threads/${index}`,
         contentType: 'application/json',
         success: displayThreads,
         error: handleError
@@ -16,26 +16,23 @@ const handleError = function(error) {
 }
 
 const displayThreads = function(threads) {
-
-    threads  = JSON.parse(threads);
-
-    for(i = threads.length-1; i >= 0; i--) {
+    for(i = threads.threads.length-1; i >= 0; i--) {
         /**
          * Creates the card for each element to display the title and
          * body for each thread while also creating a button to send the
          * user to the thread page.
          */
         card = $('<div>', {'class': 'card'});
-        card_header = $('<div>', {'class': 'card-header', 'id': `${threads[i].pk}`});
+        card_header = $('<div>', {'class': 'card-header', 'id': `${threads.threads[i].pk}`});
         h5 = $('<h5>', {'class': 'mb-0'});
-        button = $('<button>', buttonAttrs(threads[i]));
-        link = $('<a>', linkAttrs(threads[i]));
-        collapse = $('<div>', collapseAttrs(threads[i]));
+        button = $('<button>', buttonAttrs(threads.threads[i]));
+        link = $('<a>', linkAttrs(threads.threads[i]));
+        collapse = $('<div>', collapseAttrs(threads.threads[i]));
         card_body = $('<div>', {'class': 'card-body'});
 
-        button.text(`${threads[i].fields.title}`);
+        button.text(`${threads.threads[i].title}`);
 
-        body = threads[i].fields.body;
+        body = threads.threads[i].body;
 
         /**
          * If the body of the thread is too big to display, then this 'if'
@@ -49,14 +46,14 @@ const displayThreads = function(threads) {
         card_body.text(`${body}`);
 
         collapse.append(card_body);
-        h5.append(button,link);
+        h5.append(button, link);
         card_header.append(h5);
         card.append(card_header, collapse)
 
         $('.accordion').append(card);
     }
 
-    if(threads.length == 1) $('.cards').addClass('btm-border');
+    if(threads.threads.length == 1) $('.cards').addClass('btm-border');
 }
 
 
@@ -76,30 +73,30 @@ const displayThreads = function(threads) {
  * clicking its title and its own button that takes
  * the user to its thread page.
  */
-const buttonAttrs = function(thread) {
+const buttonAttrs = function(thread_data) {
     return {
         'class': 'btn btn-link text-info title', 
         'type': 'button',
         'data-toggle': 'collapse', 
-        'data-target': `#a${thread.fields.author}`,
+        'data-target': `#${thread_data.author}${thread_data.pk}`,
         'aria-expanded': 'true', 
-        'aria-controls': `#a${thread.fields.author}`
+        'aria-controls': `#${thread_data.author}${thread_data.pk}`
     }
 }
 
-const linkAttrs = function(thread) {
+const linkAttrs = function(thread_data) {
     return {
         'class': 'btn btn-outline-info link',
-        'href': `/forum/thread/${thread.pk}`,
+        'href': `/forum/thread/${thread_data.pk}`,
         'text': 'View'
     }
 }
 
-const collapseAttrs = function(thread) {
+const collapseAttrs = function(thread_data) {
     return {
         'class': 'collapse',
-        'id': `a${thread.fields.author}`,
-        'aria-labelledby': `${thread.pk}`,
+        'id': `${thread_data.author}${thread_data.pk}`,
+        'aria-labelledby': `${thread_data.pk}`,
         'data-parent': '#threads'
     }
 }

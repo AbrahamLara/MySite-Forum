@@ -53,7 +53,6 @@ const fetchObects = function() {
 
     if (flag) {
         var more;
-
         /**
          * This checks for whether 'this' is a 'more' button for retrieving more
          * posts/replies or is the button for displaying the first set of replies

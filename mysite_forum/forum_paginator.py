@@ -16,13 +16,14 @@ class ForumPaginator(object):
 
         offset = self._index - self._DISPLAY_N_THREADS
 
-        threads = Thread().get_json()[offset:self._index]
-
         if offset < 0:
             offset = 0
         
+        threads = Thread().get_json()[offset:self._index]
+        
         context['threads'] = threads
         context['more'] = offset != 0
+        context['index'] = self._index
         context['offset'] = self._DISPLAY_N_THREADS
 
         return context
