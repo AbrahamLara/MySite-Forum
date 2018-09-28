@@ -23,6 +23,7 @@ class ForumPaginator(object):
         
         context['threads'] = threads
         context['more'] = offset != 0
+        print(context['more'])
         context['index'] = self._index
         context['offset'] = self._DISPLAY_N_THREADS
 

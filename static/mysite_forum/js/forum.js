@@ -1,59 +1,76 @@
+const forumPopulator = new ForumPopulator('FORUM_PAGE');
+
 $(document).ready(function() {
-    fetchThreads();
+    // fetchThreads();
+    if (forum_has_more) {
+        more = forumPopulator.createMoreButton('threads');
+        more.attr('value', thread_index).on('click', fetchThreads);
+
+        $('.container').append(more);
+    }
 });
 
 const fetchThreads = function() {
+    index = $(this).attr('value');
+    more = $(this);
+
+    $(this).remove();
+    
     $.ajax({
         url: `threads/fetch_threads/${index}`,
         contentType: 'application/json',
-        success: displayThreads,
+        success: function(threads) {
+            console.log(threads);
+            for(i = threads.threads.length-1; i >= 0; i--) {
+                /**
+                 * Creates the card for each element to display the title and
+                 * body for each thread while also creating a button to send the
+                 * user to the thread page.
+                 */
+                card = $('<div>', {'class': 'card'});
+                card_header = $('<div>', {'class': 'card-header', 'id': `${threads.threads[i].pk}`});
+                h5 = $('<h5>', {'class': 'mb-0'});
+                button = $('<button>', buttonAttrs(threads.threads[i]));
+                link = $('<a>', linkAttrs(threads.threads[i]));
+                collapse = $('<div>', collapseAttrs(threads.threads[i]));
+                card_body = $('<div>', {'class': 'card-body'});
+        
+                button.text(`${threads.threads[i].title}`);
+        
+                body = threads.threads[i].body;
+        
+                /**
+                 * If the body of the thread is too big to display, then this 'if'
+                 * statement will reduce the amount of characters from the body and
+                 * append '...' in front of the reduced body to imply that there is
+                 * more text than what is displayed.
+                 */
+                if(body.length > 1270) 
+                    body = body.substring(0,1271)+'...';
+        
+                card_body.text(`${body}`);
+        
+                collapse.append(card_body);
+                h5.append(button, link);
+                card_header.append(h5);
+                card.append(card_header, collapse)
+        
+                $('.accordion').append(card);
+            }
+        
+            if(threads.more) {
+                $('.cards').addClass('btm-border');
+                more.attr('value', threads.index - threads.offset);
+                more.on('click', fetchThreads);
+                $('.container').append(more);
+            }
+        },
         error: handleError
     });
 }
 
 const handleError = function(error) {
     console.log(error);
-}
-
-const displayThreads = function(threads) {
-    for(i = threads.threads.length-1; i >= 0; i--) {
-        /**
-         * Creates the card for each element to display the title and
-         * body for each thread while also creating a button to send the
-         * user to the thread page.
-         */
-        card = $('<div>', {'class': 'card'});
-        card_header = $('<div>', {'class': 'card-header', 'id': `${threads.threads[i].pk}`});
-        h5 = $('<h5>', {'class': 'mb-0'});
-        button = $('<button>', buttonAttrs(threads.threads[i]));
-        link = $('<a>', linkAttrs(threads.threads[i]));
-        collapse = $('<div>', collapseAttrs(threads.threads[i]));
-        card_body = $('<div>', {'class': 'card-body'});
-
-        button.text(`${threads.threads[i].title}`);
-
-        body = threads.threads[i].body;
-
-        /**
-         * If the body of the thread is too big to display, then this 'if'
-         * statement will reduce the amount of characters from the body and
-         * append '...' in front of the reduced body to imply that there is
-         * more text than what is displayed.
-         */
-        if(body.length > 1270) 
-            body = body.substring(0,1271)+'...';
-
-        card_body.text(`${body}`);
-
-        collapse.append(card_body);
-        h5.append(button, link);
-        card_header.append(h5);
-        card.append(card_header, collapse)
-
-        $('.accordion').append(card);
-    }
-
-    if(threads.threads.length == 1) $('.cards').addClass('btm-border');
 }
 
 

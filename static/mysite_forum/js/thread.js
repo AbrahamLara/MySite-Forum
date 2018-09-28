@@ -1,4 +1,4 @@
-const forumPopulator = new ForumPopulator(ForumSettings.THREAD_PAGE());
+const forumPopulator = new ForumPopulator('THREAD_PAGE');
 
 $(document).ready(function() {
     displayPosts(json_context);

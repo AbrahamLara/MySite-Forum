@@ -19,10 +19,16 @@
 
 {% block contentJS %}
 <script>
+    {% if forum_context.more %}
+    let forum_has_more = true;
+    {% else  %}
+    let forum_has_more = false;
+    {% endif %}
+
     {% if n_threads|add:"-{{ forum_context.offset }}" < 0 %}
-    const index = 0;
+    const thread_index = 0;
     {% else %}
-    const index = {{ n_threads }} - {{ forum_context.offset }};
+    const thread_index = {{ n_threads }} - {{ forum_context.offset }};
     {% endif %}
 </script>
 <script src="/static/mysite_forum/js/forum.js"></script>

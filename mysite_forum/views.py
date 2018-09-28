@@ -10,18 +10,14 @@ from mysite_forum.forum_paginator import ForumPaginator
 
 # Create your views here.
 def forum(request):
-    
     context = dict()
 
     context['n_threads'] = Thread.objects.all().count();
-
     context['forum_context'] = ForumPaginator(context['n_threads']).fetch_threads_context();
-    print(context['forum_context'])
 
     return render(request, 'forum_page.html', context)
 
 def thread(request, idT):
-
     thread = Thread.objects.get(pk=idT)
 
     context = thread.get_dictionary()
@@ -36,7 +32,6 @@ def create_thread(request):
     if request.method == 'GET':
         return render(request, 'create_thread.html')
     elif request.method == 'POST':
-
         title = request.POST.get('title')
         body = request.POST.get('body')
 
@@ -46,7 +41,6 @@ def create_thread(request):
     else: return HttpResponseBadRequest('Something went wrong')
 
 def create_post(request, idT):
-
     post = request.POST.get('post')
 
     thread = Thread.objects.try_fetch(pk=idT)
@@ -58,7 +52,6 @@ def create_post(request, idT):
     return HttpResponseRedirect('/forum/thread/{}'.format(idT))
 
 def create_reply(request, idT, idP):
-
     reply = request.POST.get('reply')
 
     thread = Thread.objects.try_fetch(pk=idT)

@@ -62,6 +62,14 @@ class ForumPopulator {
         return more;
     }
 
+    static _createMoreButtonForForum() {
+        const more = $('<a>', {'class': 'more-btn more-btn-for-threads text-info'});
+
+        more.text('Load More Threads...');
+
+        return more;
+    }
+
     static _addObjectToContainerInThread(data, container) {
         var object;
 
@@ -78,30 +86,18 @@ class ForumPopulator {
             return ForumPopulator._createMoreButtonForReplies(id);
         else if (context === 'posts')
             return ForumPopulator._createMoreButtonForPosts(id);
+        else if (context == 'threads')
+            return ForumPopulator._createMoreButtonForForum();
 
     }
 
     addObjectToContainer(data, container) {
         if (this.setting === 'THREAD_PAGE')
             ForumPopulator._addObjectToContainerInThread(data, container);
-        else if (this.setting === 'FORUM_PAGE') 
+        else if (this.setting === 'FORUM_PAGE')
             console.log('In Forum page');
         else if (this.setting === 'PROFILE_PAGE')
             console.log('In Profile page');
     }
 
-}
-
-class ForumSettings {
-    static THREAD_PAGE() {
-        return 'THREAD_PAGE';
-    }
-    
-    static THREAD_PAGE() {
-        return 'THREAD_PAGE';
-    }
-
-    static THREAD_PAGE() {
-        return 'THREAD_PAGE';
-    }
 }
