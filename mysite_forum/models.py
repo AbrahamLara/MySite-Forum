@@ -29,8 +29,8 @@ class Thread(models.Model):
 			'n_posts': self.n_posts,
 		}
 
-	def get_json(self):
-		threads = Thread.objects.all()
+	def get_json(self, offset=None, index=None):
+		threads = Thread.objects.all()[offset:index]
 
 		return [self._json_thread(thread) for thread in threads]
 
@@ -60,9 +60,9 @@ class Post(models.Model):
 			'post_replies': Reply().get_json(post=self)
 		}
 
-	def get_json(self, thread):
-		posts = Post.objects.filter(thread=thread)
-
+	def get_json(self, thread, offset=None, index=None):
+		posts = Post.objects.filter(thread=thread)[offset:index]
+		
 		return [self._json_posts(post) for post in posts]
 
 	def _json_posts(self, post):
@@ -87,8 +87,8 @@ class Reply(models.Model):
 	class Meta:
 		ordering = ['date_replied']
 
-	def get_json(self, post):
-		replies = Reply.objects.filter(post=post)
+	def get_json(self, post, offset=None, index=None):	
+		replies = Reply.objects.filter(post=post)[offset:index]
 
 		return [self._json_replies(reply) for reply in replies]
 

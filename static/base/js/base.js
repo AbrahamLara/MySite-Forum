@@ -49,7 +49,7 @@ class ForumPopulator {
     static _createMoreButtonForReplies(id) {
         const more = $('<a>', {'class': `more-btn more-btn-for-replies-${id} text-info`, 'value': id});
 
-        more.text('more...');
+        more.text('more replies...');
 
         return more;
     }
@@ -57,7 +57,7 @@ class ForumPopulator {
     static _createMoreButtonForPosts(id) {
         const more = $('<a>', {'class': `more-btn more-btn-for-posts text-info`, 'value': id});
 
-        more.text('more...');
+        more.text('more posts...');
 
         return more;
     }
