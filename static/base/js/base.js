@@ -47,25 +47,21 @@ class ForumPopulator {
     }
 
     static _createMoreButtonForReplies(id) {
-        const more = $('<a>', {'class': `more-btn more-btn-for-replies-${id} text-info`, 'value': id});
-
-        more.text('more replies...');
-
-        return more;
+        return this.createMore(`replies-${id}`, id, 'more replies...');
     }
 
     static _createMoreButtonForPosts(id) {
-        const more = $('<a>', {'class': `more-btn more-btn-for-posts text-info`, 'value': id});
-
-        more.text('more posts...');
-
-        return more;
+        return this.createMore('posts', id, 'more posts...');
     }
 
-    static _createMoreButtonForForum() {
-        const more = $('<a>', {'class': 'more-btn more-btn-for-threads text-info'});
+    static _createMoreButtonForForum(index) {
+        return this.createMore('threads', index, 'Load More Threads...');
+    }
 
-        more.text('Load More Threads...');
+    static createMore(class_name, data, text) {
+        const more = $('<a>', {'class': `more-btn more-btn-for-${class_name} text-info`, 'value': data});
+
+        more.text(text);
 
         return more;
     }

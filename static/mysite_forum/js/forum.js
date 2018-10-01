@@ -3,8 +3,8 @@ const forumPopulator = new ForumPopulator('FORUM_PAGE');
 $(document).ready(function() {
     // fetchThreads();
     if (forum_has_more) {
-        more = forumPopulator.createMoreButton('threads');
-        more.attr('value', thread_index).on('click', fetchThreads);
+        more = forumPopulator.createMoreButton('threads', thread_index);
+        more.on('click', fetchThreads);
 
         $('.container').append(more);
     }
