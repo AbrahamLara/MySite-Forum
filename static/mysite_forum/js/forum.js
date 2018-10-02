@@ -20,7 +20,6 @@ const fetchThreads = function() {
         url: `threads/fetch_threads/${index}`,
         contentType: 'application/json',
         success: function(threads) {
-            console.log(threads);
             for(i = threads.threads.length-1; i >= 0; i--) {
                 /**
                  * Creates the card for each element to display the title and

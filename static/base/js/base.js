@@ -77,13 +77,13 @@ class ForumPopulator {
         container.append(object);
     }
 
-    createMoreButton(context, id) {
+    createMoreButton(context, data) {
         if (context === 'replies')
-            return ForumPopulator._createMoreButtonForReplies(id);
+            return ForumPopulator._createMoreButtonForReplies(data);
         else if (context === 'posts')
-            return ForumPopulator._createMoreButtonForPosts(id);
+            return ForumPopulator._createMoreButtonForPosts(data);
         else if (context == 'threads')
-            return ForumPopulator._createMoreButtonForForum();
+            return ForumPopulator._createMoreButtonForForum(data);
 
     }
 
