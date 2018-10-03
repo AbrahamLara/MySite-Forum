@@ -10,7 +10,7 @@ from mysite_forum.forum_paginator import ForumPaginator
 
 @require_http_methods(['GET'])
 def fetch_threads(request, index):
-    context = ForumPaginator(index).fetch_threads_context();
+    context = ForumPaginator(index).fetch_threads_context()
     
     return HttpResponse(json.dumps(context), content_type='application/json')
 
