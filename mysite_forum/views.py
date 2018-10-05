@@ -17,8 +17,8 @@ def forum(request):
 
     return render(request, 'forum_page.html', context)
 
-def thread(request, idT):
-    thread = Thread.objects.get(pk=idT)
+def thread(request, thread_id):
+    thread = Thread.objects.get(pk=thread_id)
 
     context = thread.get_dictionary()
 
@@ -40,26 +40,26 @@ def create_thread(request):
         return HttpResponseRedirect('/')
     else: return HttpResponseBadRequest('Something went wrong')
 
-def create_post(request, idT):
+def create_post(request, thread_id):
     post = request.POST.get('post')
 
-    thread = Thread.objects.try_fetch(pk=idT)
+    thread = Thread.objects.try_fetch(pk=thread_id)
 
     Post.objects.create_post(post,request.user,thread)
 
     Thread.objects.increment_n_posts(thread)
 
-    return HttpResponseRedirect('/forum/thread/{}'.format(idT))
+    return HttpResponseRedirect('/forum/thread/{}'.format(thread_id))
 
-def create_reply(request, idT, idP):
+def create_reply(request, thread_id, post_id):
     reply = request.POST.get('reply')
 
-    thread = Thread.objects.try_fetch(pk=idT)
+    thread = Thread.objects.try_fetch(pk=thread_id)
 
-    post = Post.objects.try_fetch(pk=idP)
+    post = Post.objects.try_fetch(pk=post_id)
 
     Post.objects.increment_n_replies(post)
 
-    Reply.objects.create_reply(reply,request.user,post,thread)
+    Reply.objects.create_reply(reply, request.user, post, thread)
 
-    return HttpResponseRedirect('/forum/thread/{}'.format(idT))
+    return HttpResponseRedirect('/forum/thread/{}'.format(thread_id))

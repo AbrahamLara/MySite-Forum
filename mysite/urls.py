@@ -40,16 +40,16 @@ urlpatterns.extend([
 
 urlpatterns.extend([
     path('forum/', mysite_forum.views.forum, name='forum'),
-    path('forum/thread/<idT>', mysite_forum.views.thread, name='thread'),
+    path('forum/thread/<thread_id>', mysite_forum.views.thread, name='thread'),
     path('forum/create', mysite_forum.views.create_thread, name='create_thread'),
-    path('forum/thread/<idT>/post/create', mysite_forum.views.create_post, name='create_post'),
-    path('forum/thread/<idT>/post/<idP>/reply/create', mysite_forum.views.create_reply, name='create_reply'),
+    path('forum/thread/<thread_id>/post/create', mysite_forum.views.create_post, name='create_post'),
+    path('forum/thread/<thread_id>/post/<post_id>/reply/create', mysite_forum.views.create_reply, name='create_reply'),
 ])
 
 urlpatterns.extend([
-    path('forum/threads/fetch_threads/<index>', mysite_forum.json_views.fetch_threads, name='fetch_threads'),
-    path('forum/thread/<idT>/fetch_posts/<index>', mysite_forum.json_views.fetch_posts, name='fetch_more_posts'),
-    path('forum/thread/post/<idP>/fetch_replies/<index>', mysite_forum.json_views.fetch_replies, name='fetch_more_replies'),
+    path('fetch_threads/<index>/', mysite_forum.json_views.fetch_threads, name='fetch_threads'),
+    path('<thread_id>/fetch_posts/<index>/', mysite_forum.json_views.fetch_posts, name='fetch_more_posts'),
+    path('<post_id>/fetch_replies/<index>/', mysite_forum.json_views.fetch_replies, name='fetch_more_replies'),
 ])
 
 urlpatterns.extend([

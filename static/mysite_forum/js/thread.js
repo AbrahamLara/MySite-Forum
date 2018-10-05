@@ -66,9 +66,9 @@ const fetchObects = function() {
             $(this).attr('display', false);
 
         if ($(this).is('.more-btn-for-posts'))
-            fetchObjectsAjax(`${id}/fetch_posts/${index}`, more);
+            fetchObjectsAjax(`/${id}/fetch_posts/${index}/`, more);
         else
-            fetchObjectsAjax(`post/${id}/fetch_replies/${index}`, more);
+            fetchObjectsAjax(`/${id}/fetch_replies/${index}/`, more);
     } else {
         $(this).attr('display', true);
         $(`#reply-container-${id}`).empty();

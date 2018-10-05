@@ -15,16 +15,16 @@ def fetch_threads(request, index):
     return HttpResponse(json.dumps(context), content_type='application/json')
 
 @require_http_methods(['GET'])
-def fetch_posts(request, idT, index):
-    thread = Thread.objects.get(pk=idT)
+def fetch_posts(request, thread_id, index):
+    thread = Thread.objects.get(pk=thread_id)
 
     context = ForumPaginator(index).fetch_posts_context(thread)
     
     return HttpResponse(json.dumps(context), content_type='application/json')
 
 @require_http_methods(['GET'])
-def fetch_replies(request, idP, index):
-    post = Post.objects.get(pk=idP)
+def fetch_replies(request, post_id, index):
+    post = Post.objects.get(pk=post_id)
 
     context = ForumPaginator(index).fetch_replies_context(post)
 

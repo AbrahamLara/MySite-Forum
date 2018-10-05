@@ -17,7 +17,7 @@ const fetchThreads = function() {
     $(this).remove();
     
     $.ajax({
-        url: `threads/fetch_threads/${index}`,
+        url: `/fetch_threads/${index}/`,
         contentType: 'application/json',
         success: function(threads) {
             for(i = threads.threads.length-1; i >= 0; i--) {
