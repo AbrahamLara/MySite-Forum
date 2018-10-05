@@ -9,7 +9,7 @@ class ForumPaginator(object):
     _DISPLAY_N_REPLIES = 5
 
     def __init__(self, index):
-        self._index = int(index)
+        self._index = index
 
     def fetch_threads_context(self):
         context = dict()
