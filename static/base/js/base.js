@@ -1,14 +1,6 @@
 class ForumPopulator {
 
-    constructor(setting) {
-        this.setting = setting;
-    }
-
-    setting(setting) {
-        this.setting = setting;
-    }
-
-    static _createPostObjectInThread(post_data) {
+    static _createPostObject(post_data) {
         const pk = post_data.pk;
 
         const post_object = $('<div>', {'class': 'border border-info border-right-0 border-left-0 border-bottom-0 post-cell', 'id': `post-cell-${pk}`});
@@ -30,13 +22,13 @@ class ForumPopulator {
         replies.on('click', fetchObjects);
         reply.on('click', displayReplyBox);
 
-        post_actions.append(reply, ' - ', replies)
+        post_actions.append(reply, ' - ', replies);
         post_object.append(post, author, post_actions, replies_container);
 
         return post_object;
     }
 
-    static _createReplyObjectInThread(reply_data) {
+    static _createReplyObject(reply_data) {
         const reply_object = $('<div>');
         const reply = $('<div>', {'class': 'reply', 'text': reply_data.reply});
         const author = $('<div>', {'class': 'author reply-author', 'text': `- ${reply_data.author}`});
@@ -44,6 +36,64 @@ class ForumPopulator {
         reply_object.append(reply, author);
 
         return reply_object;
+    }
+
+    static _createThreadObject(thread_data) {
+        const card = $('<div>', {'class': 'card'});
+        const card_header = $('<div>', {'class': 'card-header', 'id': thread_data.pk});
+        const h5 = $('<h5>', {'class': 'mb-0'});
+        const button = $('<button>', {
+            'class': 'btn btn-link text-info title', 
+            'type': 'button',
+            'data-toggle': 'collapse', 
+            'data-target': `#${thread_data.author}${thread_data.pk}`,
+            'aria-expanded': 'true', 
+            'aria-controls': `#${thread_data.author}${thread_data.pk}`
+        });
+        const link = $('<a>', {
+            'class': 'btn btn-outline-info link',
+            'href': `/forum/thread/${thread_data.pk}`,
+            'text': 'View'
+        });
+        const collapse = $('<div>', {
+            'class': 'collapse',
+            'id': `${thread_data.author}${thread_data.pk}`,
+            'aria-labelledby': thread_data.pk,
+            'data-parent': '#threads'
+        });
+        const card_body = $('<div>', {'class': 'card-body'});
+        var body = thread_data.body;
+
+        button.text(thread_data.title);
+
+        if(body.length > 1270) 
+            body = body.substring(0, 1271)+'...';
+        
+        card_body.text(body);
+
+        collapse.append(card_body);
+        h5.append(button, link);
+        card_header.append(h5);
+        card.append(card_header, collapse);
+
+        return card;
+    }
+
+    static _addObjectToContainer(data, container) {
+        var object;
+
+        if ('body' in data)
+            object = ForumPopulator._createThreadObject(data);
+        else if ('post' in data)
+            object = ForumPopulator._createPostObject(data);
+        else if ('reply' in data)
+            object = ForumPopulator._createReplyObject(data);
+        
+        container.append(object);
+    }
+
+    addObjectToContainer(data, container) {
+        ForumPopulator._addObjectToContainer(data, container);
     }
 
     static _createMoreButtonForReplies(id) {
@@ -54,7 +104,7 @@ class ForumPopulator {
         return this.createMore('posts', id, 'more posts...');
     }
 
-    static _createMoreButtonForForum(index) {
+    static _createMoreButtonForThreads(index) {
         return this.createMore('threads', index, 'Load More Threads...');
     }
 
@@ -66,34 +116,14 @@ class ForumPopulator {
         return more;
     }
 
-    static _addObjectToContainerInThread(data, container) {
-        var object;
-
-        if ('reply' in data)
-            object = ForumPopulator._createReplyObjectInThread(data);
-        else if ('post' in data)
-            object = ForumPopulator._createPostObjectInThread(data);
-        
-        container.append(object);
-    }
-
     createMoreButton(context, data) {
         if (context === 'replies')
             return ForumPopulator._createMoreButtonForReplies(data);
         else if (context === 'posts')
             return ForumPopulator._createMoreButtonForPosts(data);
         else if (context == 'threads')
-            return ForumPopulator._createMoreButtonForForum(data);
+            return ForumPopulator._createMoreButtonForThreads(data);
 
-    }
-
-    addObjectToContainer(data, container) {
-        if (this.setting === 'THREAD_PAGE')
-            ForumPopulator._addObjectToContainerInThread(data, container);
-        else if (this.setting === 'FORUM_PAGE')
-            console.log('In Forum page');
-        else if (this.setting === 'PROFILE_PAGE')
-            console.log('In Profile page');
     }
 
 }

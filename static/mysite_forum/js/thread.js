@@ -1,4 +1,4 @@
-const forumPopulator = new ForumPopulator('THREAD_PAGE');
+const forumPopulator = new ForumPopulator();
 
 $(document).ready(function() {
     displayPosts(json_context);
@@ -66,18 +66,18 @@ const fetchObjects = function() {
             $(this).attr('display', false);
 
         if ($(this).is('.more-btn-for-posts'))
-            fetchObjectsAjax('posts', more);
+            fetchObjectsAjax(`${id}/fetch_posts`, more);
         else
-            fetchObjectsAjax('replies', more);
+            fetchObjectsAjax(`${id}/fetch_replies`, more);
     } else {
         $(this).attr('display', true);
         $(`#reply-container-${id}`).empty();
     }
 }
 
-const fetchObjectsAjax = function(type, more) {
+const fetchObjectsAjax = function(path, more) {
     $.ajax({
-        url: `/${id}/fetch_${type}/${index}/`,
+        url: `/${path}/${index}/`,
         contentType: 'application/json',
         success: function(data) {
             if ('replies' in data)
