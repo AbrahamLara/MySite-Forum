@@ -30,6 +30,10 @@ a.link {
     float: right;
 }
 
+.more-btn:hover {
+    cursor: pointer;
+}
+
 @media (max-width: 991px) {
 
     button.btn.title {

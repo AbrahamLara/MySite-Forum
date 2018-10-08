@@ -66,18 +66,18 @@ const fetchObjects = function() {
             $(this).attr('display', false);
 
         if ($(this).is('.more-btn-for-posts'))
-            fetchObjectsAjax(`/${id}/fetch_posts/${index}/`, more);
+            fetchObjectsAjax('posts', more);
         else
-            fetchObjectsAjax(`/${id}/fetch_replies/${index}/`, more);
+            fetchObjectsAjax('replies', more);
     } else {
         $(this).attr('display', true);
         $(`#reply-container-${id}`).empty();
     }
 }
 
-const fetchObjectsAjax = function(url, more) {
+const fetchObjectsAjax = function(type, more) {
     $.ajax({
-        url: url,
+        url: `/${id}/fetch_${type}/${index}/`,
         contentType: 'application/json',
         success: function(data) {
             if ('replies' in data)
