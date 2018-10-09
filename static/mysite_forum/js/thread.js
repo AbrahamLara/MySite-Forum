@@ -42,16 +42,20 @@ const displayReplies = function(context, more_btn) {
 }
 
 const fetchObjects = function() {
-    id = $(this).attr('value');
-    index = $(this).attr('index');
+    object = $(this);
+    id = object.attr('value');
+    index = object.attr('index');
 
     if (index == 0)
         return;
 
-    is_more_btn = $(this).hasClass(`more-btn-for-posts`) ||  $(this).hasClass(`more-btn-for-replies-${id}`);
-    flag = is_more_btn ? true : $(this).attr('display') == 'true';
+    is_more_btn = object.hasClass(`more-btn-for-posts`) ||  object.hasClass(`more-btn-for-replies-${id}`);
+    flag = is_more_btn ? true : object.attr('display') == 'true';
 
     if (flag) {
+        data = {'index': index, 'id': id}
+        type = object.attr('object-type');
+        
         var more;
         /**
          * This checks for whether 'this' is a 'more' button for retrieving more
@@ -60,24 +64,22 @@ const fetchObjects = function() {
          * The 'Replies(n)' button.
          */
         if(is_more_btn) {
-            more = $(this);
-            $(this).remove();
+            more = object;
+            object.remove();
         } else 
-            $(this).attr('display', false);
+            object.attr('display', false);
 
-        if ($(this).is('.more-btn-for-posts'))
-            fetchObjectsAjax(`${id}/fetch_posts`, more);
-        else
-            fetchObjectsAjax(`${id}/fetch_replies`, more);
+        fetchObjectsAjax(`/fetch_${type}/`, data, more);    
     } else {
-        $(this).attr('display', true);
+        object.attr('display', true);
         $(`#reply-container-${id}`).empty();
     }
 }
 
-const fetchObjectsAjax = function(path, more) {
+const fetchObjectsAjax = function(url, data, more) {
     $.ajax({
-        url: `/${path}/${index}/`,
+        url: url,
+        data: data,
         contentType: 'application/json',
         success: function(data) {
             if ('replies' in data)

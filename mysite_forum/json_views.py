@@ -9,13 +9,17 @@ from mysite_forum.models import Thread, Post, Reply
 from mysite_forum.forum_paginator import ForumPaginator
 
 @require_http_methods(['GET'])
-def fetch_threads(request, index):
+def fetch_threads(request):
+    index = int(request.GET.get('index'))
+
     context = ForumPaginator(index).fetch_threads_context()
     
     return HttpResponse(json.dumps(context), content_type='application/json')
 
 @require_http_methods(['GET'])
-def fetch_posts(request, thread_id, index):
+def fetch_posts(request):
+    thread_id = int(request.GET.get('id'))
+    index = int(request.GET.get('index'))
     thread = Thread.objects.get(pk=thread_id)
 
     context = ForumPaginator(index).fetch_posts_context(thread)
@@ -23,7 +27,9 @@ def fetch_posts(request, thread_id, index):
     return HttpResponse(json.dumps(context), content_type='application/json')
 
 @require_http_methods(['GET'])
-def fetch_replies(request, post_id, index):
+def fetch_replies(request):
+    post_id = int(request.GET.get('id'))
+    index = int(request.GET.get('index'))
     post = Post.objects.get(pk=post_id)
 
     context = ForumPaginator(index).fetch_replies_context(post)

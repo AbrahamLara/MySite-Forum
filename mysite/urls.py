@@ -47,9 +47,9 @@ urlpatterns.extend([
 ])
 
 urlpatterns.extend([
-    path('fetch_threads/<int:index>/', mysite_forum.json_views.fetch_threads, name='fetch_threads'),
-    path('<int:thread_id>/fetch_posts/<int:index>/', mysite_forum.json_views.fetch_posts, name='fetch_more_posts'),
-    path('<int:post_id>/fetch_replies/<int:index>/', mysite_forum.json_views.fetch_replies, name='fetch_more_replies'),
+    path('fetch_threads/', mysite_forum.json_views.fetch_threads, name='fetch_threads'),
+    path('fetch_posts/', mysite_forum.json_views.fetch_posts, name='fetch_more_posts'),
+    path('fetch_replies/', mysite_forum.json_views.fetch_replies, name='fetch_more_replies'),
 ])
 
 urlpatterns.extend([

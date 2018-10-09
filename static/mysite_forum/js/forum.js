@@ -30,7 +30,8 @@ const fetchThreads = function() {
     $(this).remove();
     
     $.ajax({
-        url: `/fetch_threads/${index}`,
+        url: `/fetch_threads/`,
+        data: data = {'index': index},
         contentType: 'application/json',
         success: function(threads) {
             displayThreads(threads);
