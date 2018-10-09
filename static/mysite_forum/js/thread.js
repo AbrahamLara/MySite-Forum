@@ -9,7 +9,8 @@ $(document).ready(function() {
 
 const displayPosts = function(context, more_btn) {
     for (i = context.posts.length-1; i >= 0; --i) {
-        forumPopulator.addObjectToContainer(context.posts[i], $('.posts-container'));
+        post = forumPopulator.createObject(context.posts[i]);
+        $('.posts-container').append(post);
     }
 
     if (context.more) {
@@ -24,9 +25,10 @@ const displayPosts = function(context, more_btn) {
 
 const displayReplies = function(context, more_btn) {
     for(i = context.replies.length-1; i >= 0; --i) {
-        forumPopulator.addObjectToContainer(context.replies[i], $(`#reply-container-${context.post_id}`));
-        line_break = $('<hr>', {'class': 'my-4 bg-dark'});
+        reply = forumPopulator.createObject(context.replies[i]);
+        $(`#reply-container-${context.post_id}`).append(reply);
 
+        line_break = $('<hr>', {'class': 'my-4 bg-dark'});
         if(context.more || i != 0)
             $(`#reply-container-${context.post_id}`).append(line_break);   
     }
@@ -35,27 +37,24 @@ const displayReplies = function(context, more_btn) {
         if (more_btn == null)
             more_btn = forumPopulator.createMoreButton('replies', context.post_id);
         
-        more_btn.attr('index', context.index - context.offset);
-        more_btn.on('click', fetchObjects);
+        more_btn.attr('index', context.index - context.offset).on('click', fetchObjects);
         $(`#reply-container-${context.post_id}`).append(more_btn);
     }
 }
 
 const fetchObjects = function() {
     object = $(this);
-    id = object.attr('value');
     index = object.attr('index');
-
     if (index == 0)
         return;
 
-    is_more_btn = object.hasClass(`more-btn-for-posts`) ||  object.hasClass(`more-btn-for-replies-${id}`);
+    id = object.attr('value');
+    type = object.attr('object-type');
+
+    is_more_btn = object.hasClass('more-btn');
     flag = is_more_btn ? true : object.attr('display') == 'true';
 
     if (flag) {
-        data = {'index': index, 'id': id}
-        type = object.attr('object-type');
-        
         var more;
         /**
          * This checks for whether 'this' is a 'more' button for retrieving more
@@ -69,7 +68,7 @@ const fetchObjects = function() {
         } else 
             object.attr('display', false);
 
-        fetchObjectsAjax(`/fetch_${type}/`, data, more);    
+        fetchObjectsAjax(`/fetch_${type}/`, {'index': index, 'id': id}, more);    
     } else {
         object.attr('display', true);
         $(`#reply-container-${id}`).empty();

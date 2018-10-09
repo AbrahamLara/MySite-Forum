@@ -12,14 +12,18 @@ $(document).ready(function() {
 
 const displayThreads = function(context, more_btn) {
     for(i = context.threads.length-1; i >= 0; i--) {
-        forumPopulator.addObjectToContainer(context.threads[i], $('.accordion'));
+        thread = forumPopulator.createObject(context.threads[i]);
+        $('.accordion').append(thread);
     }
 
-    if(threads.more) {
+    if(context.more) {
         $('.cards').addClass('btm-border');
-        more.attr('index', threads.index - threads.offset);
-        more.on('click', fetchThreads);
-        $('.container').append(more);
+        if (more_btn == null)
+            more_btn = forumPopulator.createMoreButton('threads', context.post_id);
+
+        more_btn.attr('index', context.index - context.offset);
+        more_btn.on('click', fetchThreads);
+        $('.container').append(more_btn);
     }
 }
 
@@ -34,7 +38,7 @@ const fetchThreads = function() {
         data: data = {'index': index},
         contentType: 'application/json',
         success: function(threads) {
-            displayThreads(threads);
+            displayThreads(threads, more);
         },
         error: handleError
     });

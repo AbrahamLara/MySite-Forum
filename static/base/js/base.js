@@ -92,21 +92,13 @@ class ForumPopulator {
         return card;
     }
 
-    static _addObjectToContainer(data, container) {
-        var object;
-
+    createObject(data) {
         if ('body' in data)
-            object = ForumPopulator._createThreadObject(data);
+            return ForumPopulator._createThreadObject(data);
         else if ('post' in data)
-            object = ForumPopulator._createPostObject(data);
+            return ForumPopulator._createPostObject(data);
         else if ('reply' in data)
-            object = ForumPopulator._createReplyObject(data);
-        
-        container.append(object);
-    }
-
-    addObjectToContainer(data, container) {
-        ForumPopulator._addObjectToContainer(data, container);
+            return ForumPopulator._createReplyObject(data);
     }
 
     static _createMoreButtonForReplies(id) {
