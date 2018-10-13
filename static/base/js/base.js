@@ -51,47 +51,6 @@ class ForumPopulator {
         return reply_object;
     }
 
-    static _createThreadObject(thread_data) {
-        const card = $('<div>', {'class': 'card'});
-        const card_header = $('<div>', {'class': 'card-header', 'id': thread_data.pk});
-        const h5 = $('<h5>', {'class': 'mb-0'});
-        const button = $('<button>', {
-            'class': 'btn btn-link text-info title', 
-            'type': 'button',
-            'data-toggle': 'collapse', 
-            'data-target': `#${thread_data.author}${thread_data.pk}`,
-            'aria-expanded': 'true', 
-            'aria-controls': `#${thread_data.author}${thread_data.pk}`
-        });
-        const link = $('<a>', {
-            'class': 'btn btn-outline-info link',
-            'href': `/thread/${thread_data.pk}`,
-            'text': 'View'
-        });
-        const collapse = $('<div>', {
-            'class': 'collapse',
-            'id': `${thread_data.author}${thread_data.pk}`,
-            'aria-labelledby': thread_data.pk,
-            'data-parent': '#threads'
-        });
-        const card_body = $('<div>', {'class': 'card-body'});
-        var body = thread_data.body;
-
-        button.text(thread_data.title);
-
-        if(body.length > 1270) 
-            body = body.substring(0, 1271)+'...';
-        
-        card_body.text(body);
-
-        collapse.append(card_body);
-        h5.append(button, link);
-        card_header.append(h5);
-        card.append(card_header, collapse);
-
-        return card;
-    }
-
     createObject(data) {
         if ('body' in data)
             return ForumPopulator._createThreadObject(data);
