@@ -25,7 +25,7 @@
     let forum_has_more = false;
     {% endif %}
 
-    {% if n_threads|add:"-{{ forum_context.offset }}" < 0 %}
+    {% if n_threads|add:"-{{ forum_context.amount_displaying }}" < 0 %}
     const thread_index = 0;
     {% else %}
     const thread_index = {{ n_threads }} - {{ forum_context.amount_displaying }};
