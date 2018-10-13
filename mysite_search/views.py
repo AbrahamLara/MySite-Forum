@@ -5,6 +5,6 @@ from django.http import HttpResponseRedirect
 
 def search(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/login')
 
     return render(request, 'search.html')

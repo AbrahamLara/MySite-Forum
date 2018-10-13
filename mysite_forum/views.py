@@ -9,13 +9,13 @@ from mysite_user.models import MySiteUser
 from mysite_forum.forum_paginator import ForumPaginator
 
 # Create your views here.
-def forum(request):
+def index(request):
     context = dict()
 
     context['n_threads'] = Thread.objects.all().count()
     context['forum_context'] = ForumPaginator(context['n_threads']).fetch_threads_context()
 
-    return render(request, 'forum_page.html', context)
+    return render(request, 'index.html', context)
 
 def thread(request, thread_id):
     thread = Thread.objects.get(pk=thread_id)
@@ -29,6 +29,9 @@ def thread(request, thread_id):
     return render(request, 'thread.html', context)
 
 def create_thread(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/login')
+
     if request.method == 'GET':
         return render(request, 'create_thread.html')
     elif request.method == 'POST':
@@ -41,6 +44,9 @@ def create_thread(request):
     else: return HttpResponseBadRequest('Something went wrong')
 
 def create_post(request, thread_id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/login')
+
     post = request.POST.get('post')
 
     thread = Thread.objects.try_fetch(pk=thread_id)
@@ -49,9 +55,12 @@ def create_post(request, thread_id):
 
     Thread.objects.increment_n_posts(thread)
 
-    return HttpResponseRedirect('/forum/thread/{}'.format(thread_id))
+    return HttpResponseRedirect('/thread/{}'.format(thread_id))
 
 def create_reply(request, thread_id, post_id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/login')
+        
     reply = request.POST.get('reply')
 
     thread = Thread.objects.try_fetch(pk=thread_id)
@@ -62,4 +71,4 @@ def create_reply(request, thread_id, post_id):
 
     Reply.objects.create_reply(reply, request.user, post, thread)
 
-    return HttpResponseRedirect('/forum/thread/{}'.format(thread_id))
+    return HttpResponseRedirect('/thread/{}'.format(thread_id))

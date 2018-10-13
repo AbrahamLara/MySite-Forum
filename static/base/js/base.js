@@ -65,7 +65,7 @@ class ForumPopulator {
         });
         const link = $('<a>', {
             'class': 'btn btn-outline-info link',
-            'href': `/forum/thread/${thread_data.pk}`,
+            'href': `/thread/${thread_data.pk}`,
             'text': 'View'
         });
         const collapse = $('<div>', {

@@ -28,7 +28,7 @@ import mysite_forum.json_views
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('', mysite_user.views.index, name='index'),
+	path('', mysite_forum.views.index, name='index'),
     path('profile/<uid>', mysite_user.views.profile, name='profile_page'),
 ]
 
@@ -39,11 +39,10 @@ urlpatterns.extend([
 ])
 
 urlpatterns.extend([
-    path('forum/', mysite_forum.views.forum, name='forum'),
-    path('forum/thread/<int:thread_id>', mysite_forum.views.thread, name='thread'),
-    path('forum/create', mysite_forum.views.create_thread, name='create_thread'),
-    path('forum/thread/<int:thread_id>/post/create', mysite_forum.views.create_post, name='create_post'),
-    path('forum/thread/<int:thread_id>/post/<int:post_id>/reply/create', mysite_forum.views.create_reply, name='create_reply'),
+    path('thread/<int:thread_id>', mysite_forum.views.thread, name='thread'),
+    path('create', mysite_forum.views.create_thread, name='create_thread'),
+    path('thread/<int:thread_id>/post/create', mysite_forum.views.create_post, name='create_post'),
+    path('thread/<int:thread_id>/post/<int:post_id>/reply/create', mysite_forum.views.create_reply, name='create_reply'),
 ])
 
 urlpatterns.extend([
