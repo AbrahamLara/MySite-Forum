@@ -42,7 +42,7 @@ const displayReplies = function(context, more_btn) {
     }
 }
 
-const shouldDisplay = function() {
+const shouldNotDisplay = function() {
     flag = object.attr('display') == 'true';
     object.attr('display', !flag);
 
@@ -55,13 +55,15 @@ const fetchObjects = function() {
     id = object.attr('value');
     type = object.attr('object-type');
     
-    if (index == 0) return;
-    else if (object.is('.more-btn')) {
+    if (index == 0) 
+        return;
+    else if (object.is('.more-btn'))
         object.remove();
-    } else if (shouldDisplay()) {
+    else if (shoulNotdDisplay()) {
         $(`#reply-container-${id}`).empty();
         return;
-    } else object = null;
+    } else
+        object = null;
 
     fetchObjectsAjax(`/fetch_${type}/`, {'index': index, 'id': id}, object);
 }
