@@ -9,7 +9,7 @@ $(document).ready(function() {
 
 const displayPosts = function(context, more_btn) {
     for (i = context.posts.length-1; i >= 0; --i) {
-        post = forumPopulator.createObject(context.posts[i]);
+        post = createPostObject(context.posts[i]);
         $('.posts-container').append(post);
     }
 
@@ -25,7 +25,7 @@ const displayPosts = function(context, more_btn) {
 
 const displayReplies = function(context, more_btn) {
     for(i = context.replies.length-1; i >= 0; --i) {
-        reply = forumPopulator.createObject(context.replies[i]);
+        reply = createReplyObject(context.replies[i]);
         $(`#reply-container-${context.post_id}`).append(reply);
 
         line_break = $('<hr>', {'class': 'my-4 bg-dark'});
@@ -80,6 +80,65 @@ const fetchObjectsAjax = function(url, data, more) {
                 displayPosts(data, more);
         }
     });
+}
+
+const createPostObject = function(post_data) {
+    const pk = post_data.pk;
+
+    const post_object = $('<div>', {
+        'class': 'border border-info border-right-0 border-left-0 border-bottom-0 post-cell',
+        'id': `post-cell-${pk}`
+    });
+    const post = $('<div>', {'class': 'post'});
+    const reply = $('<a>', replyAttributes(pk));
+    const replies = $('<a>', repliesAttributes(pk));
+    const author = $('<div>', {'class': 'author post-author'});
+    const post_actions = $('<div>', {'class': 'container-fluid no-padding'});
+    const replies_container = $('<div>', {'class': 'container-fluid', 'id': `reply-container-${pk}`, 'css': {'whitespace': 'pre-line'}});
+
+    replies.attr('index', post_data.n_replies);
+
+    post.text(post_data.post);
+    reply.text('Reply');
+    replies.text(`Replies(${post_data.n_replies})`);
+    author.text(`- ${post_data.author}`);
+
+    replies.on('click', fetchObjects);
+    reply.on('click', displayReplyBox);
+
+    post_actions.append(reply, ' - ', replies);
+    post_object.append(post, author, post_actions, replies_container);
+
+    return post_object;
+}
+
+const replyAttributes = function(pk) {
+    return {
+        'class': 'btn btn-link text-info',
+        'value': pk,
+        'data-toggle': 'modal',
+        'data-target': '#ReplyCenterBox'
+    };
+}
+
+const repliesAttributes = function(pk) {
+    return {
+        'class': 'btn btn-link text-info',
+        'value': pk,
+        'id': `repliesFor${pk}`,
+        'display': true,
+        'object-type': 'replies'
+    };
+}
+
+const createReplyObject = function(reply_data) {
+    const reply_object = $('<div>');
+    const reply = $('<div>', {'class': 'reply', 'text': reply_data.reply});
+    const author = $('<div>', {'class': 'author reply-author', 'text': `- ${reply_data.author}`});
+
+    reply_object.append(reply, author);
+
+    return reply_object;
 }
 
 const displayReplyBox = function() {
