@@ -59,7 +59,7 @@ const fetchObjects = function() {
         return;
     else if (object.is('.more-btn'))
         object.remove();
-    else if (shoulNotdDisplay()) {
+    else if (shouldNotDisplay()) {
         $(`#reply-container-${id}`).empty();
         return;
     } else
