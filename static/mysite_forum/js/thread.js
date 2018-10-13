@@ -17,7 +17,7 @@ const displayPosts = function(context, more_btn) {
         if (more_btn == null)
             more_btn = forumPopulator.createMoreButton('posts', context.thread_id);
         
-        more_btn.attr('index', context.index - context.offset);
+        more_btn.attr('index', context.index - context.amount_displaying);
         more_btn.on('click', fetchObjects);
         $('.posts-container').append(more_btn);
     }
@@ -37,7 +37,7 @@ const displayReplies = function(context, more_btn) {
         if (more_btn == null)
             more_btn = forumPopulator.createMoreButton('replies', context.post_id);
         
-        more_btn.attr('index', context.index - context.offset).on('click', fetchObjects);
+        more_btn.attr('index', context.index - context.amount_displaying).on('click', fetchObjects);
         $(`#reply-container-${context.post_id}`).append(more_btn);
     }
 }

@@ -21,7 +21,7 @@ const displayThreads = function(context, more_btn) {
         if (more_btn == null)
             more_btn = forumPopulator.createMoreButton('threads', context.post_id);
 
-        more_btn.attr('index', context.index - context.offset);
+        more_btn.attr('index', context.index - context.amount_displaying);
         more_btn.on('click', fetchThreads);
         $('.container').append(more_btn);
     }

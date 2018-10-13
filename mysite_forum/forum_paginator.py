@@ -24,7 +24,7 @@ class ForumPaginator(object):
         context['threads'] = threads
         context['more'] = offset != 0
         context['index'] = self._index
-        context['offset'] = self._DISPLAY_N_THREADS
+        context['amount_displaying'] = self._DISPLAY_N_THREADS
 
         return context
 
@@ -42,7 +42,7 @@ class ForumPaginator(object):
         context['thread_id'] = thread.id
         context['more'] = offset != 0
         context['index'] = self._index
-        context['offset'] = self._DISPLAY_N_POSTS
+        context['amount_displaying'] = self._DISPLAY_N_POSTS
 
         return context
 
@@ -53,13 +53,13 @@ class ForumPaginator(object):
 
         if offset < 0:
             offset = 0
-
+        
         replies = Reply().get_json(post, offset, self._index)
         
         context['replies'] = replies
         context['post_id'] = post.id
         context['more'] = offset != 0
         context['index'] = self._index
-        context['offset'] = self._DISPLAY_N_REPLIES
+        context['amount_displaying'] = self._DISPLAY_N_REPLIES
 
         return context
