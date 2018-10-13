@@ -42,37 +42,28 @@ const displayReplies = function(context, more_btn) {
     }
 }
 
+const shouldDisplay = function() {
+    flag = object.attr('display') == 'true';
+    object.attr('display', !flag);
+
+    return !flag;
+}
+
 const fetchObjects = function() {
     object = $(this);
     index = object.attr('index');
-    if (index == 0)
-        return;
-
     id = object.attr('value');
     type = object.attr('object-type');
-
-    is_more_btn = object.hasClass('more-btn');
-    flag = is_more_btn ? true : object.attr('display') == 'true';
-
-    if (flag) {
-        var more;
-        /**
-         * This checks for whether 'this' is a 'more' button for retrieving more
-         * posts/replies or is the button for displaying the first set of replies
-         * for a post.
-         * The 'Replies(n)' button.
-         */
-        if(is_more_btn) {
-            more = object;
-            object.remove();
-        } else 
-            object.attr('display', false);
-
-        fetchObjectsAjax(`/fetch_${type}/`, {'index': index, 'id': id}, more);    
-    } else {
-        object.attr('display', true);
+    
+    if (index == 0) return;
+    else if (object.is('.more-btn')) {
+        object.remove();
+    } else if (shouldDisplay()) {
         $(`#reply-container-${id}`).empty();
-    }
+        return;
+    } else object = null;
+
+    fetchObjectsAjax(`/fetch_${type}/`, {'index': index, 'id': id}, object);
 }
 
 const fetchObjectsAjax = function(url, data, more) {
