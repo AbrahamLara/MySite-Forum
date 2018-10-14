@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="modal fade" id="PostCenterBox" tabindex="-1" role="dialog" aria-labelledby="PostCenterBoxTitle" aria-hidden="true">
+<!-- <div class="modal fade" id="PostCenterBox" tabindex="-1" role="dialog" aria-labelledby="PostCenterBoxTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -38,6 +38,20 @@
             </div>
         </div>
     </div>
+</div> -->
+<div class="modal fade" id="action-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+            </div>
+            <textarea class="modal-body" id="modal-textarea" rows="10"></textarea>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="submit-btn" class="btn btn-info">Submit</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="container">
@@ -46,7 +60,7 @@
         <h5 class="author">- <a class="text-info author-link" href="/profile/{{ author_id }}">{{ author }}</a></h5>
         <div class="lead">{{ body }}</div>
     </div>
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#PostCenterBox">
+    <button class="btn btn-info" id="post-btn" type="post" value="{{ pk }}">
         Post
     </button>
     <div class="posts-container border-info">
@@ -65,5 +79,6 @@
 <script>
     let json_context = {{ thread_posts|safe }};
 </script>
+<script src="/static/mysite_user/js/csrfp.js"></script>
 <script src="/static/mysite_forum/js/thread.js"></script>
 {% endblock %}

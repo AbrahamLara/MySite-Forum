@@ -43,32 +43,32 @@ def create_thread(request):
         return HttpResponseRedirect('/')
     else: return HttpResponseBadRequest('Something went wrong')
 
-def create_post(request, thread_id):
+def create_post(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/login')
 
-    post = request.POST.get('post')
-
+    post = request.POST.get('text')
+    thread_id = request.POST.get('id')
+    print(post)
     thread = Thread.objects.try_fetch(pk=thread_id)
 
     Post.objects.create_post(post,request.user,thread)
 
     Thread.objects.increment_n_posts(thread)
 
-    return HttpResponseRedirect('/thread/{}'.format(thread_id))
+    return HttpResponse(json.dumps({'success': 'Successfully made post'}), content_type='application/json')
 
-def create_reply(request, thread_id, post_id):
+def create_reply(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/login')
         
-    reply = request.POST.get('reply')
-
-    thread = Thread.objects.try_fetch(pk=thread_id)
+    reply = request.POST.get('text')
+    post_id = request.POST.get('id')
 
     post = Post.objects.try_fetch(pk=post_id)
 
     Post.objects.increment_n_replies(post)
 
-    Reply.objects.create_reply(reply, request.user, post, thread)
+    Reply.objects.create_reply(reply, request.user, post, post.thread)
 
-    return HttpResponseRedirect('/thread/{}'.format(thread_id))
+    return HttpResponse(json.dumps({'success': 'Successfully made reply'}), content_type='application/json')

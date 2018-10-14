@@ -41,8 +41,8 @@ urlpatterns.extend([
 urlpatterns.extend([
     path('thread/<int:thread_id>', mysite_forum.views.thread, name='thread'),
     path('create', mysite_forum.views.create_thread, name='create_thread'),
-    path('thread/<int:thread_id>/post/create', mysite_forum.views.create_post, name='create_post'),
-    path('thread/<int:thread_id>/post/<int:post_id>/reply/create', mysite_forum.views.create_reply, name='create_reply'),
+    path('create_post/', mysite_forum.views.create_post, name='create_post'),
+    path('create_reply/', mysite_forum.views.create_reply, name='create_reply'),
 ])
 
 urlpatterns.extend([

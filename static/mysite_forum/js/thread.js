@@ -3,9 +3,42 @@ const forumPopulator = new ForumPopulator();
 $(document).ready(function() {
     displayPosts(json_context);
 
-    $('#post-btn').on('click', submitForm);
-    $('#reply-btn').on('click', submitForm);
+    $('#post-btn').on('click', displayModal);
+    $('#submit-btn').on('click', submitText);
 });
+
+const displayModal = function() {
+    if ($(this).is('#post-btn'))
+        prepareModal('Type your post below!', 'Post here...');
+    else
+        prepareModal('Type your reply below!', 'Reply here...');
+    
+    $('#submit-btn').attr({'value': $(this).attr('value'), 'type': $(this).attr('type')});
+    $('#action-modal').modal('show');
+}
+
+const prepareModal = function(title, placeholder) {
+    $('.modal-title').text(title);
+    $('.modal-body').attr('placeholder', placeholder);
+}
+
+const submitText = function() {
+    value = $(this).attr('value');
+    type = $(this).attr('type');
+    text = $('#modal-textarea').val();
+    
+    $.ajax({
+        type: 'POST',
+        url: `/create_${type}/`,
+        data: {'id': value, 'text': text},
+        success: function(data) {
+            $('#action-modal').modal('hide');
+        },
+        error: function() {
+
+        }
+    });
+}
 
 const displayPosts = function(context, more_btn) {
     for (i = context.posts.length-1; i >= 0; --i) {
@@ -78,6 +111,8 @@ const fetchObjectsAjax = function(url, data, more) {
                 displayReplies(data, more);
             else if ('posts' in data) 
                 displayPosts(data, more);
+            else
+                console.log(data);
         }
     });
 }
@@ -90,7 +125,7 @@ const createPostObject = function(post_data) {
         'id': `post-cell-${pk}`
     });
     const post = $('<div>', {'class': 'post'});
-    const reply = $('<a>', replyAttributes(pk));
+    const reply = $('<a>', {'class': 'btn btn-link text-info', 'value': pk, 'type': 'reply'});
     const replies = $('<a>', repliesAttributes(pk));
     const author = $('<div>', {'class': 'author post-author'});
     const post_actions = $('<div>', {'class': 'container-fluid no-padding'});
@@ -104,21 +139,12 @@ const createPostObject = function(post_data) {
     author.text(`- ${post_data.author}`);
 
     replies.on('click', fetchObjects);
-    reply.on('click', displayReplyBox);
+    reply.on('click', displayModal);
 
     post_actions.append(reply, ' - ', replies);
     post_object.append(post, author, post_actions, replies_container);
 
     return post_object;
-}
-
-const replyAttributes = function(pk) {
-    return {
-        'class': 'btn btn-link text-info',
-        'value': pk,
-        'data-toggle': 'modal',
-        'data-target': '#ReplyCenterBox'
-    };
 }
 
 const repliesAttributes = function(pk) {

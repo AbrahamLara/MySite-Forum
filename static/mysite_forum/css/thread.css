@@ -21,7 +21,7 @@
     font-size: 1rem;
 }
 
-#post-area, #reply-area {
+#modal-textarea {
     width: 100%;
     resize: none;
     box-shadow: unset;
