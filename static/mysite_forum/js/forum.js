@@ -1,6 +1,9 @@
 const forumPopulator = new ForumPopulator();
 
 $(document).ready(function() {
+    if (thread_index < 0)
+        thread_index *= -1;
+
     if (forum_has_more) {
         more = forumPopulator.createMoreButton('threads');
         more.attr('index', thread_index);

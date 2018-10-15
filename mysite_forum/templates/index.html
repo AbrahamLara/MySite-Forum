@@ -19,17 +19,9 @@
 
 {% block contentJS %}
 <script>
-    {% if forum_context.more %}
-    let forum_has_more = true;
-    {% else  %}
-    let forum_has_more = false;
-    {% endif %}
+    let forum_has_more = {{ forum_context.more|yesno:"true,false" }};
 
-    {% if n_threads|add:"-{{ forum_context.amount_displaying }}" < 0 %}
-    const thread_index = 0;
-    {% else %}
-    const thread_index = {{ n_threads }} - {{ forum_context.amount_displaying }};
-    {% endif %}
+    var thread_index = {{ forum_context.index }} - {{ forum_context.amount_displaying }};
 </script>
 <script src="/static/mysite_forum/js/forum.js"></script>
 {% endblock %}

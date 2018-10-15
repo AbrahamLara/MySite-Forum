@@ -1,0 +1,10 @@
+<div class="border border-info border-right-0 border-left-0 border-bottom-0 post-cell" id="post-cell-{{ post.pk }}">
+    <div class="post">{{ post.post }}</div>
+    <div class="author post-author">{{ post.author }}</div>
+    <div class="container-fluid no-padding">
+        <a class="btn btn-link text-info" value="{{ post.pk }}" type="reply" id="display-btn">Reply</a>
+        -
+        <a class="btn btn-link text-info" value="{{ post.pk }}" id="repliesFor{{ post.pk }}" display="true" object-type="replies">Replies({{ post.n_replies }})</a>
+    </div>
+    <div class="container-fluid pre-line" id="reply-container-{{ post.pk }}"></div>
+</div>
