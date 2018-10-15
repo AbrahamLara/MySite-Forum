@@ -12,8 +12,8 @@ from mysite_forum.forum_paginator import ForumPaginator
 def index(request):
     context = dict()
 
-    context['n_threads'] = Thread.objects.all().count()
-    context['forum_context'] = ForumPaginator(context['n_threads']).fetch_threads_context()
+    n_threads = Thread.objects.all().count()
+    context['forum_context'] = ForumPaginator(n_threads).fetch_threads_context()
 
     return render(request, 'index.html', context)
 
