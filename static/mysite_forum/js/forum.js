@@ -5,15 +5,28 @@ $(document).ready(function() {
         thread_index *= -1;
 
     if (forum_has_more) {
-        more = forumPopulator.createMoreButton('threads');
-        more.attr('index', thread_index);
-        more.on('click', fetchThreads);
-
-        $('.container').append(more);
+        displayMoreButton(thread_index);
     }
 });
 
-const displayThreads = function(context, more_btn) {
+const displayMoreButton = function(index) {
+    more = createMoreObject();
+    more.attr('index', index);
+    more.on('click', fetchThreads);
+    more.hover(changeButtonStyle, revertButtonStyle);
+
+    $('.container').append(more);
+}
+
+const changeButtonStyle = function() {
+    $(this).addClass('bg-info text-light');
+}
+
+const revertButtonStyle = function() {
+    $(this).removeClass('bg-info text-light');
+}
+
+const displayThreads = function(context) {
     for(i = context.threads.length-1; i >= 0; i--) {
         thread = createThreadObject(context.threads[i]);
         $('.accordion').append(thread);
@@ -21,19 +34,12 @@ const displayThreads = function(context, more_btn) {
 
     if(context.more) {
         $('.cards').addClass('btm-border');
-        if (more_btn == null)
-            more_btn = forumPopulator.createMoreButton('threads', context.post_id);
-
-        more_btn.attr('index', context.index - context.amount_displaying);
-        more_btn.on('click', fetchThreads);
-        $('.container').append(more_btn);
+        displayMoreButton(context.index - context.amount_displaying);
     }
 }
 
 const fetchThreads = function() {
     index = $(this).attr('index');
-    more = $(this);
-
     $(this).remove();
     
     $.ajax({
@@ -41,7 +47,7 @@ const fetchThreads = function() {
         data: data = {'index': index},
         contentType: 'application/json',
         success: function(threads) {
-            displayThreads(threads, more);
+            displayThreads(threads);
         },
         error: handleError
     });
@@ -49,6 +55,15 @@ const fetchThreads = function() {
 
 const handleError = function(error) {
     console.log(error);
+}
+
+const createMoreObject = function(index, value) {
+    const button = $('<div>', {
+        'class': 'more-btn more-btn-for-threads text-info',
+        'text': 'Load More Threads...'
+    });
+
+    return button;
 }
 
 const createThreadObject = function(thread_data) {

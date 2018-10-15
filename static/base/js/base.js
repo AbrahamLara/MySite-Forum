@@ -8,10 +8,6 @@ class ForumPopulator {
         return this.createMore('posts', id, 'more posts...').attr('object-type', 'posts');
     }
 
-    static _createMoreButtonForThreads(index) {
-        return this.createMore('threads', index, 'Load More Threads...').attr('object-type', 'threads');
-    }
-
     static createMore(type, value, text) {
         const more = $('<a>', {'class': `more-btn more-btn-for-${type} text-info`, 'value': value});
 
