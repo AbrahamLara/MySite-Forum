@@ -29,7 +29,7 @@
     <button class="btn btn-info" id="post-btn" type="post" value="{{ pk }}">
         Post
     </button>
-    <div class="posts-container border-info">
+    <div class="thread-posts-container border-info">
         <div class="post-count">
             {% if n_posts == 0 %}
             Be the first to post on this thread!!!
@@ -37,6 +37,7 @@
             {{ n_posts }} Post(s)
             {% endif%}
         </div>
+        <div id="post-container"></div>
     </div>
 </div>
 {% endblock %}

@@ -38,7 +38,7 @@ def create_thread(request):
         title = request.POST.get('title')
         body = request.POST.get('body')
 
-        Thread.objects.create_thread(title,request.user,body)
+        Thread.objects.create_thread(title, request.user, body)
 
         return HttpResponseRedirect('/')
     else: return HttpResponseBadRequest('Something went wrong')
@@ -49,14 +49,13 @@ def create_post(request):
 
     post = request.POST.get('text')
     thread_id = request.POST.get('id')
-    print(post)
-    thread = Thread.objects.try_fetch(pk=thread_id)
-
-    Post.objects.create_post(post,request.user,thread)
-
+    
+    thread = Thread.objects.get(pk=thread_id)
     Thread.objects.increment_n_posts(thread)
-
-    return HttpResponse(json.dumps({'success': 'Successfully made post'}), content_type='application/json')
+    
+    post = Post.objects.create_post(post, request.user, thread)._json_post()
+    post['n_posts'] = thread.n_posts+1
+    return HttpResponse(json.dumps(post), content_type='application/json')
 
 def create_reply(request):
     if not request.user.is_authenticated:
@@ -65,10 +64,9 @@ def create_reply(request):
     reply = request.POST.get('text')
     post_id = request.POST.get('id')
 
-    post = Post.objects.try_fetch(pk=post_id)
-
+    post = Post.objects.get(pk=post_id)
     Post.objects.increment_n_replies(post)
 
-    Reply.objects.create_reply(reply, request.user, post, post.thread)
-
-    return HttpResponse(json.dumps({'success': 'Successfully made reply'}), content_type='application/json')
+    reply = Reply.objects.create_reply(reply, request.user, post, post.thread)._json_reply()
+    reply['n_replies'] = post.n_replies+1
+    return HttpResponse(json.dumps(reply), content_type='application/json')

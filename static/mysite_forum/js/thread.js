@@ -32,6 +32,15 @@ const submitText = function() {
         url: `/create_${type}/`,
         data: {'id': value, 'text': text},
         success: function(data) {
+            if ('post' in data) {
+                object = createPostObject(data);
+                $(`#${type}-container`).prepend(object);
+                updatePostCounter(data.n_posts);
+            } else if('reply' in data) {
+                object = createReplyObject(data);
+                $(`#${type}-container-${value}`).prepend(object);
+                updateRepliesCounter(data.n_replies, value);
+            }
             $('#action-modal').modal('hide');
         },
         error: function() {
@@ -40,19 +49,26 @@ const submitText = function() {
     });
 }
 
+const updatePostCounter = function(n_posts) {
+    $('.post-count').text(`${n_posts} Post(s)`);
+}
+
+const updateRepliesCounter = function(n_replies, id) {
+    $(`#replies-for-${id}`).attr({'index': n_replies+1, 'display': 'false'}).text(`Replies(${n_replies})`);
+}
+
 const displayPosts = function(context, more_btn) {
     for (i = context.posts.length-1; i >= 0; --i) {
         post = createPostObject(context.posts[i]);
-        $('.posts-container').append(post);
+        $('#post-container').append(post);
     }
 
     if (context.more) {
         if (more_btn == null)
             more_btn = forumPopulator.createMoreButton('posts', context.thread_id);
         
-        more_btn.attr('index', context.index - context.amount_displaying);
-        more_btn.on('click', fetchObjects);
-        $('.posts-container').append(more_btn);
+        more_btn.attr('index', context.index - context.amount_displaying).on('click', fetchObjects);
+        $('#post-container').append(more_btn);
     }
 }
 
@@ -60,10 +76,6 @@ const displayReplies = function(context, more_btn) {
     for(i = context.replies.length-1; i >= 0; --i) {
         reply = createReplyObject(context.replies[i]);
         $(`#reply-container-${context.post_id}`).append(reply);
-
-        line_break = $('<hr>', {'class': 'my-4 bg-dark'});
-        if(context.more || i != 0)
-            $(`#reply-container-${context.post_id}`).append(line_break);   
     }
 
     if (context.more) {
@@ -152,7 +164,7 @@ const repliesAttributes = function(pk) {
     return {
         'class': 'btn btn-link text-info',
         'value': pk,
-        'id': `repliesFor${pk}`,
+        'id': `replies-for-${pk}`,
         'display': true,
         'object-type': 'replies'
     };
@@ -160,7 +172,7 @@ const repliesAttributes = function(pk) {
 
 const createReplyObject = function(reply_data) {
     const reply_object = $('<div>');
-    const reply = $('<div>', {'class': 'reply', 'text': reply_data.reply});
+    const reply = $('<div>', {'class': 'border border-dark border-right-0 border-left-0 border-bottom-0 reply', 'text': reply_data.reply});
     const author_link = $('<a>', {'class': 'text-info author-link', 'href': `/profile/${reply_data.author_id}`, 'text': `${reply_data.author}`});
     const author = $('<div>', {'class': 'author reply-author'});
 
@@ -168,17 +180,4 @@ const createReplyObject = function(reply_data) {
     reply_object.append(reply, author);
 
     return reply_object;
-}
-
-const displayReplyBox = function() {
-    post_id = $(this).attr('value');
-    thread_id = $('#reply-btn').attr('value');
-    $('#reply-form').attr('action',`${thread_id}/post/${post_id}/reply/create`);
-}
-
-const submitForm = function() {
-    if ($('#PostCenterBox').hasClass('show')) 
-        $('#post-form').submit();
-    else if ($('#ReplyCenterBox').hasClass('show')) 
-        $('#reply-form').submit();
 }

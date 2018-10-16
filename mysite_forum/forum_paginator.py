@@ -63,3 +63,12 @@ class ForumPaginator(object):
         context['amount_displaying'] = self._DISPLAY_N_REPLIES
 
         return context
+
+    def get_context(self, more, index, amount_displaying):
+        context = dict()
+
+        context['more'] = more
+        context['index'] = index
+        context['amount_displaying'] = amount_displaying
+
+        return context
