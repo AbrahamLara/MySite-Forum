@@ -119,7 +119,7 @@ const fetchObjectsAjax = function(url, data, more) {
 
 const createPostObject = function(post_data) {
     const pk = post_data.pk;
-    console.log(post_data);
+    
     const post_object = $('<div>', {
         'class': 'border border-info border-right-0 border-left-0 border-bottom-0 post-cell',
         'id': `post-cell-${pk}`
@@ -128,7 +128,7 @@ const createPostObject = function(post_data) {
     const reply = $('<a>', {'class': 'btn btn-link text-info', 'value': pk, 'type': 'reply'});
     const replies = $('<a>', repliesAttributes(pk));
     const author = $('<div>', {'class': 'author post-author'});
-    const author_link = $('<a>', {'class': 'text-info author-link','href': `/profile/${post_data.author_id}`, 'text': post_data.author});
+    const author_link = $('<a>', {'class': 'text-info author-link', 'href': `/profile/${post_data.author_id}`, 'text': post_data.author});
     const post_actions = $('<div>', {'class': 'container-fluid no-padding'});
     const replies_container = $('<div>', {'class': 'container-fluid', 'id': `reply-container-${pk}`, 'css': {'whitespace': 'pre-line'}});
 
@@ -161,8 +161,10 @@ const repliesAttributes = function(pk) {
 const createReplyObject = function(reply_data) {
     const reply_object = $('<div>');
     const reply = $('<div>', {'class': 'reply', 'text': reply_data.reply});
-    const author = $('<div>', {'class': 'author reply-author', 'text': `- ${reply_data.author}`});
+    const author_link = $('<a>', {'class': 'text-info author-link', 'href': `/profile/${reply_data.author_id}`, 'text': `${reply_data.author}`});
+    const author = $('<div>', {'class': 'author reply-author'});
 
+    author.append('- ', author_link);
     reply_object.append(reply, author);
 
     return reply_object;

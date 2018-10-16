@@ -95,6 +95,7 @@ class Reply(models.Model):
 	def _json_replies(self, reply):
 		return {
 			'pk': reply.pk,
+			'author_id': reply.author.id,
 			'author': reply.author.name,
 			'reply': reply.reply
 		}
