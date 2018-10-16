@@ -119,7 +119,7 @@ const fetchObjectsAjax = function(url, data, more) {
 
 const createPostObject = function(post_data) {
     const pk = post_data.pk;
-
+    console.log(post_data);
     const post_object = $('<div>', {
         'class': 'border border-info border-right-0 border-left-0 border-bottom-0 post-cell',
         'id': `post-cell-${pk}`
@@ -128,6 +128,7 @@ const createPostObject = function(post_data) {
     const reply = $('<a>', {'class': 'btn btn-link text-info', 'value': pk, 'type': 'reply'});
     const replies = $('<a>', repliesAttributes(pk));
     const author = $('<div>', {'class': 'author post-author'});
+    const author_link = $('<a>', {'class': 'text-info author-link','href': `/profile/${post_data.author_id}`, 'text': post_data.author});
     const post_actions = $('<div>', {'class': 'container-fluid no-padding'});
     const replies_container = $('<div>', {'class': 'container-fluid', 'id': `reply-container-${pk}`, 'css': {'whitespace': 'pre-line'}});
 
@@ -136,11 +137,11 @@ const createPostObject = function(post_data) {
     post.text(post_data.post);
     reply.text('Reply');
     replies.text(`Replies(${post_data.n_replies})`);
-    author.text(`- ${post_data.author}`);
 
     replies.on('click', fetchObjects);
     reply.on('click', displayModal);
 
+    author.append('- ', author_link);
     post_actions.append(reply, ' - ', replies);
     post_object.append(post, author, post_actions, replies_container);
 
