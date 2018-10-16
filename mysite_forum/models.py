@@ -63,9 +63,9 @@ class Post(models.Model):
 	def get_json(self, thread, offset=None, index=None):
 		posts = Post.objects.filter(thread=thread)[offset:index]
 		
-		return [self._json_posts(post) for post in posts]
+		return [self._json_post(post) for post in posts]
 
-	def _json_posts(self, post):
+	def _json_post(self, post):
 		return {
 			'pk': post.pk,
 			'author_id': post.author.id,
@@ -90,9 +90,9 @@ class Reply(models.Model):
 	def get_json(self, post, offset=None, index=None):	
 		replies = Reply.objects.filter(post=post)[offset:index]
 
-		return [self._json_replies(reply) for reply in replies]
+		return [self._json_reply(reply) for reply in replies]
 
-	def _json_replies(self, reply):
+	def _json_reply(self, reply):
 		return {
 			'pk': reply.pk,
 			'author_id': reply.author.id,
