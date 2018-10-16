@@ -68,10 +68,10 @@ class Post(models.Model):
 	def _json_posts(self, post):
 		return {
 			'pk': post.pk,
+			'author_id': post.author.id,
 			'author': post.author.name,
 			'post': post.post,
 			'n_replies': post.n_replies,
-			'post_replies': Reply().get_json(post=post)
 		}
 
 class Reply(models.Model):
