@@ -3,23 +3,26 @@ const forumPopulator = new ForumPopulator();
 $(document).ready(function() {
     displayPosts(json_context);
 
+    $('#action-modal').on('hidden.bs.modal', function() {
+        $('.modal-body').val('');
+    });
     $('#post-btn').on('click', displayModal);
     $('#submit-btn').on('click', submitText);
 });
 
 const displayModal = function() {
     if ($(this).is('#post-btn'))
-        prepareModal('Type your post below!', 'Post here...');
+        prepareModal('post', 'Post');
     else
-        prepareModal('Type your reply below!', 'Reply here...');
+        prepareModal('reply', 'Reply');
     
     $('#submit-btn').attr({'value': $(this).attr('value'), 'type': $(this).attr('type')});
     $('#action-modal').modal('show');
 }
 
-const prepareModal = function(title, placeholder) {
-    $('.modal-title').text(title);
-    $('.modal-body').attr('placeholder', placeholder);
+const prepareModal = function(body_type, object_type) {
+    $('.modal-title').text(`Type your ${body_type} below!`);
+    $('.modal-body').attr('placeholder', `${object_type} here...`);
 }
 
 const submitText = function() {
@@ -43,8 +46,8 @@ const submitText = function() {
             }
             $('#action-modal').modal('hide');
         },
-        error: function() {
-
+        error: function(response) {
+            console.log(response.responseJSON.error);
         }
     });
 }
@@ -125,6 +128,9 @@ const fetchObjectsAjax = function(url, data, more) {
                 displayPosts(data, more);
             else
                 console.log(data);
+        },
+        error: function(response) {
+            console.log(response.responseJSON.error);
         }
     });
 }

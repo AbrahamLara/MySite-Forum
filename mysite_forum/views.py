@@ -45,7 +45,7 @@ def create_thread(request):
 
 def create_post(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect('/login')
+        return HttpResponseBadRequest(json.dumps({'error': 'Must be logged in!'}), content_type='application/json')
 
     post = request.POST.get('text')
     thread_id = request.POST.get('id')
@@ -59,7 +59,7 @@ def create_post(request):
 
 def create_reply(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect('/login')
+        return HttpResponseBadRequest(json.dumps({'error': 'Must be logged in!'}), content_type='application/json')
         
     reply = request.POST.get('text')
     post_id = request.POST.get('id')
