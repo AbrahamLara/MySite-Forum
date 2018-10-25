@@ -32,7 +32,7 @@ class Thread(models.Model):
 	def get_json(self, offset=None, index=None):
 		threads = Thread.objects.all()[offset:index]
 
-		return [thread._json_thread() for thread in threads]
+		return [thread.forum_context() for thread in threads]
 
 	def _json_thread(self):
 		return {
@@ -42,6 +42,15 @@ class Thread(models.Model):
 			'author': self.author.name,
 			'body': self.body,
 			'n_posts': self.n_posts,
+		}
+
+	def forum_context(self):
+		return {
+			'pk': self.pk,
+			'author_id': self.author.id,
+			'title': self.title,
+			'author': self.author.username,
+			'body': self.body,
 		}
 
 class Post(models.Model):
