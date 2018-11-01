@@ -3,12 +3,15 @@ const forumPopulator = new ForumPopulator();
 $(document).ready(function() {
     displayPosts(json_context);
 
-    $('#action-modal').on('hidden.bs.modal', function() {
-        $('.modal-body').val('');
-    });
+    $('#action-modal').on('hidden.bs.modal', removeTextFromBody);
+    // $('#action-modal').on('show.bs.modal', prepareModal);
     $('#post-btn').on('click', displayModal);
     $('#submit-btn').on('click', submitText);
 });
+
+const removeTextFromBody = function() {
+    $('.modal-body').val('');
+}
 
 const displayModal = function() {
     if ($(this).is('#post-btn'))
