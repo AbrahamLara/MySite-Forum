@@ -13,17 +13,22 @@
         <div class="model-name">Replies Created: {{ n_replies }}</div>
     </div>
     <div class="user-threads">
-        <header class="bold-header">Threads:</header>
-        <div class="threads-container">
+        <div class="container-head bg-info">
+            <header class="bold-header">Threads:</header>
+            <button class="btn btn-info outline" id="optionDelete">Delete</button>
+        </div>
+        <div class="border border-info threads-container">
             {% for thread in threads %}
             <div class="thread-block">
-                <a href="/thread/{{ thread.id }}">{{ thread.title }}</a>
+                <a class="thread-link text-info" href="/thread/{{ thread.id }}">{{ thread.title }}</a>
+                {% if profile_user == user.name %}
                 <label class="hide radio-container">{{ thread.title}}
-                    <div id="custom-checkbox" class="hide">
+                    <div id="custom-checkbox">
                         <input type="checkbox" name="radio">
                         <span class="checkmark"></span>
                     </div>
                 </label>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
@@ -32,4 +37,7 @@
 {% endblock %}
 
 {% block contentJS %}
+{% if  profile_user == user.name %}
+<script src="/static/mysite_forum/js/profile_auth.js"></script>
+{% endif %}
 {% endblock %}

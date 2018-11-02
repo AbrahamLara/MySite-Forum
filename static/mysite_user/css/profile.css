@@ -9,18 +9,43 @@
     justify-content: center;
 }
 
+.container-head {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+}
+
 .model-name {
     padding: 10px;
 }
 
 .bold-header {
+    color: white;
     font-weight: bold;
     font-size: 2rem;
+    display: unset;
+}
+
+.outline {
+    border: 1px solid white;
+}
+
+#deleteOption {
+    float: right;
+    display: unset;
+}
+
+.thread-link {
+    text-decoration: none !important;
 }
 
 .threads-container {
     border: 2px solid #2196F3;
-    border-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top: none;
 }
 
 .thread-block {
@@ -29,7 +54,6 @@
     display: block;
     position: relative;
     font-size: 22px;
-    margin-bottom: 12px;
 }
 
 .hide {
@@ -41,7 +65,7 @@
     position: relative;
     font-size: 22px;
     padding-left: 35px;
-    margin-bottom: 12px;
+    margin-bottom: unset;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -59,7 +83,7 @@
 
 .checkmark {
     position: absolute;
-    top: 0;
+    top: 4;
     left: 0;
     height: 25px;
     width: 25px;
