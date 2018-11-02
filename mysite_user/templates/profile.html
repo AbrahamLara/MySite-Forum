@@ -15,7 +15,12 @@
     <div class="user-threads">
         <div class="container-head bg-info">
             <header class="bold-header">Threads:</header>
-            <button class="btn btn-info outline" id="optionDelete">Delete</button>
+            {% if profile_user == user.name %}
+            <label class="switch">
+                <input id="default_check" type="checkbox">
+                <span class="slider round"></span>
+            </label>
+            {% endif %}
         </div>
         <div class="border border-info threads-container">
             {% for thread in threads %}
@@ -24,7 +29,7 @@
                 {% if profile_user == user.name %}
                 <label class="hide radio-container">{{ thread.title}}
                     <div id="custom-checkbox">
-                        <input type="checkbox" name="radio">
+                        <input type="checkbox" name="radio" value="{{ thread.id}}">
                         <span class="checkmark"></span>
                     </div>
                 </label>
