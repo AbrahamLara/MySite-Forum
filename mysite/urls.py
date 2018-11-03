@@ -19,11 +19,15 @@ from django.contrib import admin
 from django.urls import path, re_path
 
 import mysite_auth.views
+
 import mysite_user.views
 import mysite_user.json_views
+
 import mysite_search.views
 import mysite_search.json_views
+
 import mysite_forum.views
+import mysite_forum.ajax
 import mysite_forum.json_views
 
 urlpatterns = [
@@ -40,9 +44,9 @@ urlpatterns.extend([
 
 urlpatterns.extend([
     path('thread/<int:thread_id>', mysite_forum.views.thread, name='thread'),
-    path('create', mysite_forum.views.create_thread, name='create_thread'),
-    path('create_post/', mysite_forum.views.create_post, name='create_post'),
-    path('create_reply/', mysite_forum.views.create_reply, name='create_reply'),
+    path('create', mysite_forum.ajax.create_thread, name='create_thread'),
+    path('create_post/', mysite_forum.ajax.create_post, name='create_post'),
+    path('create_reply/', mysite_forum.ajax.create_reply, name='create_reply'),
 ])
 
 urlpatterns.extend([

@@ -1,17 +1,16 @@
 $(document).ready(function() {
-   $('#default_check').on('click', displayChanges);
+   $('#enable_deletion').on('click', displayChanges);
 });
 
 const displayChanges = function() {
-    
     if($(this).prop('checked')) {
-        test('.thread-link', '.radio-container');
+        switchContainers('.thread-link', '.radio-container');
     } else {
-        test('.radio-container', '.thread-link');
+        switchContainers('.radio-container', '.thread-link');
     }
 }
 
-const test = function(containerShow, containerHide) {
+const switchContainers = function(containerShow, containerHide) {
     $(containerShow).addClass('hide');
     $(containerHide).removeClass('hide');
 }
