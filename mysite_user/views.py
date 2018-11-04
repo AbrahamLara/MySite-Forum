@@ -1,8 +1,11 @@
-from django.shortcuts import render
+import json
+
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 
 from mysite_user.models import MySiteUser
 from mysite_forum.models import Thread, Post, Reply
+from mysite_forum.forum_paginator import ForumPaginator
 # Create your views here.
 
 def context(parameter):
@@ -16,18 +19,18 @@ def index(request):
 
 def profile(request, uid):
 	
+	context = dict()
+
 	user = MySiteUser.objects.get(pk=uid)
 
-	threads = Thread.objects.filter(author=user)
-	posts = Post.objects.filter(author=user)
-	replies = Reply.objects.filter(author=user)
+	n_threads = Thread.objects.filter(author=user).count()
+	n_posts = Post.objects.filter(author=user).count()
+	n_replies = Reply.objects.filter(author=user).count()
 
-	context = {
-		'profile_user': user.name,
-		'threads': threads,
-		'n_threads': threads.count(),
-		'n_posts': posts.count(),
-		'n_replies': replies.count()
-	}
-		
+	context['profile_user'] = user.name
+	
+	context['n_threads'] = n_threads
+	context['n_posts'] = n_posts
+	context['n_replies']= n_replies
+	
 	return render(request, 'profile.html', context)

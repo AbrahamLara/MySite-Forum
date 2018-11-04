@@ -41,7 +41,7 @@
     text-decoration: none !important;
 }
 
-.threads-container {
+#threads-container {
     border: 2px solid #2196F3;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;

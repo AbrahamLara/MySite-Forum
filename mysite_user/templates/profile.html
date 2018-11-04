@@ -22,26 +22,29 @@
             </label>
             {% endif %}
         </div>
-        <div class="border border-info threads-container">
-            {% for thread in threads %}
+        <div class="border border-infor" id="threads-container">
+            <!-- { for thread in threads }
             <div class="thread-block">
-                <a class="thread-link text-info" href="/thread/{{ thread.id }}">{{ thread.title }}</a>
-                {% if profile_user == user.name %}
-                <label class="hide radio-container">{{ thread.title}}
+                <a class="thread-link text-info " href="/thread/{ thread.id }">{ thread.title }</a>
+                { if profile_user == user.name }
+                <label class="hide radio-container"><a href="/thread/{ thread.id }">{ thread.title }</a>
                     <div id="custom-checkbox">
-                        <input type="checkbox" name="radio" value="{{ thread.id}}">
+                        <input type="checkbox" name="radio" value="{ thread.id}" id="thread{ thread.id }">
                         <span class="checkmark"></span>
                     </div>
                 </label>
-                {% endif %}
+                { endif }
             </div>
-            {% endfor %}
+            { endfor } -->
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block contentJS %}
+<script>
+    // let user_threads = {{ threads|safe }};
+</script>
 {% if  profile_user == user.name %}
 <script src="/static/mysite_forum/js/profile_auth.js"></script>
 {% endif %}
