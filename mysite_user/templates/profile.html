@@ -16,26 +16,15 @@
         <div class="container-head bg-info">
             <header class="bold-header">Threads:</header>
             {% if profile_user == user.name %}
-            <label class="switch">
+            <!-- <label class="switch">
                 <input id="enable_deletion" type="checkbox">
                 <span class="slider round"></span>
-            </label>
+            </label> -->
+            <button class="btn btn-info border" id="confirmDeletion">Delete</button>
             {% endif %}
         </div>
         <div class="border border-infor" id="threads-container">
-            <!-- { for thread in threads }
-            <div class="thread-block">
-                <a class="thread-link text-info " href="/thread/{ thread.id }">{ thread.title }</a>
-                { if profile_user == user.name }
-                <label class="hide radio-container"><a href="/thread/{ thread.id }">{ thread.title }</a>
-                    <div id="custom-checkbox">
-                        <input type="checkbox" name="radio" value="{ thread.id}" id="thread{ thread.id }">
-                        <span class="checkmark"></span>
-                    </div>
-                </label>
-                { endif }
-            </div>
-            { endfor } -->
+            <!-- threads -->
         </div>
     </div>
 </div>
@@ -43,7 +32,7 @@
 
 {% block contentJS %}
 <script>
-    // let user_threads = {{ threads|safe }};
+    let threads_context = {{ threads|safe }};
 </script>
 {% if  profile_user == user.name %}
 <script src="/static/mysite_forum/js/profile_auth.js"></script>

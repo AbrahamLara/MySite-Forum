@@ -1,23 +1,14 @@
 $(document).ready(function() {
-   $('#enable_deletion').on('click', displayChanges);
+   $('#confirmDeletion').on('click', displayChanges);
    
-    // for (var i = user_threads.threads.length-1; i >= 0; i++) {
-    //     $('#threads-container').append(getThreadBlock(user_threads.threads[i]));
-    // }
+    for (var i = threads_context.threads.length-1; i >= 0; i--) {
+        $('#threads-container').append(getThreadBlock(threads_context.threads[i]));
+    }
 
 });
 
 const displayChanges = function() {
-    if($(this).prop('checked')) {
-        switchContainers('.thread-link', '.radio-container');
-    } else {
-        switchContainers('.radio-container', '.thread-link');
-    }
-}
-
-const switchContainers = function(containerShow, containerHide) {
-    $(containerShow).addClass('hide');
-    $(containerHide).removeClass('hide');
+    
 }
 
 const deleteSelection = function() {
@@ -36,9 +27,8 @@ const deleteSelection = function() {
 const getThreadBlock = function(thread_data) {
     const thread_block = $('<div>', {'class': 'thread-block'});
     const radio_container = $('<label>', {'class': 'radio-container'});
-    const custom_checkbox = $('<div>', {'id': `custom-checkbox-${thread_data.pk}`});
-    const thread_link = $('<a>', {'href': `/thread/${thread_data.pk}`});
-    const cutom_checkbox = $('<div>', {'class': 'hide custom-checkbox'});
+    const custom_checkbox = $('<div>', {'class': '', 'id': `custom-checkbox-${thread_data.pk}`});
+    const thread_link = $('<a>', {'class': 'thread-link text-info', 'href': `/thread/${thread_data.pk}`});
     const checkbox = $('<input>', {'type': 'checkbox', 'value': thread_data.pk, 'id': `thread${thread_data.pk}`});
     const checkmark = $('<span>', {'class': 'checkmark'});
 

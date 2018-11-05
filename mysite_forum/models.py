@@ -29,9 +29,20 @@ class Thread(models.Model):
 			'n_posts': self.n_posts,
 		}
 
+	def get_user_json(self, user, offset, index):
+		threads = Thread.objects.filter(author=user)[offset:index]
+		return [thread.profile_context() for thread in threads]
+
+	def profile_context(self):
+		return {
+			'pk': self.id,
+			'author_id': self.author.id,
+			'title': self.title,
+			'author': self.author.name
+		}
+
 	def get_json(self, offset=None, index=None):
 		threads = Thread.objects.all()[offset:index]
-
 		return [thread.forum_context() for thread in threads]
 
 	def _json_thread(self):
@@ -73,7 +84,6 @@ class Post(models.Model):
 
 	def get_json(self, thread, offset=None, index=None):
 		posts = Post.objects.filter(thread=thread)[offset:index]
-		
 		return [post._json_post() for post in posts]
 
 	def _json_post(self):
@@ -100,7 +110,6 @@ class Reply(models.Model):
 
 	def get_json(self, post, offset=None, index=None):	
 		replies = Reply.objects.filter(post=post)[offset:index]
-
 		return [reply._json_reply() for reply in replies]
 
 	def _json_reply(self):
