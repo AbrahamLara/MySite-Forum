@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+{% if profile_user == user.name %}
 {% include 'partials/base_modal_top.html' with modal_id='confirm-modal' %}
 <div class="modal-header h4 rm-br-mr">Are you sure you want to delete the selected threads?</div>
 <div class="modal-footer">
@@ -12,6 +13,7 @@
     <button id="submit-btn" class="btn btn-info">Yes</button>
 </div>
 {% include 'partials/base_modal_bottom.html'%}
+{% endif%}
 
 <div class="container">
     <div class="container-fluid user-name">{{ profile_user }}</div>
@@ -24,10 +26,6 @@
         <div class="container-head bg-info">
             <header class="bold-header">Threads:</header>
             {% if profile_user == user.name %}
-            <!-- <label class="switch">
-                <input id="enable_deletion" type="checkbox">
-                <span class="slider round"></span>
-            </label> -->
             <button class="btn btn-info border" id="confirmDeletion">Delete</button>
             {% endif %}
         </div>
@@ -45,5 +43,7 @@
 {% if  profile_user == user.name %}
 <script src="/static/mysite_forum/js/profile_auth.js"></script>
 <script src="/static/mysite_user/js/csrfp.js"></script>
+{% else %}
+<script src="/static/mysite_forum/js/profile.js"></script>
 {% endif %}
 {% endblock %}

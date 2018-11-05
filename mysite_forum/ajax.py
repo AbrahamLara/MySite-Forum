@@ -52,7 +52,6 @@ def delete_selection(request):
     if not request.user.is_authenticated:
         return HttpResponseBadRequest(json.dumps({'error': 'Must be logged in!'}), content_type='application/json')
 
-    threads = request.POST.getlist('threads[]')
-    print(threads)
+    threads = [int(id) for id in request.POST.getlist('threads[]')]
 
-    return HttpResponse(json.dumps({}), content_type='application/json')
+    return HttpResponse(json.dumps({'threads': request.POST.getlist('threads[]')}), content_type='application/json')
