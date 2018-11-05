@@ -66,6 +66,11 @@ label {
     margin-bottom: unset;
 }
 
+.rm-br-mr {
+    border-bottom: unset !important;
+    margin-bottom: unset !important;
+}
+
 .radio-container {
     display: block;
     position: relative;

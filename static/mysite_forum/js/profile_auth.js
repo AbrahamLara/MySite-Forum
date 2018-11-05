@@ -8,7 +8,7 @@ $(document).ready(function() {
 });
 
 const displayChanges = function() {
-    
+    $('#confirm-modal').modal('show');
 }
 
 const deleteSelection = function() {

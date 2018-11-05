@@ -5,6 +5,14 @@
 {% endblock %}
 
 {% block content %}
+{% include 'partials/base_modal_top.html' with modal_id='confirm-modal' %}
+<div class="modal-header h4 rm-br-mr">Are you sure you want to delete the selected threads?</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+    <button id="submit-btn" class="btn btn-info">Yes</button>
+</div>
+{% include 'partials/base_modal_bottom.html'%}
+
 <div class="container">
     <div class="container-fluid user-name">{{ profile_user }}</div>
     <div class="model-names-container">
