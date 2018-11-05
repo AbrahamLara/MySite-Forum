@@ -47,3 +47,12 @@ def create_reply(request):
     reply = Reply.objects.create_reply(reply, request.user, post, post.thread)._json_reply()
     reply['n_replies'] = post.n_replies+1
     return HttpResponse(json.dumps(reply), content_type='application/json')
+
+def delete_selection(request):
+    if not request.user.is_authenticated:
+        return HttpResponseBadRequest(json.dumps({'error': 'Must be logged in!'}), content_type='application/json')
+
+    threads = request.POST.getlist('threads[]')
+    print(threads)
+
+    return HttpResponse(json.dumps({}), content_type='application/json')

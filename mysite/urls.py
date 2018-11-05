@@ -47,6 +47,7 @@ urlpatterns.extend([
     path('create', mysite_forum.ajax.create_thread, name='create_thread'),
     path('create_post/', mysite_forum.ajax.create_post, name='create_post'),
     path('create_reply/', mysite_forum.ajax.create_reply, name='create_reply'),
+    path('delete_selection/', mysite_forum.ajax.delete_selection, name='delete_selection'),
 ])
 
 urlpatterns.extend([

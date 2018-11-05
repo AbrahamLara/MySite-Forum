@@ -36,7 +36,7 @@ const submitText = function() {
     $.ajax({
         type: 'POST',
         url: `/create_${type}/`,
-        data: {'id': value, 'text': text},
+        data: {id: value, text: text},
         success: function(data) {
             if ('post' in data) {
                 object = createPostObject(data);
@@ -116,7 +116,7 @@ const fetchObjects = function() {
     } else
         object = null;
 
-    fetchObjectsAjax(`/fetch_${type}/`, {'index': index, 'id': id}, object);
+    fetchObjectsAjax(`/fetch_${type}/`, {index: index, id: id}, object);
 }
 
 const fetchObjectsAjax = function(url, data, more) {

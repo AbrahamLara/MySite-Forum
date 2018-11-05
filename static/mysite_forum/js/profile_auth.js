@@ -15,14 +15,18 @@ const deleteSelection = function() {
     $.ajax({
         type: 'post',
         url: '/delete_selection/',
-        // data: {'threads': },
-        success: function() {
-        
+        data: {threads: $('#threads-container .selected').map(selectedThread).get()},
+        success: function(data) {
+            $('#confirm-modal').modal('hide');
         },
-        error: function() {
-            
+        error: function(error) {
+            console.log('ERROR OCCURED');
         }
     });
+}
+
+const selectedThread = function() {
+    return $(this).find('input')[0].value;
 }
 
 const getThreadBlock = function(thread_data) {
@@ -47,7 +51,6 @@ const getThreadBlock = function(thread_data) {
 const selectBlock = function(e) {
     if ($(this).prop('checked')) {
         $(`#thread-block-${e.target.value}`).addClass('selected');
-        console.log(e.target.value);
     } else
         $(`#thread-block-${e.target.value}`).removeClass('selected');
 }
