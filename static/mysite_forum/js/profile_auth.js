@@ -18,6 +18,10 @@ const deleteSelection = function() {
         data: {threads: $('#threads-container .selected').map(selectedThread).get()},
         success: function(data) {
             $('#confirm-modal').modal('hide');
+            
+            for (i = 0; i < data.length; i++) {
+                $(`#thread-block-${data[i]}`).remove();
+            }
         },
         error: function(error) {
             console.log('ERROR OCCURED');
@@ -49,8 +53,8 @@ const getThreadBlock = function(thread_data) {
 }
 
 const selectBlock = function(e) {
-    if ($(this).prop('checked')) {
+    if ($(this).prop('checked'))
         $(`#thread-block-${e.target.value}`).addClass('selected');
-    } else
+    else
         $(`#thread-block-${e.target.value}`).removeClass('selected');
 }

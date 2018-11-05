@@ -54,4 +54,7 @@ def delete_selection(request):
 
     threads = [int(id) for id in request.POST.getlist('threads[]')]
 
-    return HttpResponse(json.dumps({'threads': request.POST.getlist('threads[]')}), content_type='application/json')
+    for thread in threads:
+        Thread.objects.filter(pk=thread).delete()
+
+    return HttpResponse(json.dumps(threads), content_type='application/json')
