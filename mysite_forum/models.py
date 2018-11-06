@@ -29,7 +29,7 @@ class Thread(models.Model):
 			'n_posts': self.n_posts,
 		}
 
-	def get_user_json(self, user, offset, index):
+	def get_user_threads(self, user, offset, index):
 		threads = Thread.objects.filter(author=user)[offset:index]
 		return [thread.profile_context() for thread in threads]
 

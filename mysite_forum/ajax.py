@@ -52,9 +52,11 @@ def delete_selection(request):
     if not request.user.is_authenticated:
         return HttpResponseBadRequest(json.dumps({'error': 'Must be logged in!'}), content_type='application/json')
 
-    threads = [int(id) for id in request.POST.getlist('threads[]')]
+    thread_ids = [int(id) for id in request.POST.getlist('threads[]')]
 
-    for thread in threads:
-        Thread.objects.filter(pk=thread).delete()
+    for thread_id in thread_ids:
+        thread = Thread.objects.filter(pk=thread_id)
+        if thread[0].author == request.user:
+            thread.delete()
 
-    return HttpResponse(json.dumps(threads), content_type='application/json')
+    return HttpResponse(json.dumps(thread_ids), content_type='application/json')

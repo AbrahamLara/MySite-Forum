@@ -20,7 +20,7 @@ class ForumPaginator(object):
             offset = 0
         
         
-        context['threads'] = Thread().get_user_json(user, offset, self._index)
+        context['threads'] = Thread().get_user_threads(user, offset, self._index)
         context.update(self.get_context(offset, self._DISPLAY_N_THREADS))
 
         return context
