@@ -77,6 +77,19 @@ class Post(models.Model):
 	class Meta:
 		ordering = ['date_posted']
 
+	def get_user_posts(self, user, offset, index):
+		posts = Post.objects.filter(author=user)[offset:index]
+		return [post.profile_context() for post in posts]
+
+	def profile_context(self):
+		return {
+			'pk': self.id,
+			'author_id': self.author.id,
+			'post': self.post,
+			'author': self.author.name,
+			'thread_id': self.thread.id
+		}
+
 	def get_post_replies(self):
 		return {
 			'post_replies': Reply().get_json(post=self)
@@ -107,6 +120,19 @@ class Reply(models.Model):
 
 	class Meta:
 		ordering = ['date_replied']
+
+	def get_user_replies(self, user, offset, index):
+		replies = Reply.objects.filter(author=user)[offset:index]
+		return [reply.profile_context() for reply in replies]
+
+	def profile_context(self):
+		return {
+			'pk': self.pk,
+			'author_id': self.author.id,
+			'author': self.author.name,
+			'reply': self.reply,
+			'thread_id': self.thread.id
+		}
 
 	def get_json(self, post, offset=None, index=None):	
 		replies = Reply.objects.filter(post=post)[offset:index]

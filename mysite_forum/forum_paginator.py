@@ -19,9 +19,34 @@ class ForumPaginator(object):
         if offset < 0:
             offset = 0
         
-        
         context['threads'] = Thread().get_user_threads(user, offset, self._index)
         context.update(self.get_context(offset, self._DISPLAY_N_THREADS))
+
+        return context
+
+    def fetch_user_posts(self, user):
+        context = dict()
+
+        offset = self._index - self._DISPLAY_N_POSTS
+
+        if offset < 0:
+            offset = 0
+        
+        context['posts'] = Post().get_user_posts(user, offset, self._index)
+        context.update(self.get_context(offset, self._DISPLAY_N_POSTS))
+
+        return context
+
+    def fetch_user_replies(self, user):
+        context = dict()
+
+        offset = self._index - self._DISPLAY_N_REPLIES
+
+        if offset < 0:
+            offset = 0
+        
+        context['replies'] = Reply().get_user_replies(user, offset, self._index)
+        context.update(self.get_context(offset, self._DISPLAY_N_REPLIES))
 
         return context
 

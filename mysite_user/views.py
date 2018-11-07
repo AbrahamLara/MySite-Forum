@@ -15,14 +15,13 @@ def profile(request, uid):
 	context = dict()
 
 	user = MySiteUser.objects.get(pk=uid)
-	n_threads = Thread.objects.filter(author=user).count()
-	n_posts = Post.objects.filter(author=user).count()
-	n_replies = Reply.objects.filter(author=user).count()
 
+	context['n_threads'] = Thread.objects.filter(author=user).count()
+	context['n_posts'] = Post.objects.filter(author=user).count()
+	context['n_replies'] = Reply.objects.filter(author=user).count()
 	context['profile_user'] = user.name
-	context['threads'] = json.dumps(ForumPaginator(n_threads).fetch_user_threads(user))
-	context['n_threads'] = n_threads
-	context['n_posts'] = n_posts
-	context['n_replies']= n_replies
+	context['threads'] = json.dumps(ForumPaginator(context['n_threads']).fetch_user_threads(user))
+	context['posts'] = json.dumps(ForumPaginator(context['n_posts']).fetch_user_posts(user))
+	context['replies'] = json.dumps(ForumPaginator(context['n_replies']).fetch_user_replies(user))
 	
 	return render(request, 'profile.html', context)

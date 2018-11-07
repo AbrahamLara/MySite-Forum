@@ -7,7 +7,7 @@
 {% block content %}
 {% if profile_user == user.name %}
 {% include 'partials/base_modal_top.html' with modal_id='confirm-modal' %}
-<div class="modal-header h4 rm-br-mr">Are you sure you want to delete the selected threads?</div>
+<div class="modal-header h4 rm-br-mr"></div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
     <button id="submit-btn" class="btn btn-info">Yes</button>
@@ -18,19 +18,41 @@
 <div class="container">
     <div class="container-fluid user-name">{{ profile_user }}</div>
     <div class="model-names-container">
-        <div class="model-name">Threads Created: {{ n_threads }}</div>
-        <div class="model-name">Posts Created: {{ n_posts }}</div>
-        <div class="model-name">Replies Created: {{ n_replies }}</div>
+        <div class="model-name" id="thread-counter">Threads Created: {{ n_threads }}</div>
+        <div class="model-name" id="post-counter">Posts Created: {{ n_posts }}</div>
+        <div class="model-name" id="reply-counter">Replies Created: {{ n_replies }}</div>
     </div>
     <div class="user-threads">
         <div class="container-head bg-info">
             <header class="bold-header">Threads:</header>
             {% if profile_user == user.name %}
-            <button class="btn btn-info border" id="confirmDeletion">Delete</button>
+            <button class="btn btn-info border" object="thread" id="delete-thread">Delete</button>
             {% endif %}
         </div>
         <div class="border border-infor" id="threads-container">
             <!-- threads -->
+        </div>
+    </div>
+    <div class="user-posts">
+        <div class="container-head bg-info">
+            <header class="bold-header">Posts:</header>
+            {% if profile_user == user.name %}
+            <button class="btn btn-info border" object="post" id="delete-post">Delete</button>
+            {% endif %}
+        </div>
+        <div class="border border-infor" id="posts-container">
+            <!-- posts -->
+        </div>
+    </div>
+    <div class="user-replies">
+        <div class="container-head bg-info">
+            <header class="bold-header">Replies:</header>
+            {% if profile_user == user.name %}
+            <button class="btn btn-info border" object="reply" id="delete-reply">Delete</button>
+            {% endif %}
+        </div>
+        <div class="border border-infor" id="replies-container">
+            <!-- replies -->
         </div>
     </div>
 </div>
@@ -39,6 +61,8 @@
 {% block contentJS %}
 <script>
     let threads_context = {{ threads|safe }};
+    let posts_context = {{ posts|safe }};
+    let replies_context = {{ replies|safe }};
 </script>
 {% if  profile_user == user.name %}
 <script src="/static/mysite_forum/js/profile_auth.js"></script>

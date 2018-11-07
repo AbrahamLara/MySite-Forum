@@ -47,7 +47,9 @@ urlpatterns.extend([
     path('create', mysite_forum.ajax.create_thread, name='create_thread'),
     path('create_post/', mysite_forum.ajax.create_post, name='create_post'),
     path('create_reply/', mysite_forum.ajax.create_reply, name='create_reply'),
-    path('delete_selection/', mysite_forum.ajax.delete_selection, name='delete_selection'),
+    path('delete_thread_selection/', mysite_forum.ajax.delete_thread_selection, name='delete_thread_selection'),
+    path('delete_post_selection/', mysite_forum.ajax.delete_post_selection, name='delete_post_selection'),
+    path('delete_reply_selection/', mysite_forum.ajax.delete_reply_selection, name='delete_reply_selection'),
 ])
 
 urlpatterns.extend([

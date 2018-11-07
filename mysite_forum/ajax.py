@@ -48,11 +48,11 @@ def create_reply(request):
     reply['n_replies'] = post.n_replies+1
     return HttpResponse(json.dumps(reply), content_type='application/json')
 
-def delete_selection(request):
+def delete_thread_selection(request):
     if not request.user.is_authenticated:
         return HttpResponseBadRequest(json.dumps({'error': 'Must be logged in!'}), content_type='application/json')
 
-    thread_ids = [int(id) for id in request.POST.getlist('threads[]')]
+    thread_ids = [int(id) for id in request.POST.getlist('selection[]')]
 
     for thread_id in thread_ids:
         thread = Thread.objects.filter(pk=thread_id)
@@ -60,3 +60,29 @@ def delete_selection(request):
             thread.delete()
 
     return HttpResponse(json.dumps(thread_ids), content_type='application/json')
+
+def delete_post_selection(request):
+    if not request.user.is_authenticated:
+        return HttpResponseBadRequest(json.dumps({'error': 'Must be logged in!'}), content_type='application/json')
+        
+    post_ids = [int(id) for id in request.POST.getlist('selection[]')]
+
+    for post_id in post_ids:
+        post = Post.objects.filter(pk=post_id)
+        if post[0].author == request.user:
+            post.delete()
+
+    return HttpResponse(json.dumps(post_ids), content_type='application/json')
+
+def delete_reply_selection(request):
+    if not request.user.is_authenticated:
+        return HttpResponseBadRequest(json.dumps({'error': 'Must be logged in!'}), content_type='application/json')
+
+    reply_ids = [int(id) for id in request.POST.getlist('selection[]')]
+
+    for reply_id in reply_ids:
+        reply = Reply.objects.filter(pk=reply_id)
+        if reply[0].author == request.user:
+            reply.delete()
+
+    return HttpResponse(json.dumps(reply_ids), content_type='application/json')
