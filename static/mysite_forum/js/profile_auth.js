@@ -26,6 +26,12 @@ const container = {
     reply: $('#replies-container')
 }
 
+const plural = {
+    thread: 'threads',
+    post: 'posts',
+    reply: 'replies',
+}
+
 var type;
 
 const setTypeUndefined = function() {
@@ -34,7 +40,7 @@ const setTypeUndefined = function() {
 
 const showModal = function() {
     type = $(this).attr('object');
-    $('.modal-header').text('Are you sure you want to delete the selected ');
+    $('.modal-header').text(`Are you sure you want to delete the selected ${plural[type]}?`);
     $('#confirm-modal').modal('show');
 };
 
