@@ -64,12 +64,13 @@ def delete_thread_selection(request):
 def delete_post_selection(request):
     if not request.user.is_authenticated:
         return HttpResponseBadRequest(json.dumps({'error': 'Must be logged in!'}), content_type='application/json')
-        
+
     post_ids = [int(id) for id in request.POST.getlist('selection[]')]
 
     for post_id in post_ids:
         post = Post.objects.filter(pk=post_id)
         if post[0].author == request.user:
+            Thread.objects.decrement_n_posts(post[0].thread)
             post.delete()
 
     return HttpResponse(json.dumps(post_ids), content_type='application/json')
@@ -83,6 +84,7 @@ def delete_reply_selection(request):
     for reply_id in reply_ids:
         reply = Reply.objects.filter(pk=reply_id)
         if reply[0].author == request.user:
+            Post.objects.decrement_n_replies(reply[0].post)
             reply.delete()
 
     return HttpResponse(json.dumps(reply_ids), content_type='application/json')

@@ -22,7 +22,7 @@
         <div class="model-name" id="post-counter">Posts Created: {{ n_posts }}</div>
         <div class="model-name" id="reply-counter">Replies Created: {{ n_replies }}</div>
     </div>
-    <div class="user-threads">
+    <div id="user-threads">
         <div class="container-head bg-info">
             <header class="bold-header">Threads:</header>
             {% if profile_user == user.name %}
@@ -33,7 +33,7 @@
             <!-- threads -->
         </div>
     </div>
-    <div class="user-posts">
+    <div id="user-posts">
         <div class="container-head bg-info">
             <header class="bold-header">Posts:</header>
             {% if profile_user == user.name %}
@@ -44,7 +44,7 @@
             <!-- posts -->
         </div>
     </div>
-    <div class="user-replies">
+    <div id="user-replies">
         <div class="container-head bg-info">
             <header class="bold-header">Replies:</header>
             {% if profile_user == user.name %}

@@ -32,6 +32,10 @@
     border: 1px solid white;
 }
 
+#user-threads, #user-posts, #user-replies {
+    margin-bottom: 10px;
+}
+
 #deleteOption {
     float: right;
     display: unset;

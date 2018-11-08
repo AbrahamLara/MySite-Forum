@@ -11,7 +11,6 @@ def index(request):
 	return render(request, 'index.html')
 
 def profile(request, uid):
-	
 	context = dict()
 
 	user = MySiteUser.objects.get(pk=uid)

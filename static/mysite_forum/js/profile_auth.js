@@ -45,10 +45,10 @@ const deleteSelection = function() {
         data: {selection: container[type].children('.selected').map(selectedType).get()},
         success: function(data) {
             $('#confirm-modal').modal('hide');
-            console.log(data);
             for (i = 0; i < data.length; i++) {
                 $(`#${type}-block-${data[i]}`).remove();
             }
+
             type = undefined;
         },
         error: function(error) {
