@@ -18,8 +18,6 @@ def fetch_context_and_data(request, elements):
         context[element] = request.POST.get(element)
     return (context, data)
 
-    # return [request.POST.get(element) for element in elements]
-
 def login(request):
 	if request.user.is_authenticated:
 		return HttpResponseRedirect('/')
