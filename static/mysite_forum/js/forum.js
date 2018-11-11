@@ -4,6 +4,10 @@ $(document).ready(function() {
     if (thread_index < 0)
         thread_index *= -1;
 
+    if ($('#threads').children().length == 1) {
+        $('#threads').children().addClass('btm-border');
+    }
+
     if (forum_has_more) {
         displayMoreButton(thread_index);
     }

@@ -41,7 +41,7 @@
     display: unset;
 }
 
-.thread-link {
+.thread-link, .post-link, .reply-link {
     text-decoration: none !important;
 }
 
