@@ -23,9 +23,6 @@ import mysite_auth.views
 import mysite_user.views
 import mysite_user.json_views
 
-import mysite_search.views
-import mysite_search.json_views
-
 import mysite_forum.views
 import mysite_forum.ajax
 import mysite_forum.json_views
@@ -56,9 +53,4 @@ urlpatterns.extend([
     path('fetch_threads/', mysite_forum.json_views.fetch_threads, name='fetch_threads'),
     path('fetch_posts/', mysite_forum.json_views.fetch_posts, name='fetch_more_posts'),
     path('fetch_replies/', mysite_forum.json_views.fetch_replies, name='fetch_more_replies'),
-])
-
-urlpatterns.extend([
-    path('search/', mysite_search.views.search, name='search'),
-    path('search/users/<input>', mysite_search.json_views.search_users, name='search_users'),
 ])

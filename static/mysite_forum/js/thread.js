@@ -1,10 +1,7 @@
-const forumPopulator = new ForumPopulator();
-
 $(document).ready(function() {
     displayPosts(json_context);
 
     $('#action-modal').on('hidden.bs.modal', removeTextFromBody);
-    // $('#action-modal').on('show.bs.modal', prepareModal);
     $('#post-btn').on('click', displayModal);
     $('#submit-btn').on('click', submitText);
 });
@@ -71,7 +68,7 @@ const displayPosts = function(context, more_btn) {
 
     if (context.more) {
         if (more_btn == null)
-            more_btn = forumPopulator.createMoreButton('posts', context.thread_id);
+            more_btn = createMoreButton('posts', context.thread_id);
         
         more_btn.attr('index', context.index - context.amount_displaying).on('click', fetchObjects);
         $('#post-container').append(more_btn);
@@ -189,4 +186,27 @@ const createReplyObject = function(reply_data) {
     reply_object.append(reply, author);
 
     return reply_object;
+}
+
+const _createMoreButtonForReplies = function(id) {
+    return this.createMore(`replies-${id}`, id, 'more replies...').attr('object-type', 'replies');
+}
+
+const _createMoreButtonForPosts = function(id) {
+    return this.createMore('posts', id, 'more posts...').attr('object-type', 'posts');
+}
+
+const createMoreButton = function(context, data) {
+    if (context === 'replies')
+        return ForumPopulator._createMoreButtonForReplies(data);
+    else if (context === 'posts')
+        return ForumPopulator._createMoreButtonForPosts(data);
+}
+
+const createMore = function(type, value, text) {
+    const more = $('<a>', {'class': `more-btn more-btn-for-${type} text-info`, 'value': value});
+
+    more.text(text);
+
+    return more;
 }

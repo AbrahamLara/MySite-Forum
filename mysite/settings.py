@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'mysite_auth',
     'mysite_user',
     'mysite_forum',
-    'mysite_search',
 ]
 
 MIDDLEWARE = [

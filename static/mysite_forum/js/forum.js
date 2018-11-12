@@ -1,5 +1,3 @@
-const forumPopulator = new ForumPopulator();
-
 $(document).ready(function() {
     if (thread_index < 0)
         thread_index *= -1;
@@ -61,7 +59,7 @@ const handleError = function(error) {
     console.log(error);
 }
 
-const createMoreObject = function(index, value) {
+const createMoreObject = function() {
     const button = $('<div>', {
         'class': 'more-btn more-btn-for-threads text-info',
         'text': 'Load More Threads...'

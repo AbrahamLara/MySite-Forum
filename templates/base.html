@@ -19,15 +19,6 @@
 			<a class="navbar-brand text-info" href="/">MySite</a>
 			<div class="collapse navbar-collapse" id="navbarContent">
 				<ul class="navbar-nav mr-auto">
-					{% if user.is_authenticated %}
-					<li class="nav-item">
-						<a class="nav-link text-info" href="/search">Search</a>
-					</li>
-					{% else %}
-					<li class="nav-item">
-						<a class="nav-link disabled" href="#">Disabled</a>
-					</li>
-					{% endif %}
 				</ul>
 				<ul class="navbar-nav justify-content-end">
 				{% if user.is_authenticated %}
