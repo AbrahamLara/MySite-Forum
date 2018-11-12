@@ -16,6 +16,9 @@ const getThreadBlock = function(thread_data) {
     const thread_block = $('<div>', {'class': 'block', 'id': `thread-block-${thread_data.pk}`});
     const thread_link = $('<a>', {'class': 'thread-link text-info', 'href': `/thread/${thread_data.pk}`});
 
+    if (thread_data.title.length > 51)
+        thread_data.title = thread_data.title.substring(0, 50)+'...';
+
     thread_link.text(thread_data.title);
     thread_block.append(thread_link);
 
@@ -26,6 +29,9 @@ const getPostBlock = function(post_data) {
     const post_block = $('<div>', {'class': 'block', 'id': `post-block-${post_data.pk}`});
     const post_link = $('<a>', {'class': 'post-link text-info', 'href': `/thread/${post_data.thread_id}`});
 
+    if (post_data.post.length > 51)
+        post_data.post = post_data.post.substring(0, 50)+'...';
+
     post_link.text(post_data.post);
     post_block.append(post_link);
 
@@ -35,6 +41,9 @@ const getPostBlock = function(post_data) {
 const getReplyBlock = function(reply_data) {
     const reply_block = $('<div>', {'class': 'block', 'id': `reply-block-${reply_data.pk}`});
     const reply_link = $('<a>', {'class': 'reply-link text-info', 'href': `/thread/${reply_data.thread_id}`});
+
+    if (reply_data.reply.length > 51)
+        reply_data.reply = reply_data.reply.substring(0, 50)+'...';
 
     reply_link.text(reply_data.reply);
     reply_block.append(reply_link);

@@ -77,6 +77,9 @@ const getThreadBlock = function(thread_data) {
 
     checkbox.attr('object', 'thread');
 
+    if (thread_data.title.length > 51)
+        thread_data.title = thread_data.title.substring(0, 50)+'...';
+
     thread_link.text(thread_data.title);
 
     checkbox.on('click', selectBlock);
@@ -98,6 +101,9 @@ const getPostBlock = function(post_data) {
 
     checkbox.attr('object', 'post');
 
+    if (post_data.post.length > 51)
+        post_data.post = post_data.post.substring(0, 50)+'...';
+
     post_link.text(post_data.post);
 
     checkbox.on('click', selectBlock);
@@ -118,6 +124,9 @@ const getReplyBlock = function(reply_data) {
     const checkmark = $('<span>', {'class': 'checkmark'});
 
     checkbox.attr('object', 'reply');
+
+    if (reply_data.reply.length > 51)
+        reply_data.reply = reply_data.reply.substring(0, 50)+'...';
 
     reply_link.text(reply_data.reply);
 
