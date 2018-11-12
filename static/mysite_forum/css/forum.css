@@ -62,10 +62,20 @@ a.link {
 
 @media (max-width: 991px) {
 
+    a.link {
+        width: 100% !important;
+    }
+
+    .container {
+        margin: unset;
+        padding: unset;
+        max-width: unset !important;
+    }
+
     button.btn.title {
-        white-space: normal;
-        max-width: 34rem;
-        overflow: hidden;
+        text-align: left;
+        width: 100%;
+        overflow-x: auto;
     }
 
     button.title::after {
