@@ -63,6 +63,7 @@
     let threads_context = {{ threads|safe }};
     let posts_context = {{ posts|safe }};
     let replies_context = {{ replies|safe }};
+    const id = {{ user_id }};
 </script>
 {% if  profile_user == user.name %}
 <script src="/static/mysite_forum/js/profile_auth.js"></script>

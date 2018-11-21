@@ -22,5 +22,6 @@ def profile(request, uid):
 	context['threads'] = json.dumps(ForumPaginator(context['n_threads']).fetch_user_threads(user))
 	context['posts'] = json.dumps(ForumPaginator(context['n_posts']).fetch_user_posts(user))
 	context['replies'] = json.dumps(ForumPaginator(context['n_replies']).fetch_user_replies(user))
-	
+	context['user_id'] = uid
+
 	return render(request, 'profile.html', context)

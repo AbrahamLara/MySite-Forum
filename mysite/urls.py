@@ -51,6 +51,9 @@ urlpatterns.extend([
 
 urlpatterns.extend([
     path('fetch_threads/', mysite_forum.json_views.fetch_threads, name='fetch_threads'),
-    path('fetch_posts/', mysite_forum.json_views.fetch_posts, name='fetch_more_posts'),
-    path('fetch_replies/', mysite_forum.json_views.fetch_replies, name='fetch_more_replies'),
+    path('fetch_posts/', mysite_forum.json_views.fetch_posts, name='fetch_posts'),
+    path('fetch_replies/', mysite_forum.json_views.fetch_replies, name='fetch_replies'),
+    path('fetch_user_threads/', mysite_user.json_views.fetch_user_threads, name='fetch_user_threads'),
+    path('fetch_user_posts/', mysite_user.json_views.fetch_user_posts, name='fetch_user_posts'),
+    path('fetch_user_replies/', mysite_user.json_views.fetch_user_replies, name='fetch_user_replies'),
 ])

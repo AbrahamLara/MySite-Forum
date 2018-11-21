@@ -82,6 +82,7 @@ class Post(models.Model):
 		return [post.profile_context() for post in posts]
 
 	def profile_context(self):
+		print('hello there')
 		return {
 			'pk': self.id,
 			'author_id': self.author.id,

@@ -1,15 +1,8 @@
 $(document).ready(function() {
-    for (var i = threads_context.threads.length-1; i >= 0; i--) {
-        $('#threads-container').append(getThreadBlock(threads_context.threads[i]));
-    }
 
-    for (var i = posts_context.posts.length-1; i >= 0; i--) {
-        $('#posts-container').append(getPostBlock(posts_context.posts[i]));
-    }
-
-    for (var i = replies_context.replies.length-1; i >= 0; i--) {
-        $('#replies-container').append(getReplyBlock(replies_context.replies[i]));
-    }
+    appendObject(threads_context, threads_context.threads, 'thread');
+    appendObject(posts_context, posts_context.posts, 'post');
+    appendObject(replies_context, replies_context.replies, 'reply');
 
     $('#delete-thread').on('click', showModal);
     $('#delete-post').on('click', showModal);
@@ -43,6 +36,58 @@ const showModal = function() {
     $('.modal-header').text(`Are you sure you want to delete the selected ${plural[type]}?`);
     $('#confirm-modal').modal('show');
 };
+
+const appendObject = function(context, objects, this_type) {
+    for (var i = objects.length-1; i >= 0; i--) {
+        if (this_type == 'thread')
+            object = getThreadBlock(objects[i]);
+        else if (this_type == 'post')
+            object = getPostBlock(objects[i]);
+        else if (this_type == 'reply')
+            object = getReplyBlock(objects[i]);
+
+        container[this_type].append(object);
+    }
+
+    if (context.more) {
+        more = createMoreObject();
+        more.attr('index', context.index-context.amount_displaying);
+        more.attr('type', this_type);
+        more.on('click', fetchObjects);
+
+        container[this_type].append(more);
+    }
+}
+
+const fetchObjects = function() {
+    console.log('hello');
+    more = $(this);
+    more.remove();
+    index = $(this).attr('index');
+    type = $(this).attr('type');
+
+    $.ajax({
+        url: `/fetch_user_${plural[type]}/`,
+        data: {'id': id, 'index': index},
+        contentType: 'application/json',
+        success: function(data) {
+
+            if (type == 'thread') 
+                objects = data.threads;
+            else if (type == 'post') 
+                objects = data.posts;
+            else if (type == 'reply') 
+                objects = data.replies;
+            
+            console.log(objects);
+            appendObject(data, objects, type);
+
+        },
+        error: function(data) {
+            console.log(data);
+        }
+    });
+}
 
 const deleteSelection = function() {
     $.ajax({
@@ -146,3 +191,12 @@ const selectBlock = function(e) {
     else
         $(`#${type}-block-${e.target.value}`).removeClass('selected');
 };
+
+const createMoreObject = function() {
+    const button = $('<div>', {
+        'class': 'more-btn more-btn-for-threads text-info',
+        'text': 'Load More Threads...'
+    });
+
+    return button;
+}
