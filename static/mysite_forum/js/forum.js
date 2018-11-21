@@ -51,12 +51,10 @@ const fetchThreads = function() {
         success: function(threads) {
             displayThreads(threads);
         },
-        error: handleError
+        error: function(err) {
+            console.log(err);
+        }
     });
-}
-
-const handleError = function(error) {
-    console.log(error);
 }
 
 const createMoreObject = function() {

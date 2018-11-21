@@ -79,8 +79,8 @@ const fetchObjects = function() {
             appendObject(data, objects, type);
 
         },
-        error: function(data) {
-            console.log(data);
+        error: function(err) {
+            console.log(err);
         }
     });
 }
@@ -98,8 +98,8 @@ const deleteSelection = function() {
 
             type = undefined;
         },
-        error: function(error) {
-            console.log(error);
+        error: function(err) {
+            console.log(err);
         }
     });
 };
