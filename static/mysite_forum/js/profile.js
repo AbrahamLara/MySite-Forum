@@ -1,16 +1,70 @@
 $(document).ready(function() {
-    for (var i = threads_context.threads.length-1; i >= 0; i--) {
-        $('#threads-container').append(getThreadBlock(threads_context.threads[i]));
-    }
-
-    for (var i = posts_context.posts.length-1; i >= 0; i--) {
-        $('#posts-container').append(getPostBlock(posts_context.posts[i]));
-    }
-
-    for (var i = replies_context.replies.length-1; i >= 0; i--) {
-        $('#replies-container').append(getReplyBlock(replies_context.replies[i]));
-    }
+    appendObject(threads_context, threads_context.threads, 'thread');
+    appendObject(posts_context, posts_context.posts, 'post');
+    appendObject(replies_context, replies_context.replies, 'reply');
 });
+
+var type;
+
+const plural = {
+    thread: 'threads',
+    post: 'posts',
+    reply: 'replies',
+}
+
+const container = {
+    thread: $('#threads-container'),
+    post: $('#posts-container'),
+    reply: $('#replies-container')
+}
+
+const appendObject = function(context, objects, this_type) {
+    for (var i = objects.length-1; i >= 0; i--) {
+        if (this_type == 'thread')
+            object = getThreadBlock(objects[i]);
+        else if (this_type == 'post')
+            object = getPostBlock(objects[i]);
+        else if (this_type == 'reply')
+            object = getReplyBlock(objects[i]);
+
+        container[this_type].append(object);
+    }
+
+    if (context.more) {
+        more = createMoreObject();
+        more.attr('index', context.index-context.amount_displaying);
+        more.attr('type', this_type);
+        more.on('click', fetchObjects);
+
+        container[this_type].append(more);
+    }
+}
+
+const fetchObjects = function() {
+    $(this).remove();
+    index = $(this).attr('index');
+    type = $(this).attr('type');
+
+    $.ajax({
+        url: `/fetch_user_${plural[type]}/`,
+        data: {'id': id, 'index': index},
+        contentType: 'application/json',
+        success: function(data) {
+
+            if (type == 'thread') 
+                objects = data.threads;
+            else if (type == 'post') 
+                objects = data.posts;
+            else if (type == 'reply') 
+                objects = data.replies;
+            appendObject(data, objects, type);
+
+        },
+        error: function(data) {
+            console.log(data);
+        }
+    });
+}
 
 const getThreadBlock = function(thread_data) {
     const thread_block = $('<div>', {'class': 'block', 'id': `thread-block-${thread_data.pk}`});
@@ -50,3 +104,12 @@ const getReplyBlock = function(reply_data) {
 
     return reply_block;
 };
+
+const createMoreObject = function() {
+    const button = $('<div>', {
+        'class': 'more-btn more-btn-for-threads text-info',
+        'text': 'Load More Threads...'
+    });
+
+    return button;
+}

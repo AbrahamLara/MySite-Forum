@@ -60,9 +60,7 @@ const appendObject = function(context, objects, this_type) {
 }
 
 const fetchObjects = function() {
-    console.log('hello');
-    more = $(this);
-    more.remove();
+    $(this).remove();
     index = $(this).attr('index');
     type = $(this).attr('type');
 
@@ -78,8 +76,6 @@ const fetchObjects = function() {
                 objects = data.posts;
             else if (type == 'reply') 
                 objects = data.replies;
-            
-            console.log(objects);
             appendObject(data, objects, type);
 
         },
