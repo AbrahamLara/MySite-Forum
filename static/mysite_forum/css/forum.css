@@ -6,62 +6,53 @@
     position: fixed;
 }
 
-.test-block {
-    border: 1px solid black;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-.test-block:hover {
-    background-color: #343a40 !important;
-}
-
-.thread-link:hover > hr {
-    border-top: 1px solid white !important;
-}
-
-.test-title {
-    font-weight: bold;
-    font-size: larger;
+.thread-block {
+    padding: 10px !important;
+    border: 1px solid #343a40 !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.thread-link {
-    color: black !important;
-    cursor: default !important;
+.thread-block:hover {
+    color: white;
+    background-color: #343a40 !important;
 }
 
-.thread-link:hover {
+.thread-block:hover > .thread-link {
     color: white !important;
-    text-decoration: unset;
+    text-decoration: unset !important;
 }
 
-.nice-hr {
-	margin-top: 0.5rem !important;
+.thread-title {
+    display: inline;
+    font-size: 20px;
+    font-weight: bolder !important;
+}
+
+.thread-author {
+    display: inline;
+    float: right;
+}
+
+.thread-body {
+    font-style: italic !important;
+}
+
+/* For phones with the notches */
+.safe-fit {
+    padding-left: calc(max(22px, env(safe-area-inset-left)));
+    padding-right: calc(max(22px, env(safe-area-inset-right)));
+}
+
+.w-mx {
+    width: 100% !important;
+}
+
+.rm-tp-bd {
+    border-top: 0 !important;
 }
 
 img {
     height: 70px;
-}
-
-.card-header {
-    background-color: unset;
-}
-
-.btm-border {
-    border-bottom: 1px solid rgba(0,0,0,.125) !important;
-}
-
-div.card-body {
-    white-space: pre-line;
-}
-
-button.title:hover {
-    text-decoration: none;
-}
-
-a.link {
-    float: right;
 }
 
 .more-btn:hover {
@@ -87,43 +78,18 @@ a.link {
 }
 
 @media (max-width: 736px) {
-    a.link {
-        display: block;
-        margin: auto;
-        float: unset;
-    }
+
 }
 
 @media (max-width: 991px) {
-
-    a.link {
-        width: 100% !important;
-    }
-
     .container {
         margin: unset;
         padding: unset;
         max-width: unset !important;
     }
 
-    button.btn.title {
-        text-align: left;
-        width: 100%;
-        overflow-x: auto;
-    }
-
-    button.title::after {
-        text-overflow: clip;
-    }
-
     .create-btn {
         right: 10;
         bottom: 10;
-    }
-
-    .card-body {
-        max-height: 200px;
-        overflow: auto;
-        -webkit-overflow-scrolling: touch;
     }
 }
