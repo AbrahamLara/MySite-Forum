@@ -1,12 +1,13 @@
-<div class="thread-block rm-tp-bd">
-    <div class="w-mx">
+<div class="thread-block">
+    <div class="w-mx d-block">
         {% if thread.title|length > 41 %}
         <div class="thread-title">{{ thread.title|slice:"0:40" }}...</div>
         {% else %}
         <div class="thread-title">{{ thread.title }}</div>
         {% endif %}
-        <div class="thread-author">- {{ thread.author }}</div>
+    <div class="thread-author">- <a href="/profile/{{ thread.author_id }}">{{ thread.author }}</a></div>
     </div>
+    <hr class="w-mx nice-hr">
     {% if thread.body|length > 181 %}
     <div class="thread-body">{{ thread.body|slice:"0:180" }}...</div>
     {% else %}
