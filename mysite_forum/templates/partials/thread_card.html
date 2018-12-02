@@ -1,16 +1,17 @@
-<a class="thread-block" href="/thread/{{ thread.pk }}">
-    <div class="w-mx d-block">
+<tr>
+    <td class="mobile-portrait">
         {% if thread.title|length > 41 %}
-        <div class="thread-title">{{ thread.title|slice:"0:40" }}...</div>
+        <div class="bold" scope="row"><a class="thread-title" href="/thread/{{ thread.pk }}">{{ thread.title|slice:"0:41" }}...</a></div>
         {% else %}
-        <div class="thread-title">{{ thread.title }}</div>
+        <div class="bold" scope="row"><a class="thread-title" href="/thread/{{ thread.pk }}">{{ thread.title }}...</a></div>
         {% endif %}
-        <div class="thread-author">- {{ thread.author }}</div>
-    </div>
-    <hr class="w-mx nice-hr">
-    {% if thread.body|length > 181 %}
-    <div class="thread-body">{{ thread.body|slice:"0:180" }}...</div>
+        <div class="details" scope="row">created by <a class="thread-author" href="/profile/{{ thread.author_id}}">{{ thread.author }}</a> on {{ thread.date_created }}</div>
+    </td>
+    {% if thread.title|length > 41 %}
+    <td class="rv-fw" scope="row"><a class="thread-title" href="/thread/{{ thread.pk }}">{{ thread.title|slice:"0:41" }}...</a></th>
     {% else %}
-    <div class="thread-body">{{ thread.body }}</div>
+    <td class="rv-fw" scope="row"><a class="thread-title" href="/thread/{{ thread.pk }}">{{ thread.title }}...</a></th>
     {% endif %}
-</a>
+    <td scope="row">{{ thread.date_created }}</td>
+    <td class="rv-fw" scope="row"><a class="thread-author" href="/profile/{{ thread.author_id}}">{{ thread.author }}</a></td>
+</tr>

@@ -61,7 +61,7 @@ class Thread(models.Model):
 			'author_id': self.author.id,
 			'title': self.title,
 			'author': self.author.username,
-			'body': self.body,
+			'date_created': str(self.date_created.strftime("%Y-%m-%d"))
 		}
 
 class Post(models.Model):
