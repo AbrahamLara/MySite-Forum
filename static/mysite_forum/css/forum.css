@@ -33,7 +33,7 @@ table {
     font-size: 15px;
 }
 
-/* For phones with the notches */
+/* For phones with notches */
 .safe-fit {
     padding-left: calc(max(22px, env(safe-area-inset-left))) !important;
     padding-right: calc(max(22px, env(safe-area-inset-right))) !important;
@@ -47,26 +47,15 @@ img {
     height: 70px !important;
 }
 
+.more-btn {
+    border-top: 1px solid black !important;
+    border-bottom: 1px solid black !important;
+    padding: .75rem !important;
+    text-align: center !important;
+}
+
 .more-btn:hover {
     cursor: pointer !important;
-}
-
-.more-btn-for-threads {
-    width: 100% !important;
-    display: flex !important;
-    justify-content: center !important;
-    padding: 15px !important;
-    border-bottom: 1px solid lightgrey !important;
-    border-left: 1px solid lightgrey !important;
-    border-right: 1px solid lightgrey !important;
-    border-bottom-left-radius: 3px !important;
-    border-bottom-right-radius: 3px !important;
-    transition: background-color 0.3s !important;
-    -webkit-transition: background-color 0.3s !important;
-}
-
-.more-btn-for-threads:hover {
-    font-weight: bold !important;
 }
 
 @media (max-width: 414px) {

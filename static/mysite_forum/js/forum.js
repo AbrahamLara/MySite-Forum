@@ -2,40 +2,29 @@ $(document).ready(function() {
     if (thread_index < 0)
         thread_index *= -1;
 
-    if ($('#threads').children().length == 1) {
-        $('#threads').children().addClass('btm-border');
-    }
-
     if (forum_has_more) {
         displayMoreButton(thread_index);
     }
 });
 
 const displayMoreButton = function(index) {
-    more = createMoreObject();
+    const more = $('<div>', {
+        'class': 'more-btn',
+        'text': 'Load More Threads...'
+    });
     more.attr('index', index);
     more.on('click', fetchThreads);
-    more.hover(changeButtonStyle, revertButtonStyle);
 
     $('.container').append(more);
-}
-
-const changeButtonStyle = function() {
-    $(this).addClass('bg-info text-light');
-}
-
-const revertButtonStyle = function() {
-    $(this).removeClass('bg-info text-light');
 }
 
 const displayThreads = function(context) {
     for(i = context.threads.length-1; i >= 0; i--) {
         thread = createThreadObject(context.threads[i]);
-        $('.accordion').append(thread);
+        $('#threads').append(thread);
     }
 
     if(context.more) {
-        $('.cards').addClass('btm-border');
         displayMoreButton(context.index - context.amount_displaying);
     }
 }
@@ -57,64 +46,26 @@ const fetchThreads = function() {
     });
 }
 
-const createMoreObject = function() {
-    const button = $('<div>', {
-        'class': 'more-btn more-btn-for-threads text-info',
-        'text': 'Load More Threads...'
-    });
-
-    return button;
-}
-
 const createThreadObject = function(thread_data) {
-    const card = $('<div>', {'class': 'card'});
-    const card_header = $('<div>', {'class': 'card-header', 'id': thread_data.pk});
-    const h5 = $('<h5>', {'class': 'mb-0'});
-    const button = $('<button>', buttonAttributes(thread_data));
-    const link = $('<a>', linkAttributes(thread_data));
-    const collapse = $('<div>', collapseAttributes(thread_data));
-    const card_body = $('<div>', {'class': 'card-body'});
-    var body = thread_data.body;
+    if (thread_data.title.length > 41)
+        thread_data.title = thread_data.title.substring(0, 41)+'...';
 
-    button.text(thread_data.title);
+    const thread = $('<tr>');
+    const mobile_portrait = $('<td>', {'class': 'mobile-portrait'});
+    const mobile_thread_title = $('<div>', {'class': 'bold', 'scope': 'row'});
+    const mobile_details = $('<div>', {'class': 'details', 'scope': 'row'});
+    const thread_title_link = `<a class="thread-title" href="/thread/${thread_data.pk}">${thread_data.title}</a>`;
+    const thread_author_link = `<a class="thread-author" href="/profile/${thread_data.author_id}">${thread_data.author}</a>`;;
+    const thread_title = $('<td>', {'class': 'rv-fw', 'scope': 'row'});
+    const thread_author = $('<td>', {'class': 'rv-fw', 'scope': 'row'});
+    const date_created = $('<td>', {'scope': 'row', 'text': thread_data.date_created});
 
-    if(body.length > 1270) 
-        body = body.substring(0, 1271)+'...';
-    
-    card_body.text(body);
+    mobile_thread_title.append(thread_title_link);
+    mobile_details.append('created by ', thread_author_link, ` on ${thread_data.date_created}`);
+    mobile_portrait.append(mobile_thread_title, mobile_details);
+    thread_title.append(thread_title_link);
+    thread_author.append(thread_author_link);
+    thread.append(mobile_portrait, thread_title, date_created, thread_author);
 
-    collapse.append(card_body);
-    h5.append(button, link);
-    card_header.append(h5);
-    card.append(card_header, collapse);
-
-    return card;
-}
-
-const buttonAttributes = function(thread_data) {
-    return {
-        'class': 'btn btn-link text-info title', 
-        'type': 'button',
-        'data-toggle': 'collapse', 
-        'data-target': `#${thread_data.author}${thread_data.pk}`,
-        'aria-expanded': 'true', 
-        'aria-controls': `#${thread_data.author}${thread_data.pk}`
-    };
-}
-
-const linkAttributes = function(thread_data) {
-    return {
-        'class': 'btn btn-outline-info link',
-        'href': `/thread/${thread_data.pk}`,
-        'text': 'View'
-    };
-}
-
-const collapseAttributes = function(thread_data) {
-    return {
-        'class': 'collapse',
-        'id': `${thread_data.author}${thread_data.pk}`,
-        'aria-labelledby': thread_data.pk,
-        'data-parent': '#threads'
-    };
+    return thread;
 }

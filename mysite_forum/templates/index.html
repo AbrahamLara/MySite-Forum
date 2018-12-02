@@ -14,7 +14,7 @@
                 <th scope="col">author</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="threads">
             {% for thread in forum_context.threads reversed %}
                 {% include 'partials/thread_card.html' with thread=thread %}
             {% endfor %}
