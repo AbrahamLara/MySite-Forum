@@ -2,6 +2,8 @@ $(document).ready(function() {
     if (thread_index < 0)
         thread_index *= -1;
 
+    $('.justify-content-end').prepend('<li class="nav-item create-item d-none"><a class="nav-link text-info" href="/create">Create</a></li>');
+
     if (forum_has_more) {
         displayMoreButton(thread_index);
     }
