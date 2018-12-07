@@ -38,7 +38,9 @@ class Thread(models.Model):
 			'pk': self.id,
 			'author_id': self.author.id,
 			'title': self.title,
-			'author': self.author.name
+			'author': self.author.name,
+			'date_created': str(self.date_created.strftime("%Y-%m-%d")),
+			'n_posts': self.n_posts
 		}
 
 	def get_json(self, offset=None, index=None):

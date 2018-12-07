@@ -9,6 +9,15 @@
     justify-content: center;
 }
 
+table {
+    text-align: left !important;
+}
+
+.delete-btn:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .container-head {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;

@@ -14,7 +14,7 @@ $(document).ready(function() {
 });
 
 const container = {
-    thread: $('#threads-container'),
+    thread: $('#threads-table-body'),
     post: $('#posts-container'),
     reply: $('#replies-container')
 }
@@ -38,7 +38,7 @@ const showModal = function() {
 };
 
 const appendObject = function(context, objects, this_type) {
-    for (var i = objects.length-1; i >= 0; i--) {
+    for (let i = objects.length-1; i >= 0; i--) {
         if (this_type == 'thread')
             object = getThreadBlock(objects[i]);
         else if (this_type == 'post')
@@ -109,25 +109,30 @@ const selectedType = function() {
 };
 
 const getThreadBlock = function(thread_data) {
-    const thread_block = $('<div>', {'class': 'block', 'id': `thread-block-${thread_data.pk}`});
+    const thread_block = $('<tr>', {'id': `thread-block-${thread_data.pk}`});
+    const td_for_radio = $('<td>');
     const radio_container = $('<label>', {'class': 'radio-container'});
     const custom_checkbox = $('<div>', {'id': `custom-checkbox-${thread_data.pk}`});
-    const thread_link = $('<a>', {'class': 'thread-link text-info', 'href': `/thread/${thread_data.pk}`});
     const checkbox = $('<input>', {'type': 'checkbox', 'value': thread_data.pk, 'id': `thread${thread_data.pk}`});
     const checkmark = $('<span>', {'class': 'checkmark'});
-
-    checkbox.attr('object', 'thread');
+    const td_for_link = $('<td>');
+    const thread_link = $('<a>', {'class': 'thread-link text-info', 'href': `/thread/${thread_data.pk}`});
+    const td_for_date = $('<td>', {'text': thread_data.date_created});
+    const td_for_posts = $('<td>', {'text': thread_data.n_posts});
 
     if (thread_data.title.length > 51)
         thread_data.title = thread_data.title.substring(0, 50)+'...';
-
+    
     thread_link.text(thread_data.title);
+    td_for_link.append(thread_link);
 
+    checkbox.attr('object', 'thread');
     checkbox.on('click', selectBlock);
-
     custom_checkbox.append(checkbox, checkmark);
-    radio_container.append(thread_link, custom_checkbox);
-    thread_block.append(radio_container);
+    radio_container.append(custom_checkbox);
+    td_for_radio.append(radio_container);
+
+    thread_block.append(td_for_radio, td_for_link, td_for_date, td_for_posts);
 
     return thread_block;
 };
