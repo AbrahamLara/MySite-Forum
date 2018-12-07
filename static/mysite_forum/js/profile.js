@@ -2,6 +2,10 @@ $(document).ready(function() {
     appendObject(threads_context, threads_context.threads, 'thread');
     appendObject(posts_context, posts_context.posts, 'post');
     appendObject(replies_context, replies_context.replies, 'reply');
+
+    $('#thread-counter').on('click', changeViews);
+    $('#post-counter').on('click', changeViews);
+    $('#reply-counter').on('click', changeViews);
 });
 
 var type;
@@ -13,9 +17,16 @@ const plural = {
 }
 
 const container = {
-    thread: $('#threads-container'),
-    post: $('#posts-container'),
-    reply: $('#replies-container')
+    thread: $('#threads-table-body'),
+    post: $('#posts-table-body'),
+    reply: $('#replies-table-body')
+}
+
+const changeViews = function() {
+    type = $('.view-selected').removeClass('view-selected').attr('object');
+    $(`#${plural[type]}-table`).addClass('hide');
+    type = $(this).children().addClass('view-selected').attr('object');
+    $(`#${plural[type]}-table`).removeClass('hide');
 }
 
 const appendObject = function(context, objects, this_type) {
@@ -36,7 +47,7 @@ const appendObject = function(context, objects, this_type) {
         more.attr('type', this_type);
         more.on('click', fetchObjects);
 
-        container[this_type].append(more);
+        $(`#${plural[this_type]}-table`).append(more);
     }
 }
 
@@ -67,40 +78,56 @@ const fetchObjects = function() {
 }
 
 const getThreadBlock = function(thread_data) {
-    const thread_block = $('<div>', {'class': 'block', 'id': `thread-block-${thread_data.pk}`});
+    const thread_block = $('<tr>', {'id': `thread-block-${thread_data.pk}`});
+    const td_for_link = $('<td>');
     const thread_link = $('<a>', {'class': 'thread-link text-info', 'href': `/thread/${thread_data.pk}`});
+    const td_for_date = $('<td>', {'text': thread_data.date_created});
+    const td_for_posts = $('<td>', {'text': thread_data.n_posts});
 
     if (thread_data.title.length > 51)
-        thread_data.title = thread_data.title.substring(0, 50)+'...';
-
+        thread_data.title = thread_data.title.substring(0, 51)+'...';
+    
     thread_link.text(thread_data.title);
-    thread_block.append(thread_link);
+    td_for_link.append(thread_link);
+    thread_block.append(td_for_link, td_for_date, td_for_posts);
 
     return thread_block;
-}
+};
 
 const getPostBlock = function(post_data) {
-    const post_block = $('<div>', {'class': 'block', 'id': `post-block-${post_data.pk}`});
+    const post_block = $('<tr>', {'id': `post-block-${post_data.pk}`});
+    const td_for_link = $('<td>');
     const post_link = $('<a>', {'class': 'post-link text-info', 'href': `/thread/${post_data.thread_id}`});
+    const td_for_date = $('<td>', {'text': post_data.date_posted});
+    const td_for_replies = $('<td>', {'text': post_data.n_replies});
 
     if (post_data.post.length > 51)
-        post_data.post = post_data.post.substring(0, 50)+'...';
+        post_data.post = post_data.post.substring(0, 51)+'...';
+
 
     post_link.text(post_data.post);
-    post_block.append(post_link);
+    td_for_link.append(post_link);
+    post_block.append(td_for_link, td_for_date, td_for_replies);
 
     return post_block;
 };
 
 const getReplyBlock = function(reply_data) {
-    const reply_block = $('<div>', {'class': 'block', 'id': `reply-block-${reply_data.pk}`});
+    const reply_block = $('<tr>', {'id': `reply-block-${reply_data.pk}`});
     const reply_link = $('<a>', {'class': 'reply-link text-info', 'href': `/thread/${reply_data.thread_id}`});
+    const td_for_link = $('<td>');
+    const td_for_date = $('<td>', {'text': reply_data.date_replied});
+    const td_for_post = $('<td>');
 
     if (reply_data.reply.length > 51)
-        reply_data.reply = reply_data.reply.substring(0, 50)+'...';
+        reply_data.reply = reply_data.reply.substring(0, 51)+'...';
+    if (reply_data.post.length > 51)
+        reply_data.post = reply_data.post.substring(0, 51)+'...';
 
     reply_link.text(reply_data.reply);
-    reply_block.append(reply_link);
+    td_for_link.append(reply_link);
+    td_for_post.text(reply_data.post);
+    reply_block.append(td_for_link, td_for_post, td_for_date);
 
     return reply_block;
 };
