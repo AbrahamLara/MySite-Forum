@@ -9,13 +9,21 @@
     justify-content: center;
 }
 
+.view-selected {
+    font-weight: bolder !important;
+}
+
 table {
-    text-align: left !important;
+    text-align: left;
 }
 
 .delete-btn:hover {
     text-decoration: underline;
     cursor: pointer;
+}
+
+.hide {
+    display: none !important;
 }
 
 .model-name {
@@ -116,14 +124,12 @@ label {
     cursor: pointer;
 }
 
-.more-btn-for-threads {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 15px;
-    border-top: 1px solid lightgrey;
-    transition: background-color 0.3s;
-    -webkit-transition: background-color 0.3s;
+.more-btn {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    padding: 10px !important;
+    border-top: 1px solid lightgrey !important;
 }
 
 @media (max-width: 991px) {

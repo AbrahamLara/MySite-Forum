@@ -18,55 +18,61 @@
 <div class="container">
     <div class="container-fluid user-name">{{ profile_user }}</div>
     <div class="model-names-container">
-        <div class="model-name" id="thread-counter">Threads Created: {{ n_threads }}</div>
-        <div class="model-name" id="post-counter">Posts Created: {{ n_posts }}</div>
-        <div class="model-name" id="reply-counter">Replies Created: {{ n_replies }}</div>
+        <div class="model-name" id="thread-counter"><span object="thread" class="view-selected">Threads Created:</span> {{ n_threads }}</div>
+        <div class="model-name" id="post-counter"><span object="post">Posts Created:</span> {{ n_posts }}</div>
+        <div class="model-name" id="reply-counter"><span object="reply">Posts Created:</span> {{ n_replies }}</div>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                {% if profile_user == user.name %}
-                <th scope="col"><span class="delete-btn" id="delete-thread" object="thread">Delete</span></th>
-                {% endif %}
-                <th scope="col">Thread</th>
-                <th scope="col">Date Created</th>
-                <th scope="col">Posts</th>
-            </tr>
-        </thead>
-        <tbody id="threads-table-body">
-            <!-- Threads -->
-        </tbody>
-    </table>
-    <table class="table">
-        <thead>
-            <tr>
-                {% if profile_user == user.name %}
-                <th scope="col"><span class="delete-btn" id="delete-post" object="post">Delete</span></th>
-                {% endif %}
-                <th scope="col">Post</th>
-                <th scope="col">Date Created</th>
-                <th scope="col">Replies</th>
-            </tr>
-        </thead>
-        <tbody id="posts-table-body">
-            <!-- Posts -->
-        </tbody>
-    </table>
-    <table class="table">
-        <thead>
-            <tr>
-                {% if profile_user == user.name %}
-                <th scope="col"><span class="delete-btn" id="delete-reply" object="reply">Delete</span></th>
-                {% endif %}
-                <th scope="col">Reply</th>
-                <th scope="col">To Post</th>
-                <th scope="col">Date Created</th>
-            </tr>
-        </thead>
-        <tbody id="replies-table-body">
-            <!-- Replies -->
-        </tbody>
-    </table>
+    <div id="threads-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    {% if profile_user == user.name %}
+                    <th scope="col"><span class="delete-btn" id="delete-thread" object="thread">Delete</span></th>
+                    {% endif %}
+                    <th scope="col">Thread</th>
+                    <th scope="col">Date Created</th>
+                    <th scope="col">Posts</th>
+                </tr>
+            </thead>
+            <tbody id="threads-table-body">
+                <!-- Threads -->
+            </tbody>
+        </table>
+    </div>
+    <div id="posts-table" class="hide">
+        <table class="table" id="posts-table">
+            <thead>
+                <tr>
+                    {% if profile_user == user.name %}
+                    <th scope="col"><span class="delete-btn" id="delete-post" object="post">Delete</span></th>
+                    {% endif %}
+                    <th scope="col">Post</th>
+                    <th scope="col">Date Created</th>
+                    <th scope="col">Replies</th>
+                </tr>
+            </thead>
+            <tbody id="posts-table-body">
+                <!-- Posts -->
+            </tbody>
+        </table>
+    </div>
+    <div id="replies-table" class="hide">
+        <table class="table" id="replies-table">
+            <thead>
+                <tr>
+                    {% if profile_user == user.name %}
+                    <th scope="col"><span class="delete-btn" id="delete-reply" object="reply">Delete</span></th>
+                    {% endif %}
+                    <th scope="col">Reply</th>
+                    <th scope="col">To Post</th>
+                    <th scope="col">Date Created</th>
+                </tr>
+            </thead>
+            <tbody id="replies-table-body">
+                <!-- Replies -->
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
 
 {% block contentJS %}

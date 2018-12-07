@@ -4,6 +4,10 @@ $(document).ready(function() {
     appendObject(posts_context, posts_context.posts, 'post');
     appendObject(replies_context, replies_context.replies, 'reply');
 
+    $('#thread-counter').on('click', changeViews);
+    $('#post-counter').on('click', changeViews);
+    $('#reply-counter').on('click', changeViews);
+
     $('#delete-thread').on('click', showModal);
     $('#delete-post').on('click', showModal);
     $('#delete-reply').on('click', showModal);
@@ -26,6 +30,13 @@ const plural = {
 }
 
 var type;
+
+const changeViews = function() {
+    type = $('.view-selected').removeClass('view-selected').attr('object');
+    $(`#${plural[type]}-table`).addClass('hide');
+    type = $(this).children().addClass('view-selected').attr('object');
+    $(`#${plural[type]}-table`).removeClass('hide');
+}
 
 const setTypeUndefined = function() {
     $('.modal-header').text('');
@@ -50,12 +61,12 @@ const appendObject = function(context, objects, this_type) {
     }
 
     if (context.more) {
-        more = createMoreObject();
+        more = createMoreObject(plural[this_type]);
         more.attr('index', context.index-context.amount_displaying);
         more.attr('type', this_type);
         more.on('click', fetchObjects);
 
-        container[this_type].append(more);
+        $(`#${plural[this_type]}-table`).append(more);
     }
 }
 
@@ -190,10 +201,10 @@ const selectBlock = function(e) {
         $(`#${type}-block-${e.target.value}`).removeClass('selected');
 };
 
-const createMoreObject = function() {
+const createMoreObject = function(this_type) {
     const button = $('<div>', {
-        'class': 'more-btn more-btn-for-threads text-info',
-        'text': 'Load More Threads...'
+        'class': `more-btn more-btn-for-${this_type} text-info`,
+        'text': `Load more ${this_type}...`
     });
 
     return button;

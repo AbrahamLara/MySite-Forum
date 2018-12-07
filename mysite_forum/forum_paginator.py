@@ -4,9 +4,9 @@ from mysite_forum.models import Thread, Post, Reply
 
 class ForumPaginator(object):
 
-    _DISPLAY_N_THREADS = 15
-    _DISPLAY_N_POSTS = 15
-    _DISPLAY_N_REPLIES = 15
+    _DISPLAY_N_THREADS = 3
+    _DISPLAY_N_POSTS = 5
+    _DISPLAY_N_REPLIES = 5
 
     def __init__(self, index):
         self._index = index
