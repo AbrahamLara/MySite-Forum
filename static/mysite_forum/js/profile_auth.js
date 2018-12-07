@@ -15,8 +15,8 @@ $(document).ready(function() {
 
 const container = {
     thread: $('#threads-table-body'),
-    post: $('#posts-container'),
-    reply: $('#replies-container')
+    post: $('#posts-table-body'),
+    reply: $('#replies-table-body')
 }
 
 const plural = {
@@ -121,7 +121,7 @@ const getThreadBlock = function(thread_data) {
     const td_for_posts = $('<td>', {'text': thread_data.n_posts});
 
     if (thread_data.title.length > 51)
-        thread_data.title = thread_data.title.substring(0, 50)+'...';
+        thread_data.title = thread_data.title.substring(0, 51)+'...';
     
     thread_link.text(thread_data.title);
     td_for_link.append(thread_link);
@@ -138,49 +138,64 @@ const getThreadBlock = function(thread_data) {
 };
 
 const getPostBlock = function(post_data) {
-    const post_block = $('<div>', {'class': 'block', 'id': `post-block-${post_data.pk}`});
+    const post_block = $('<tr>', {'id': `post-block-${post_data.pk}`});
+    const td_for_radio = $('<td>');
     const radio_container = $('<label>', {'class': 'radio-container'});
     const custom_checkbox = $('<div>', {'id': `custom-checkbox-${post_data.pk}`});
-    const post_link = $('<a>', {'class': 'post-link text-info', 'href': `/thread/${post_data.thread_id}`});
     const checkbox = $('<input>', {'type': 'checkbox', 'value': post_data.pk, 'id': `thread${post_data.pk}`});
     const checkmark = $('<span>', {'class': 'checkmark'});
-
-    checkbox.attr('object', 'post');
+    const td_for_link = $('<td>');
+    const post_link = $('<a>', {'class': 'post-link text-info', 'href': `/thread/${post_data.thread_id}`});
+    const td_for_date = $('<td>', {'text': post_data.date_posted});
+    const td_for_replies = $('<td>', {'text': post_data.n_replies});
 
     if (post_data.post.length > 51)
-        post_data.post = post_data.post.substring(0, 50)+'...';
+        post_data.post = post_data.post.substring(0, 51)+'...';
+
 
     post_link.text(post_data.post);
+    td_for_link.append(post_link);
 
+    checkbox.attr('object', 'post');
     checkbox.on('click', selectBlock);
 
     custom_checkbox.append(checkbox, checkmark);
-    radio_container.append(post_link, custom_checkbox);
-    post_block.append(radio_container);
+    radio_container.append(custom_checkbox);
+    td_for_radio.append(radio_container);
+    post_block.append(td_for_radio, td_for_link, td_for_date, td_for_replies);
 
     return post_block;
 };
 
 const getReplyBlock = function(reply_data) {
-    const reply_block = $('<div>', {'class': 'block', 'id': `reply-block-${reply_data.pk}`});
+    const reply_block = $('<tr>', {'id': `reply-block-${reply_data.pk}`});
+    const td_for_radio = $('<td>');
     const radio_container = $('<label>', {'class': 'radio-container'});
     const custom_checkbox = $('<div>', {'id': `custom-checkbox-${reply_data.pk}`});
     const reply_link = $('<a>', {'class': 'reply-link text-info', 'href': `/thread/${reply_data.thread_id}`});
     const checkbox = $('<input>', {'type': 'checkbox', 'value': reply_data.pk, 'id': `thread${reply_data.pk}`});
     const checkmark = $('<span>', {'class': 'checkmark'});
-
-    checkbox.attr('object', 'reply');
+    const td_for_link = $('<td>');
+    const td_for_date = $('<td>', {'text': reply_data.date_replied});
+    const td_for_post = $('<td>');
 
     if (reply_data.reply.length > 51)
-        reply_data.reply = reply_data.reply.substring(0, 50)+'...';
+        reply_data.reply = reply_data.reply.substring(0, 51)+'...';
+    if (reply_data.post.length > 51)
+        reply_data.post = reply_data.post.substring(0, 51)+'...';
 
     reply_link.text(reply_data.reply);
+    td_for_link.append(reply_link);
 
+    td_for_post.text(reply_data.post);
+
+    checkbox.attr('object', 'reply');
     checkbox.on('click', selectBlock);
-
     custom_checkbox.append(checkbox, checkmark);
-    radio_container.append(reply_link, custom_checkbox);
-    reply_block.append(radio_container);
+    radio_container.append(custom_checkbox);
+    td_for_radio.append(radio_container)
+
+    reply_block.append(td_for_radio, td_for_link, td_for_post, td_for_date);
 
     return reply_block;
 };

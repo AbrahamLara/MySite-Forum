@@ -43,31 +43,13 @@
                 {% if profile_user == user.name %}
                 <th scope="col"><span class="delete-btn" id="delete-post" object="post">Delete</span></th>
                 {% endif %}
-                <th scope="col">Post Title</th>
-                <th scope="col">Date Created</th>
+                <th scope="col">Post</th>
+                <th scope="col">Date Posted</th>
                 <th scope="col">Replies</th>
-                <th scope="col">Posted to</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <label class="radio-container">
-                        <div id="custom-checkbox-1111">
-                            <input type="checkbox" id="threads1111" value="1111">
-                            <span class="checkmark"></span>
-                        </div> 
-                    </label>
-                </td>
-                <td>
-                    Post title goes here with a certain leng...
-                </td>
-                <td>
-                    2018-09-20
-                </td>
-                <td>3</td>
-                <td>Thread title here</td>
-            </tr>
+        <tbody id="posts-table-body">
+            <!-- Posts -->
         </tbody>
     </table>
     <table class="table">
@@ -76,60 +58,15 @@
                 {% if profile_user == user.name %}
                 <th scope="col"><span class="delete-btn" id="delete-reply" object="reply">Delete</span></th>
                 {% endif %}
-                <th scope="col">Reply Title</th>
-                <th scope="col">Date Created</th>
-                <th scope="col">Reply to</th>
-                <th scope="col">In thread</th>
+                <th scope="col">Reply</th>
+                <th scope="col">To Post</th>
+                <th scope="col">Date Replied</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <label class="radio-container">
-                        <div id="custom-checkbox-1111">
-                            <input type="checkbox" id="threads1111" value="1111">
-                            <span class="checkmark"></span>
-                        </div> 
-                    </label>
-                </td>
-                <td>
-                    Reply title goes here with a certain leng...
-                </td>
-                <td>
-                    2018-09-20
-                </td>
-                <td>
-                    Post goes here
-                </td>
-                <td>
-                    Thread title goes here
-                </td>
-            </tr>
+        <tbody id="replies-table-body">
+            <!-- Replies -->
         </tbody>
     </table>
-    <div id="user-posts">
-        <div class="container-head bg-info">
-            <header class="bold-header">Posts:</header>
-            {% if profile_user == user.name %}
-            <button class="btn btn-info border" object="post" id="delete-post">Delete</button>
-            {% endif %}
-        </div>
-        <div class="border border-infor" id="posts-container">
-            <!-- posts -->
-        </div>
-    </div>
-    <div id="user-replies">
-        <div class="container-head bg-info">
-            <header class="bold-header">Replies:</header>
-            {% if profile_user == user.name %}
-            <button class="btn btn-info border" object="reply" id="delete-reply">Delete</button>
-            {% endif %}
-        </div>
-        <div class="border border-infor" id="replies-container">
-            <!-- replies -->
-        </div>
-    </div>
-</div>
 {% endblock %}
 
 {% block contentJS %}

@@ -39,8 +39,8 @@ class Thread(models.Model):
 			'author_id': self.author.id,
 			'title': self.title,
 			'author': self.author.name,
-			'date_created': str(self.date_created.strftime("%Y-%m-%d")),
-			'n_posts': self.n_posts
+			'date_created': self.date_created.strftime('%m-%d-%Y'),
+			'n_posts': self.n_posts,
 		}
 
 	def get_json(self, offset=None, index=None):
@@ -63,7 +63,7 @@ class Thread(models.Model):
 			'author_id': self.author.id,
 			'title': self.title,
 			'author': self.author.username,
-			'date_created': str(self.date_created.strftime("%Y-%m-%d"))
+			'date_created': self.date_created.strftime('%m-%d-%Y'),
 		}
 
 class Post(models.Model):
@@ -89,7 +89,9 @@ class Post(models.Model):
 			'author_id': self.author.id,
 			'post': self.post,
 			'author': self.author.name,
-			'thread_id': self.thread.id
+			'thread_id': self.thread.id,
+			'date_posted': self.date_posted.strftime('%m-%d-%Y'),
+			'n_replies': self.n_replies,
 		}
 
 	def get_post_replies(self):
@@ -133,7 +135,9 @@ class Reply(models.Model):
 			'author_id': self.author.id,
 			'author': self.author.name,
 			'reply': self.reply,
-			'thread_id': self.thread.id
+			'thread_id': self.thread.id,
+			'date_replied': self.date_replied.strftime('%m-%d-%Y'),
+			'post': self.post.post,
 		}
 
 	def get_json(self, post, offset=None, index=None):	
