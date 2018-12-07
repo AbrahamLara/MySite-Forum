@@ -28,7 +28,7 @@
                 {% if profile_user == user.name %}
                 <th scope="col"><span class="delete-btn" id="delete-thread" object="thread">Delete</span></th>
                 {% endif %}
-                <th scope="col">Thread Title</th>
+                <th scope="col">Thread</th>
                 <th scope="col">Date Created</th>
                 <th scope="col">Posts</th>
             </tr>
@@ -44,7 +44,7 @@
                 <th scope="col"><span class="delete-btn" id="delete-post" object="post">Delete</span></th>
                 {% endif %}
                 <th scope="col">Post</th>
-                <th scope="col">Date Posted</th>
+                <th scope="col">Date Created</th>
                 <th scope="col">Replies</th>
             </tr>
         </thead>
@@ -60,7 +60,7 @@
                 {% endif %}
                 <th scope="col">Reply</th>
                 <th scope="col">To Post</th>
-                <th scope="col">Date Replied</th>
+                <th scope="col">Date Created</th>
             </tr>
         </thead>
         <tbody id="replies-table-body">

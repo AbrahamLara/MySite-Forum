@@ -110,11 +110,7 @@ const selectedType = function() {
 
 const getThreadBlock = function(thread_data) {
     const thread_block = $('<tr>', {'id': `thread-block-${thread_data.pk}`});
-    const td_for_radio = $('<td>');
-    const radio_container = $('<label>', {'class': 'radio-container'});
-    const custom_checkbox = $('<div>', {'id': `custom-checkbox-${thread_data.pk}`});
-    const checkbox = $('<input>', {'type': 'checkbox', 'value': thread_data.pk, 'id': `thread${thread_data.pk}`});
-    const checkmark = $('<span>', {'class': 'checkmark'});
+    const td_for_radio = customCheckbox(thread_data, 'thread');
     const td_for_link = $('<td>');
     const thread_link = $('<a>', {'class': 'thread-link text-info', 'href': `/thread/${thread_data.pk}`});
     const td_for_date = $('<td>', {'text': thread_data.date_created});
@@ -125,13 +121,6 @@ const getThreadBlock = function(thread_data) {
     
     thread_link.text(thread_data.title);
     td_for_link.append(thread_link);
-
-    checkbox.attr('object', 'thread');
-    checkbox.on('click', selectBlock);
-    custom_checkbox.append(checkbox, checkmark);
-    radio_container.append(custom_checkbox);
-    td_for_radio.append(radio_container);
-
     thread_block.append(td_for_radio, td_for_link, td_for_date, td_for_posts);
 
     return thread_block;
@@ -139,11 +128,7 @@ const getThreadBlock = function(thread_data) {
 
 const getPostBlock = function(post_data) {
     const post_block = $('<tr>', {'id': `post-block-${post_data.pk}`});
-    const td_for_radio = $('<td>');
-    const radio_container = $('<label>', {'class': 'radio-container'});
-    const custom_checkbox = $('<div>', {'id': `custom-checkbox-${post_data.pk}`});
-    const checkbox = $('<input>', {'type': 'checkbox', 'value': post_data.pk, 'id': `thread${post_data.pk}`});
-    const checkmark = $('<span>', {'class': 'checkmark'});
+    const td_for_radio = customCheckbox(post_data, 'post');
     const td_for_link = $('<td>');
     const post_link = $('<a>', {'class': 'post-link text-info', 'href': `/thread/${post_data.thread_id}`});
     const td_for_date = $('<td>', {'text': post_data.date_posted});
@@ -155,13 +140,6 @@ const getPostBlock = function(post_data) {
 
     post_link.text(post_data.post);
     td_for_link.append(post_link);
-
-    checkbox.attr('object', 'post');
-    checkbox.on('click', selectBlock);
-
-    custom_checkbox.append(checkbox, checkmark);
-    radio_container.append(custom_checkbox);
-    td_for_radio.append(radio_container);
     post_block.append(td_for_radio, td_for_link, td_for_date, td_for_replies);
 
     return post_block;
@@ -169,12 +147,8 @@ const getPostBlock = function(post_data) {
 
 const getReplyBlock = function(reply_data) {
     const reply_block = $('<tr>', {'id': `reply-block-${reply_data.pk}`});
-    const td_for_radio = $('<td>');
-    const radio_container = $('<label>', {'class': 'radio-container'});
-    const custom_checkbox = $('<div>', {'id': `custom-checkbox-${reply_data.pk}`});
+    const td_for_radio = customCheckbox(reply_data, 'reply');
     const reply_link = $('<a>', {'class': 'reply-link text-info', 'href': `/thread/${reply_data.thread_id}`});
-    const checkbox = $('<input>', {'type': 'checkbox', 'value': reply_data.pk, 'id': `thread${reply_data.pk}`});
-    const checkmark = $('<span>', {'class': 'checkmark'});
     const td_for_link = $('<td>');
     const td_for_date = $('<td>', {'text': reply_data.date_replied});
     const td_for_post = $('<td>');
@@ -186,19 +160,27 @@ const getReplyBlock = function(reply_data) {
 
     reply_link.text(reply_data.reply);
     td_for_link.append(reply_link);
-
     td_for_post.text(reply_data.post);
-
-    checkbox.attr('object', 'reply');
-    checkbox.on('click', selectBlock);
-    custom_checkbox.append(checkbox, checkmark);
-    radio_container.append(custom_checkbox);
-    td_for_radio.append(radio_container)
-
     reply_block.append(td_for_radio, td_for_link, td_for_post, td_for_date);
 
     return reply_block;
 };
+
+const customCheckbox = function(object_data, object_type) {
+    const td = $('<td>');
+    const radio_container = $('<label>', {'class': 'radio-container'});
+    const custom_checkbox = $('<div>', {'id': `custom-checkbox-${object_data.pk}`});
+    const checkbox = $('<input>', {'type': 'checkbox', 'value': object_data.pk, 'id': `thread${object_data.pk}`});
+    const checkmark = $('<span>', {'class': 'checkmark'});
+
+    checkbox.attr('object', object_type);
+    checkbox.on('click', selectBlock);
+    custom_checkbox.append(checkbox, checkmark);
+    radio_container.append(custom_checkbox);
+    td.append(radio_container);
+
+    return td;
+}
 
 const selectBlock = function(e) {
     type = $(this).attr('object');
