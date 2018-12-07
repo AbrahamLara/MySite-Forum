@@ -123,7 +123,7 @@ const getThreadBlock = function(thread_data) {
     const thread_block = $('<tr>', {'id': `thread-block-${thread_data.pk}`});
     const td_for_radio = customCheckbox(thread_data, 'thread');
     const td_for_link = $('<td>');
-    const thread_link = $('<a>', {'class': 'thread-link text-info', 'href': `/thread/${thread_data.pk}`});
+    const thread_link = $('<a>', {'class': 'thread-link text-dark', 'href': `/thread/${thread_data.pk}`});
     const td_for_date = $('<td>', {'text': thread_data.date_created});
     const td_for_posts = $('<td>', {'text': thread_data.n_posts});
 
@@ -141,7 +141,7 @@ const getPostBlock = function(post_data) {
     const post_block = $('<tr>', {'id': `post-block-${post_data.pk}`});
     const td_for_radio = customCheckbox(post_data, 'post');
     const td_for_link = $('<td>');
-    const post_link = $('<a>', {'class': 'post-link text-info', 'href': `/thread/${post_data.thread_id}`});
+    const post_link = $('<a>', {'class': 'post-link text-dark', 'href': `/thread/${post_data.thread_id}`});
     const td_for_date = $('<td>', {'text': post_data.date_posted});
     const td_for_replies = $('<td>', {'text': post_data.n_replies});
 
@@ -159,7 +159,7 @@ const getPostBlock = function(post_data) {
 const getReplyBlock = function(reply_data) {
     const reply_block = $('<tr>', {'id': `reply-block-${reply_data.pk}`});
     const td_for_radio = customCheckbox(reply_data, 'reply');
-    const reply_link = $('<a>', {'class': 'reply-link text-info', 'href': `/thread/${reply_data.thread_id}`});
+    const reply_link = $('<a>', {'class': 'reply-link text-dark', 'href': `/thread/${reply_data.thread_id}`});
     const td_for_link = $('<td>');
     const td_for_date = $('<td>', {'text': reply_data.date_replied});
     const td_for_post = $('<td>');
@@ -203,7 +203,7 @@ const selectBlock = function(e) {
 
 const createMoreObject = function(this_type) {
     const button = $('<div>', {
-        'class': `more-btn more-btn-for-${this_type} text-info`,
+        'class': `more-btn more-btn-for-${this_type}`,
         'text': `Load more ${this_type}...`
     });
 

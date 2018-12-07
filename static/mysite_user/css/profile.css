@@ -39,8 +39,8 @@ table {
     display: unset;
 }
 
-.thread-link, .post-link, .reply-link {
-    text-decoration: none !important;
+.thread-link:hover, .post-link:hover, .reply-link:hover {
+    color: #343a40 !important;
 }
 
 .selected {
