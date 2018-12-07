@@ -3,14 +3,14 @@
         {% if thread.title|length > 41 %}
         <div class="bold" scope="row"><a class="thread-title" href="/thread/{{ thread.pk }}">{{ thread.title|slice:"0:41" }}...</a></div>
         {% else %}
-        <div class="bold" scope="row"><a class="thread-title" href="/thread/{{ thread.pk }}">{{ thread.title }}...</a></div>
+        <div class="bold" scope="row"><a class="thread-title" href="/thread/{{ thread.pk }}">{{ thread.title }}</a></div>
         {% endif %}
         <div class="details" scope="row">created by <a class="thread-author" href="/profile/{{ thread.author_id}}">{{ thread.author }}</a> on {{ thread.date_created }}</div>
     </td>
     {% if thread.title|length > 41 %}
     <td class="rv-fw" scope="row"><a class="thread-title" href="/thread/{{ thread.pk }}">{{ thread.title|slice:"0:41" }}...</a></th>
     {% else %}
-    <td class="rv-fw" scope="row"><a class="thread-title" href="/thread/{{ thread.pk }}">{{ thread.title }}...</a></th>
+    <td class="rv-fw" scope="row"><a class="thread-title" href="/thread/{{ thread.pk }}">{{ thread.title }}</a></th>
     {% endif %}
     <td scope="row">{{ thread.date_created }}</td>
     <td class="rv-fw" scope="row"><a class="thread-author" href="/profile/{{ thread.author_id}}">{{ thread.author }}</a></td>
