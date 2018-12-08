@@ -83,7 +83,7 @@ const displayReplies = function(context, more_btn) {
 
     if (context.more) {
         if (more_btn == null)
-            more_btn = forumPopulator.createMoreButton('replies', context.post_id);
+            more_btn = createMoreButton('replies', context.post_id);
         
         more_btn.attr('index', context.index - context.amount_displaying).on('click', fetchObjects);
         $(`#reply-container-${context.post_id}`).append(more_btn);
@@ -183,23 +183,23 @@ const createReplyObject = function(reply_data) {
     return reply_object;
 }
 
-const _createMoreButtonForReplies = function(id) {
-    return this.createMore(`replies-${id}`, id, 'more replies...').attr('object-type', 'replies');
+const createMoreButtonForReplies = function(id) {
+    return createMore(`replies-${id}`, id, 'more replies...').attr('object-type', 'replies');
 }
 
-const _createMoreButtonForPosts = function(id) {
-    return this.createMore('posts', id, 'more posts...').attr('object-type', 'posts');
+const createMoreButtonForPosts = function(id) {
+    return createMore('posts', id, 'more posts...').attr('object-type', 'posts');
 }
 
 const createMoreButton = function(context, data) {
     if (context === 'replies')
-        return ForumPopulator._createMoreButtonForReplies(data);
+        return createMoreButtonForReplies(data);
     else if (context === 'posts')
-        return ForumPopulator._createMoreButtonForPosts(data);
+        return createMoreButtonForPosts(data);
 }
 
 const createMore = function(type, value, text) {
-    const more = $('<a>', {'class': `more-btn more-btn-for-${type} text-info`, 'value': value});
+    const more = $('<div>', {'class': `more-btn more-btn-for-${type}`, 'value': value});
 
     more.text(text);
 
