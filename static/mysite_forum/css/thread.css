@@ -1,13 +1,27 @@
-.container-fluid {
-    margin-top: 10px;
-}
-
 .jumbotron-fluid {
-    margin-bottom: 20px;
+    margin-bottom: 20px !important;
 }
 
 .author {
-    font-weight: 1;
+    font-weight: 1 !important;
+}
+
+.text-secondary:hover {
+    cursor: pointer !important;
+    color: #17a2b8 !important;
+}
+
+.post-object, .reply-object {
+    border-top: 1px solid darkgray !important;
+    padding: 10px;
+}
+
+.post-count {
+    margin-left: 10px !important;
+}
+
+.post-actions {
+    margin-top: 10px !important;
 }
 
 .display-4 {
@@ -34,20 +48,8 @@
     display: block;
 }
 
-.btn-link {
-    padding: 0;
-}
-
-.no-padding {
-    padding: 0;
-}
-
 .post, .reply {
     white-space: pre-line;
-}
-
-.post-author, .reply-author {
-    text-align: right;
 }
 
 .my-4 {
@@ -60,21 +62,4 @@
 
 .more-btn:hover {
     cursor: pointer;
-}
-
-/* SkyBlue Color */
-.sky-blue-bg {
-    background-color: #9FFFFF;
-}
-
-.sky-blue-bg:hover {
-    background-color: #DFFFFF;
-}
-
-.sky-blue-bg:active {
-    color: #000000;
-}
-
-.sky-blue-txt {
-    color: #DFFFFF;
 }

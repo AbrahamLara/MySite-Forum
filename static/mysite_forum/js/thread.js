@@ -138,16 +138,12 @@ const fetchObjectsAjax = function(url, data, more) {
 const createPostObject = function(post_data) {
     const pk = post_data.pk;
     
-    const post_object = $('<div>', {
-        'class': 'border border-info border-right-0 border-left-0 border-bottom-0 post-cell',
-        'id': `post-cell-${pk}`
-    });
+    const post_object = $('<div>', {'class': 'post-object', 'id': `post-cell-${pk}`});
     const post = $('<div>', {'class': 'post'});
-    const reply = $('<a>', {'class': 'btn btn-link text-info', 'value': pk, 'type': 'reply'});
-    const replies = $('<a>', repliesAttributes(pk));
-    const author = $('<div>', {'class': 'author post-author'});
-    const author_link = $('<a>', {'class': 'text-info author-link', 'href': `/profile/${post_data.author_id}`, 'text': post_data.author});
-    const post_actions = $('<div>', {'class': 'container-fluid no-padding'});
+    const reply = $('<span>', {'class': 'text-secondary link', 'value': pk, 'type': 'reply'});
+    const replies = $('<span>', repliesAttributes(pk));
+    const author = $('<div>', {'class': 'post-actions d-flex align-items-center'});
+    const author_link = $('<span>', {'class': 'text-secondary author-link', 'href': `/profile/${post_data.author_id}`, 'text': post_data.author});
     const replies_container = $('<div>', {'class': 'container-fluid', 'id': `reply-container-${pk}`, 'css': {'whitespace': 'pre-line'}});
 
     replies.attr('index', post_data.n_replies);
@@ -159,16 +155,15 @@ const createPostObject = function(post_data) {
     replies.on('click', fetchObjects);
     reply.on('click', displayModal);
 
-    author.append('- ', author_link);
-    post_actions.append(reply, ' - ', replies);
-    post_object.append(post, author, post_actions, replies_container);
+    author.append(replies, ' - ', reply, ' - ', author_link);
+    post_object.append(post, author, replies_container);
 
     return post_object;
 }
 
 const repliesAttributes = function(pk) {
     return {
-        'class': 'btn btn-link text-info',
+        'class': 'text-secondary link',
         'value': pk,
         'id': `replies-for-${pk}`,
         'display': true,
@@ -177,9 +172,9 @@ const repliesAttributes = function(pk) {
 }
 
 const createReplyObject = function(reply_data) {
-    const reply_object = $('<div>');
-    const reply = $('<div>', {'class': 'border border-dark border-right-0 border-left-0 border-bottom-0 reply', 'text': reply_data.reply});
-    const author_link = $('<a>', {'class': 'text-info author-link', 'href': `/profile/${reply_data.author_id}`, 'text': `${reply_data.author}`});
+    const reply_object = $('<div>', {'class': 'reply-object'});
+    const reply = $('<div>', {'class': 'reply', 'text': reply_data.reply});
+    const author_link = $('<span>', {'class': 'text-secondary link author-link', 'href': `/profile/${reply_data.author_id}`, 'text': `${reply_data.author}`});
     const author = $('<div>', {'class': 'author reply-author'});
 
     author.append('- ', author_link);

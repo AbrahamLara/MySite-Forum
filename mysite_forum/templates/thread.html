@@ -22,10 +22,10 @@
         <h5 class="author">- <a class="text-info author-link" href="/profile/{{ author_id }}">{{ author }}</a></h5>
         <div class="lead">{{ body }}</div>
     </div>
-    <button class="btn btn-info" id="post-btn" type="post" value="{{ pk }}">
-        Post
-    </button>
-    <div class="thread-posts-container border-info">
+    <div class="d-flex align-items-center">
+        <button class="btn btn-dark" id="post-btn" type="post" value="{{ pk }}">
+            Post
+        </button>
         <div class="post-count">
             {% if n_posts == 0 %}
             Be the first to post on this thread!!!
@@ -33,6 +33,8 @@
             {{ n_posts }} Post(s)
             {% endif%}
         </div>
+    </div>
+    <div class="thread-posts-container border-info">
         <div id="post-container"></div>
     </div>
 </div>
