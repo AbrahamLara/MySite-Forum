@@ -33,12 +33,6 @@ table {
     font-size: 15px;
 }
 
-/* For phones with notches */
-.safe-fit {
-    padding-left: calc(max(22px, env(safe-area-inset-left))) !important;
-    padding-right: calc(max(22px, env(safe-area-inset-right))) !important;
-}
-
 .w-mx {
     width: 100% !important;
 }

@@ -7,6 +7,12 @@
     box-shadow: none !important;
 }
 
+/* For phones with notches */
+.safe-fit {
+    padding-left: calc(max(22px, env(safe-area-inset-left))) !important;
+    padding-right: calc(max(22px, env(safe-area-inset-right))) !important;
+}
+
 .navbar-light, .navbar-toggler {
     border: none;
 }
