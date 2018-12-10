@@ -62,7 +62,7 @@ class Thread(models.Model):
 			'pk': self.pk,
 			'author_id': self.author.id,
 			'title': self.title,
-			'author': self.author.username,
+			'author': self.author.name,
 			'date_created': self.date_created.strftime('%m-%d-%Y'),
 		}
 
