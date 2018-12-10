@@ -143,7 +143,7 @@ const createPostObject = function(post_data) {
     const reply = $('<span>', {'class': 'text-secondary link', 'value': pk, 'type': 'reply'});
     const replies = $('<span>', repliesAttributes(pk));
     const author = $('<div>', {'class': 'post-actions d-flex align-items-center'});
-    const author_link = $('<span>', {'class': 'text-secondary author-link', 'href': `/profile/${post_data.author_id}`, 'text': post_data.author});
+    const author_link = $('<a>', {'class': 'text-secondary author-link', 'href': `/profile/${post_data.author_id}`, 'text': post_data.author});
     const replies_container = $('<div>', {'class': 'container-fluid', 'id': `reply-container-${pk}`, 'css': {'whitespace': 'pre-line'}});
 
     replies.attr('index', post_data.n_replies);
@@ -174,7 +174,7 @@ const repliesAttributes = function(pk) {
 const createReplyObject = function(reply_data) {
     const reply_object = $('<div>', {'class': 'reply-object'});
     const reply = $('<div>', {'class': 'reply', 'text': reply_data.reply});
-    const author_link = $('<span>', {'class': 'text-secondary link author-link', 'href': `/profile/${reply_data.author_id}`, 'text': `${reply_data.author}`});
+    const author_link = $('<a>', {'class': 'text-secondary link author-link', 'href': `/profile/${reply_data.author_id}`, 'text': `${reply_data.author}`});
     const author = $('<div>', {'class': 'author reply-author'});
 
     author.append('- ', author_link);

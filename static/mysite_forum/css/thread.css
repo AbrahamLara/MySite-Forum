@@ -8,7 +8,6 @@
 
 .text-secondary:hover {
     cursor: pointer !important;
-    color: #17a2b8 !important;
 }
 
 .post-object, .reply-object {
