@@ -1,6 +1,6 @@
 # MySite-Forum-django
 
-This web app is built using the Django web framework utilizing jQuery and Bootstrap.
+This web app is built using the Django web framework utilizing jQuery, Boostrap, and PostgreSQL.
 
 This web app allows users to signup and login to begin creating threads for other users to post on. Users also have the ability to reply to a post made. As more threads, posts, and replies are made the first 15 objects will be displayed and a button for fetching the next set of objects will appear.
 
