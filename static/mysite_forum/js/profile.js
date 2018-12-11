@@ -81,13 +81,11 @@ const getThreadBlock = function(thread_data) {
     const thread_block = $('<tr>', {'id': `thread-block-${thread_data.pk}`});
     const td_for_link = $('<td>');
     const thread_link = $('<a>', {'class': 'thread-link text-dark', 'href': `/thread/${thread_data.pk}`});
+    const thread_text = $('<div>', {'class': 'thread-text', 'text': thread_data.title});
     const td_for_date = $('<td>', {'text': thread_data.date_created});
     const td_for_posts = $('<td>', {'text': thread_data.n_posts});
-
-    if (thread_data.title.length > 51)
-        thread_data.title = thread_data.title.substring(0, 51)+'...';
     
-    thread_link.text(thread_data.title);
+    thread_link.append(thread_text);
     td_for_link.append(thread_link);
     thread_block.append(td_for_link, td_for_date, td_for_posts);
 

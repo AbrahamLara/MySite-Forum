@@ -15,6 +15,13 @@ table {
     font-weight: unset !important;
 }
 
+.thread-title {
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    width: 400px !important;
+}
+
 .rv-fw {
     font-weight: unset !important;
 }
@@ -68,6 +75,10 @@ img {
 }
 
 @media (max-width: 991px) {
+
+    .thread-title {
+        width: 300px !important;
+    }
 
     .create-item {
         display: unset !important;

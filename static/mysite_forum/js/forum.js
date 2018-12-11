@@ -49,14 +49,11 @@ const fetchThreads = function() {
 }
 
 const createThreadObject = function(thread_data) {
-    if (thread_data.title.length > 41)
-        thread_data.title = thread_data.title.substring(0, 41)+'...';
-
     const thread = $('<tr>');
     const mobile_portrait = $('<td>', {'class': 'mobile-portrait'});
     const mobile_thread_title = $('<div>', {'class': 'bold', 'scope': 'row'});
     const mobile_details = $('<div>', {'class': 'details', 'scope': 'row'});
-    const thread_title_link = `<a class="thread-title" href="/thread/${thread_data.pk}">${thread_data.title}</a>`;
+    const thread_title_link = `<a class="thread-title" href="/thread/${thread_data.pk}"><div class="thread-title">${thread_data.title}</div></a>`;
     const thread_author_link = `<a class="thread-author" href="/profile/${thread_data.author_id}">${thread_data.author}</a>`;;
     const thread_title = $('<td>', {'class': 'rv-fw', 'scope': 'row'});
     const thread_author = $('<td>', {'class': 'rv-fw', 'scope': 'row'});

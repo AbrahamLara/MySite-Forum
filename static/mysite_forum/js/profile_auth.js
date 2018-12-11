@@ -124,13 +124,11 @@ const getThreadBlock = function(thread_data) {
     const td_for_radio = customCheckbox(thread_data, 'thread');
     const td_for_link = $('<td>');
     const thread_link = $('<a>', {'class': 'thread-link text-dark', 'href': `/thread/${thread_data.pk}`});
+    const thread_text = $('<div>', {'class': 'thread-text', 'text': thread_data.title});
     const td_for_date = $('<td>', {'text': thread_data.date_created});
     const td_for_posts = $('<td>', {'text': thread_data.n_posts});
-
-    if (thread_data.title.length > 51)
-        thread_data.title = thread_data.title.substring(0, 51)+'...';
     
-    thread_link.text(thread_data.title);
+    thread_link.append(thread_text);
     td_for_link.append(thread_link);
     thread_block.append(td_for_radio, td_for_link, td_for_date, td_for_posts);
 
@@ -142,14 +140,11 @@ const getPostBlock = function(post_data) {
     const td_for_radio = customCheckbox(post_data, 'post');
     const td_for_link = $('<td>');
     const post_link = $('<a>', {'class': 'post-link text-dark', 'href': `/thread/${post_data.thread_id}`});
+    const post_text = $('<div>', {'class': 'post-text', 'text': post_data.post});
     const td_for_date = $('<td>', {'text': post_data.date_posted});
     const td_for_replies = $('<td>', {'text': post_data.n_replies});
 
-    if (post_data.post.length > 51)
-        post_data.post = post_data.post.substring(0, 51)+'...';
-
-
-    post_link.text(post_data.post);
+    post_link.append(post_text);
     td_for_link.append(post_link);
     post_block.append(td_for_radio, td_for_link, td_for_date, td_for_replies);
 
@@ -160,18 +155,15 @@ const getReplyBlock = function(reply_data) {
     const reply_block = $('<tr>', {'id': `reply-block-${reply_data.pk}`});
     const td_for_radio = customCheckbox(reply_data, 'reply');
     const reply_link = $('<a>', {'class': 'reply-link text-dark', 'href': `/thread/${reply_data.thread_id}`});
+    const reply_text = $('<div>', {'class': 'reply-text', 'text': reply_data.reply});
     const td_for_link = $('<td>');
     const td_for_date = $('<td>', {'text': reply_data.date_replied});
     const td_for_post = $('<td>');
+    const post_text = $('<div>', {'class': 'post-text', 'text': reply_data.post});
 
-    if (reply_data.reply.length > 51)
-        reply_data.reply = reply_data.reply.substring(0, 51)+'...';
-    if (reply_data.post.length > 51)
-        reply_data.post = reply_data.post.substring(0, 51)+'...';
-
-    reply_link.text(reply_data.reply);
+    reply_link.append(reply_text);
     td_for_link.append(reply_link);
-    td_for_post.text(reply_data.post);
+    td_for_post.append(post_text);
     reply_block.append(td_for_radio, td_for_link, td_for_post, td_for_date);
 
     return reply_block;

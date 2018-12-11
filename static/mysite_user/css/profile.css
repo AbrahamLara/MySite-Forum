@@ -13,6 +13,13 @@
     font-weight: bolder !important;
 }
 
+.thread-text, .post-text, .reply-text {
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    width: 400px !important;
+}
+
 table {
     text-align: left;
 }
