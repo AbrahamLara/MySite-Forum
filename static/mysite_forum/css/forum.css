@@ -59,7 +59,7 @@ img {
     cursor: pointer !important;
 }
 
-@media (max-width: 414px) {
+@media screen and (max-width: 414px) {
     thead > tr > th, .mobile-portrait ~ td {
         display: none !important;
     }
@@ -74,7 +74,7 @@ img {
     }
 }
 
-@media (max-width: 991px) {
+@media screen and (max-width: 991px) {
 
     .thread-title {
         width: 300px !important;

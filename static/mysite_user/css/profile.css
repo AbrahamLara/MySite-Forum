@@ -139,7 +139,7 @@ label {
     border-top: 1px solid lightgrey !important;
 }
 
-@media (max-width: 991px) {
+@media screen and (max-width: 991px) {
     .container {
         max-width: unset !important;
         margin: unset !important;
