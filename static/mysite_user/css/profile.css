@@ -9,6 +9,10 @@
     justify-content: center;
 }
 
+.counter {
+    margin-bottom: 5px;
+}
+
 .view-selected {
     font-weight: bolder !important;
 }
@@ -17,7 +21,7 @@
     white-space: nowrap !important;
     text-overflow: ellipsis !important;
     overflow: hidden !important;
-    width: 400px !important;
+    width: 350px !important;
 }
 
 table {
@@ -29,8 +33,12 @@ table {
     cursor: pointer;
 }
 
-.hide {
+.hide, .mobile-col, .mobile-td {
     display: none !important;
+}
+
+.mobile-td > span, .label {
+    font-weight: bold;
 }
 
 .model-name {
@@ -144,5 +152,31 @@ label {
         max-width: unset !important;
         margin: unset !important;
         padding: unset !important;
+    }
+
+    .thread-text, .post-text, .reply-text {
+        width: 243px !important;
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 414px)  {
+
+    .thread-link, .post-link {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .thread-text, .post-text, .reply-text {
+        width: 200px !important;
+        margin-bottom: 10px;
+    }
+
+    .mobile-col, .mobile-td {
+        display: table-cell !important;
+    }
+
+    .mobile-col ~ th, .mobile-td ~ td {
+        display: none;
     }
 }
