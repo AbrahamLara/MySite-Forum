@@ -6,6 +6,18 @@ This web app allows users to signup and login to begin creating threads for othe
 
 Users also have the ability to view other user profiles while also being able to see teh threads, posts, and replies they have made. Another feature being able to delete threads, posts, and replies from your profile page.
 
+
+## Note
+If you wish to use a database other than postgres learn more [here](https://docs.djangoproject.com/en/2.0/ref/settings/#databases).
+
+## Setup
+
+* begin local database server.
+* enter local database information in _DATABASES_ setting in `settings.py` file.
+* must have a `2.0` version of django. This project was developed using django _2.0.6_
+* must have python 3
+* start server `python manage.py runserver`
+
 # Screenshots
 <image src="images/Screenshot1.png"/>
 <image src="images/Screenshot2.png"/>
