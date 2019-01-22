@@ -7,13 +7,14 @@ from django.contrib.auth.decorators import login_required
 
 from mysite_user.models import MySiteUser
 from mysite_forum.models import Thread, Post, Reply
-from mysite_forum.forum_paginator import ForumPaginator
+from mysite_forum.forum_paginator import ForumPaginator, Paginator
 
 @require_http_methods(['GET'])
 def fetch_threads(request):
-    index = int(request.GET.get('index'))
-
-    context = ForumPaginator(index).fetch_threads_context()
+    cursor = request.GET.get('cursor')
+    context = dict()
+    paginator = ForumPaginator(Thread.objects.all().order_by('-date_created'))
+    context = paginator.fetch_threads_context(cursor)
     
     return HttpResponse(json.dumps(context), content_type='application/json')
 

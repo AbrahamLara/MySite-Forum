@@ -43,8 +43,7 @@ class Thread(models.Model):
 			'n_posts': self.n_posts,
 		}
 
-	def get_json(self, offset=None, index=None):
-		threads = Thread.objects.all()[offset:index]
+	def get_json(self, threads):
 		return [thread.forum_context() for thread in threads]
 
 	def _json_thread(self):
@@ -71,13 +70,13 @@ class Post(models.Model):
 	post 		= models.TextField(_('post'))
 	author 		= models.ForeignKey('mysite_user.MySiteUser', on_delete=models.CASCADE)
 	thread 		= models.ForeignKey(Thread, on_delete=models.CASCADE)
-	date_posted = models.DateTimeField(_('date_posted'), default=timezone.now)
+	date_created = models.DateTimeField(_('date_created'), default=timezone.now)
 	n_replies 	= models.IntegerField(_('n_replies'), default=0)
 
 	objects = PostManager()
 
 	class Meta:
-		ordering = ['date_posted']
+		ordering = ['date_created']
 
 	def get_user_posts(self, user, offset, index):
 		posts = Post.objects.filter(author=user)[offset:index]
@@ -90,7 +89,7 @@ class Post(models.Model):
 			'post': self.post,
 			'author': self.author.name,
 			'thread_id': self.thread.id,
-			'date_posted': self.date_posted.strftime('%m-%d-%Y'),
+			'date_posted': self.date_created.strftime('%m-%d-%Y'),
 			'n_replies': self.n_replies,
 		}
 
@@ -118,12 +117,12 @@ class Reply(models.Model):
 	author 			= models.ForeignKey('mysite_user.MySiteUser', on_delete=models.CASCADE)
 	post 			= models.ForeignKey(Post, on_delete=models.CASCADE)
 	thread 			= models.ForeignKey(Thread, on_delete=models.CASCADE)
-	date_replied 	= models.DateTimeField(_('date_replied'), default=timezone.now)
+	date_created 	= models.DateTimeField(_('date_created'), default=timezone.now)
 
 	objects = ReplyManager()
 
 	class Meta:
-		ordering = ['date_replied']
+		ordering = ['date_created']
 
 	def get_user_replies(self, user, offset, index):
 		replies = Reply.objects.filter(author=user)[offset:index]
@@ -136,7 +135,7 @@ class Reply(models.Model):
 			'author': self.author.name,
 			'reply': self.reply,
 			'thread_id': self.thread.id,
-			'date_replied': self.date_replied.strftime('%m-%d-%Y'),
+			'date_replied': self.date_created.strftime('%m-%d-%Y'),
 			'post': self.post.post,
 		}
 

@@ -1,4 +1,8 @@
 import json
+import math
+
+from django.db.models import TextField
+from django.db.models.functions import Concat
 
 from mysite_forum.models import Thread, Post, Reply
 
@@ -8,94 +12,77 @@ class ForumPaginator(object):
     _DISPLAY_N_POSTS = 15
     _DISPLAY_N_REPLIES = 15
 
-    def __init__(self, index):
-        self._index = index
+    def __init__(self, queryset):
+        self.queryset = queryset
 
-    def fetch_user_threads(self, user):
-        context = dict()
+    def fetch_threads_context(self, cursor=None):
+        context = self._fetch_context('threads', self._DISPLAY_N_THREADS, cursor)
+        context['threads'] = Thread().get_json(context['threads'])
+        return context
 
-        offset = self._index - self._DISPLAY_N_THREADS
+    def fetch_posts_context(self, cursor=None):
+        context = self._fetch_context('posts', self._DISPLAY_N_POSTS, cursor)
+        context['posts'] = Post().get_json(context['posts'])
+        return context
 
-        if offset < 0:
-            offset = 0
+    def fetch_replies_context(self, cursor=None):
+        context = self._fetch_context('replies', self._DISPLAY_N_REPLIES, cursor)
+        context['replies'] = Reply().get_json(context['replies'])
+        return context
+
+    def _fetch_context(self, type, per_page, cursor):
+            paginator = Paginator(self.queryset, per_page, ('date_created', 'id'))
+            self.pages = paginator.pages()
+            return paginator.context(type, cursor)
+
+    def pages(self):
+        return int(self.pages)
+
+
+class Paginator(object):
+    
+    def __init__(self, queryset, per_page, annotations):
+        self.queryset = queryset
+        self.per_page = per_page
+        self.annotations = annotations
+
+    def _get_page(self, cursor=None):
+        queryset = self._attach_cursor()
         
-        context['threads'] = Thread().get_user_threads(user, offset, self._index)
-        context.update(self.get_context(offset, self._DISPLAY_N_THREADS))
-
-        return context
-
-    def fetch_user_posts(self, user):
-        context = dict()
-
-        offset = self._index - self._DISPLAY_N_POSTS
-
-        if offset < 0:
-            offset = 0
+        queryset = self.get_next_page(queryset, cursor) if cursor else queryset
+        query_total = queryset.count()
+        queryset = queryset[:self.per_page]
+        page_total = queryset.count()
         
-        context['posts'] = Post().get_user_posts(user, offset, self._index)
-        context.update(self.get_context(offset, self._DISPLAY_N_POSTS))
-
-        return context
-
-    def fetch_user_replies(self, user):
-        context = dict()
-
-        offset = self._index - self._DISPLAY_N_REPLIES
-
-        if offset < 0:
-            offset = 0
+        self.pages = math.ceil(query_total/self.per_page)
         
-        context['replies'] = Reply().get_user_replies(user, offset, self._index)
-        context.update(self.get_context(offset, self._DISPLAY_N_REPLIES))
+        has_next_page = query_total != page_total
 
-        return context
+        cursor = queryset[page_total-1].cursor
 
-    def fetch_threads_context(self):
-        context = dict()
+        return (queryset, cursor, has_next_page)
 
-        offset = self._index - self._DISPLAY_N_THREADS
+    def _context(self, objects_type, queryset, has_next_page, cursor):
+        return {
+            '{}'.format(objects_type): queryset,
+            'has_next_page': has_next_page,
+            'cursor': cursor,
+        }
 
-        if offset < 0:
-            offset = 0
-        
-        context['threads'] = Thread().get_json(offset, self._index)
-        context.update(self.get_context(offset, self._DISPLAY_N_THREADS))
+    def context(self, objects_type, cursor=None):
+        try:
+            queryset, cursor, has_next_page = self._get_page(cursor)
+        except (AssertionError):
+            return self._context(objects_type, [], False, '')
 
-        return context
+        return self._context(objects_type, queryset, has_next_page, cursor)
 
-    def fetch_posts_context(self, thread):
-        context = dict()
+    def _attach_cursor(self):
+        annotation = Concat(*[a for a in self.annotations], output_field=TextField())
+        return self.queryset.annotate(cursor=annotation)
+    
+    def get_next_page(self, queryset, cursor):
+        return queryset.filter(cursor__lt=cursor)
 
-        offset = self._index - self._DISPLAY_N_POSTS
-
-        if offset < 0:
-            offset = 0
-
-        context['posts'] = Post().get_json(thread, offset, self._index)
-        context['thread_id'] = thread.id
-        context.update(self.get_context(offset, self._DISPLAY_N_POSTS))
-
-        return context
-
-    def fetch_replies_context(self, post):
-        context = dict()
-
-        offset = self._index - self._DISPLAY_N_REPLIES
-
-        if offset < 0:
-            offset = 0
-        
-        context['replies'] = Reply().get_json(post, offset, self._index)
-        context['post_id'] = post.id
-        context.update(self.get_context(offset, self._DISPLAY_N_REPLIES))
-
-        return context
-
-    def get_context(self, offset, amount_displaying):
-        context = dict()
-
-        context['more'] = offset != 0
-        context['index'] = self._index
-        context['amount_displaying'] = amount_displaying
-
-        return context
+    def pages(self):
+        return self.pages

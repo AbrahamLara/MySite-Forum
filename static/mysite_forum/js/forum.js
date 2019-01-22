@@ -1,11 +1,8 @@
 $(document).ready(function() {
-    if (thread_index < 0)
-        thread_index *= -1;
-
     $('.justify-content-end').prepend('<li class="nav-item create-item d-none"><a class="nav-link text-info" href="/create">Create</a></li>');
 
-    if (forum_has_more) {
-        displayMoreButton(thread_index);
+    if (has_next_page) {
+        displayMoreButton();
     }
 });
 
@@ -14,32 +11,32 @@ const displayMoreButton = function(index) {
         'class': 'more-btn',
         'text': 'Load More Threads...'
     });
-    more.attr('index', index);
+    more.attr('cursor', cursor);
     more.on('click', fetchThreads);
 
     $('.container').append(more);
 }
 
-const displayThreads = function(context) {
-    for(i = context.threads.length-1; i >= 0; i--) {
-        thread = createThreadObject(context.threads[i]);
+const displayThreads = function({ threads, has_next_page}) {
+    for(i in threads) {
+        thread = createThreadObject(threads[i]);
         $('#threads').append(thread);
     }
 
-    if(context.more) {
-        displayMoreButton(context.index - context.amount_displaying);
+    if(has_next_page) {
+        displayMoreButton();
     }
 }
 
 const fetchThreads = function() {
-    index = $(this).attr('index');
     $(this).remove();
-    
     $.ajax({
         url: `/fetch_threads/`,
-        data: {'index': index},
+        data: {cursor},
         contentType: 'application/json',
         success: function(threads) {
+            cursor = threads['cursor']
+            console.log(threads);
             displayThreads(threads);
         },
         error: function(err) {

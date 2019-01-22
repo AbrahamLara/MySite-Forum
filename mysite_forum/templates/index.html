@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody id="threads">
-            {% for thread in forum_context.threads reversed %}
+            {% for thread in threads reversed %}
                 {% include 'partials/thread_card.html' with thread=thread %}
             {% endfor %}
         </tbody>
@@ -28,9 +28,9 @@
 
 {% block contentJS %}
 <script>
-    let forum_has_more = {{ forum_context.more|yesno:"true,false" }};
-
-    var thread_index = {{ forum_context.index }} - {{ forum_context.amount_displaying }};
+    let has_next_page = {{ has_next_page|yesno:"true,false" }};
+    let cursor = '{{ cursor }}';
+    let pages = '{{ pages }}'
 </script>
 <script src="/static/mysite_forum/js/forum.js"></script>
 {% endblock %}
