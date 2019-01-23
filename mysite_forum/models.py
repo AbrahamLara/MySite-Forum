@@ -19,44 +19,23 @@ class Thread(models.Model):
 	class Meta:
 		ordering = ['date_created']
 
-	def get_dictionary(self):
-		return {
-			'pk': self.pk,
-			'author_id': self.author.id,
-			'title': self.title,
-			'author': self.author.name,
-			'body': self.body,
-			'n_posts': self.n_posts,
-		}
-
-	def get_user_threads(self, user, offset, index):
-		threads = Thread.objects.filter(author=user)[offset:index]
-		return [thread.profile_context() for thread in threads]
-
-	def profile_context(self):
-		return {
-			'pk': self.id,
-			'author_id': self.author.id,
-			'title': self.title,
-			'author': self.author.name,
-			'date_created': self.date_created.strftime('%m-%d-%Y'),
-			'n_posts': self.n_posts,
-		}
-
-	def get_json(self, threads):
+	def to_json(self, threads):
 		return [thread.forum_context() for thread in threads]
 
-	def _json_thread(self):
-		return {
-			'pk': self.pk,
-			'author_id': self.author.id,
-			'title': self.title,
-			'author': self.author.name,
-			'body': self.body,
-			'n_posts': self.n_posts,
-		}
+	def thread_context(self):
+		context =  self.profile_context()
+		context['body'] = self.body
+		return context
+
+	def profile_context(self):
+		context = self._essential_context()
+		context['n_posts'] = self.n_posts
+		return context
 
 	def forum_context(self):
+		return self._essential_context()
+
+	def _essential_context(self):
 		return {
 			'pk': self.pk,
 			'author_id': self.author.id,
@@ -78,37 +57,21 @@ class Post(models.Model):
 	class Meta:
 		ordering = ['date_created']
 
-	def get_user_posts(self, user, offset, index):
-		posts = Post.objects.filter(author=user)[offset:index]
-		return [post.profile_context() for post in posts]
+	def to_json(self, posts):
+		return [post._essential_context() for post in posts]
 
 	def profile_context(self):
-		return {
-			'pk': self.id,
-			'author_id': self.author.id,
-			'post': self.post,
-			'author': self.author.name,
-			'thread_id': self.thread.id,
-			'date_posted': self.date_created.strftime('%m-%d-%Y'),
-			'n_replies': self.n_replies,
-		}
+		context = self._essential_context()
+		context['thread_id'] = self.thread.id
+		return context
 
-	def get_post_replies(self):
-		return {
-			'post_replies': Reply().get_json(post=self)
-		}
-
-	def get_json(self, thread, offset=None, index=None):
-		posts = Post.objects.filter(thread=thread)[offset:index]
-		return [post._json_post() for post in posts]
-
-	def _json_post(self):
+	def _essential_context(self):
 		return {
 			'pk': self.pk,
-			'author_id': self.author.id,
 			'author': self.author.name,
 			'post': self.post,
 			'n_replies': self.n_replies,
+			'date_created': self.date_created.strftime('%m-%d-%Y'),
 		}
 
 class Reply(models.Model):
@@ -124,29 +87,20 @@ class Reply(models.Model):
 	class Meta:
 		ordering = ['date_created']
 
-	def get_user_replies(self, user, offset, index):
-		replies = Reply.objects.filter(author=user)[offset:index]
-		return [reply.profile_context() for reply in replies]
+	def get_json(self, replies):
+		return [reply._essential_context() for reply in replies]
 
 	def profile_context(self):
+		context = self._essential_context()
+		context['thread_id'] =  self.thread.id
+		context['post'] = self.post.post
+		return context
+
+	def _essential_context(self):
 		return {
 			'pk': self.pk,
 			'author_id': self.author.id,
 			'author': self.author.name,
 			'reply': self.reply,
-			'thread_id': self.thread.id,
-			'date_replied': self.date_created.strftime('%m-%d-%Y'),
-			'post': self.post.post,
-		}
-
-	def get_json(self, post, offset=None, index=None):	
-		replies = Reply.objects.filter(post=post)[offset:index]
-		return [reply._json_reply() for reply in replies]
-
-	def _json_reply(self):
-		return {
-			'pk': self.pk,
-			'author_id': self.author.id,
-			'author': self.author.name,
-			'reply': self.reply
+			'date_created': self.date_created.strftime('%m-%d-%Y'),
 		}

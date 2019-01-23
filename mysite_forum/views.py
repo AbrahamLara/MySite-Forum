@@ -19,8 +19,10 @@ def index(request):
 
 def thread(request, thread_id):
     thread = Thread.objects.get(pk=thread_id)
+    context = thread.thread_context()
 
-    context = thread.get_dictionary()
-    context['thread_posts'] = json.dumps(ForumPaginator(context['n_posts']).fetch_posts_context(thread))
+    posts = ForumPaginator(Post.objects.filter(thread=thread).order_by('-date_created')).fetch_posts_context()
+    context['thread_posts'] = json.dumps(posts)
+    context['thread_id'] = thread_id
 
     return render(request, 'thread.html', context)

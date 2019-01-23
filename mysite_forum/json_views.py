@@ -21,10 +21,9 @@ def fetch_threads(request):
 @require_http_methods(['GET'])
 def fetch_posts(request):
     thread_id = int(request.GET.get('id'))
-    index = int(request.GET.get('index'))
+    cursor = request.GET.get('cursor')
     thread = Thread.objects.get(pk=thread_id)
-
-    context = ForumPaginator(index).fetch_posts_context(thread)
+    context = ForumPaginator(Post.objects.filter(thread=thread).order_by('-date_created')).fetch_posts_context(cursor)
     
     return HttpResponse(json.dumps(context), content_type='application/json')
 

@@ -17,17 +17,17 @@ class ForumPaginator(object):
 
     def fetch_threads_context(self, cursor=None):
         context = self._fetch_context('threads', self._DISPLAY_N_THREADS, cursor)
-        context['threads'] = Thread().get_json(context['threads'])
+        context['threads'] = Thread().to_json(context['threads'])
         return context
 
     def fetch_posts_context(self, cursor=None):
         context = self._fetch_context('posts', self._DISPLAY_N_POSTS, cursor)
-        context['posts'] = Post().get_json(context['posts'])
+        context['posts'] = Post().to_json(context['posts'])
         return context
 
     def fetch_replies_context(self, cursor=None):
         context = self._fetch_context('replies', self._DISPLAY_N_REPLIES, cursor)
-        context['replies'] = Reply().get_json(context['replies'])
+        context['replies'] = Reply().to_json(context['replies'])
         return context
 
     def _fetch_context(self, type, per_page, cursor):
@@ -48,12 +48,11 @@ class Paginator(object):
 
     def _get_page(self, cursor=None):
         queryset = self._attach_cursor()
-        
-        queryset = self.get_next_page(queryset, cursor) if cursor else queryset
+        queryset = self._get_next_page(queryset, cursor) if cursor else queryset
         query_total = queryset.count()
         queryset = queryset[:self.per_page]
         page_total = queryset.count()
-        
+
         self.pages = math.ceil(query_total/self.per_page)
         
         has_next_page = query_total != page_total
@@ -81,7 +80,8 @@ class Paginator(object):
         annotation = Concat(*[a for a in self.annotations], output_field=TextField())
         return self.queryset.annotate(cursor=annotation)
     
-    def get_next_page(self, queryset, cursor):
+    def _get_next_page(self, queryset, cursor):
+        print(queryset)
         return queryset.filter(cursor__lt=cursor)
 
     def pages(self):

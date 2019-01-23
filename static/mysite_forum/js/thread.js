@@ -60,17 +60,17 @@ const updateRepliesCounter = function(n_replies, id) {
     $(`#replies-for-${id}`).attr({'index': n_replies+1, 'display': 'false'}).text(`Replies(${n_replies})`);
 }
 
-const displayPosts = function(context, more_btn) {
-    for (i = context.posts.length-1; i >= 0; --i) {
-        post = createPostObject(context.posts[i]);
+const displayPosts = function({ posts, has_next_page, cursor}, more_btn) {
+    for (i in posts) {
+        post = createPostObject(posts[i]);
         $('#post-container').append(post);
     }
 
-    if (context.more) {
+    if (has_next_page) {
         if (more_btn == null)
-            more_btn = createMoreButton('posts', context.thread_id);
+            more_btn = createMoreButton('posts', thread_id);
         
-        more_btn.attr('index', context.index - context.amount_displaying).on('click', fetchObjects);
+        more_btn.attr('cursor', cursor).on('click', fetchObjects);
         $('#post-container').append(more_btn);
     }
 }
@@ -99,11 +99,13 @@ const shouldNotDisplay = function() {
 
 const fetchObjects = function() {
     object = $(this);
-    index = object.attr('index');
+    cursor = object.attr('cursor');
     id = object.attr('value');
     type = object.attr('object-type');
     
-    if (index == 0) 
+    console.log(id);
+
+    if (cursor === '')
         return;
     else if (object.is('.more-btn'))
         object.remove();
@@ -113,7 +115,7 @@ const fetchObjects = function() {
     } else
         object = null;
 
-    fetchObjectsAjax(`/fetch_${type}/`, {index: index, id: id}, object);
+    fetchObjectsAjax(`/fetch_${type}/`, {id,  cursor}, object);
 }
 
 const fetchObjectsAjax = function(url, data, more) {
@@ -122,12 +124,13 @@ const fetchObjectsAjax = function(url, data, more) {
         data: data,
         contentType: 'application/json',
         success: function(data) {
+            console.log(data);
             if ('replies' in data)
                 displayReplies(data, more);
             else if ('posts' in data) 
                 displayPosts(data, more);
             else
-                console.log(data);
+            console.log(data);
         },
         error: function(response) {
             console.log(response.responseJSON.error);

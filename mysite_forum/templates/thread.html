@@ -43,6 +43,7 @@
 {% block contentJS %}
 <script>
     let json_context = {{ thread_posts|safe }};
+    let thread_id = '{{ thread_id }}';
 </script>
 <script src="/static/mysite_user/js/csrfp.js"></script>
 <script src="/static/mysite_forum/js/thread.js"></script>
