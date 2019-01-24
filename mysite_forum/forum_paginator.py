@@ -10,7 +10,7 @@ class ForumPaginator(object):
 
     _DISPLAY_N_THREADS = 15
     _DISPLAY_N_POSTS = 15
-    _DISPLAY_N_REPLIES = 15
+    _DISPLAY_N_REPLIES = 1
 
     def __init__(self, queryset):
         self.queryset = queryset
@@ -31,9 +31,9 @@ class ForumPaginator(object):
         return context
 
     def _fetch_context(self, type, per_page, cursor):
-            paginator = Paginator(self.queryset, per_page, ('date_created', 'id'))
-            self.pages = paginator.pages()
-            return paginator.context(type, cursor)
+        paginator = Paginator(self.queryset, per_page, ('date_created', 'id'))
+        self.pages = paginator.pages()
+        return paginator.context(type, cursor)
 
     def pages(self):
         return int(self.pages)
@@ -81,7 +81,6 @@ class Paginator(object):
         return self.queryset.annotate(cursor=annotation)
     
     def _get_next_page(self, queryset, cursor):
-        print(queryset)
         return queryset.filter(cursor__lt=cursor)
 
     def pages(self):

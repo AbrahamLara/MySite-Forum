@@ -65,6 +65,9 @@ class Post(models.Model):
 		context['thread_id'] = self.thread.id
 		return context
 
+	def thread_context(self):
+		return self._essential_context()
+
 	def _essential_context(self):
 		return {
 			'pk': self.pk,
@@ -87,7 +90,7 @@ class Reply(models.Model):
 	class Meta:
 		ordering = ['date_created']
 
-	def get_json(self, replies):
+	def to_json(self, replies):
 		return [reply._essential_context() for reply in replies]
 
 	def profile_context(self):
@@ -95,6 +98,9 @@ class Reply(models.Model):
 		context['thread_id'] =  self.thread.id
 		context['post'] = self.post.post
 		return context
+
+	def thread_context(self):
+		return self._essential_context()
 
 	def _essential_context(self):
 		return {

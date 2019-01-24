@@ -75,18 +75,18 @@ const displayPosts = function({ posts, has_next_page, cursor}, more_btn) {
     }
 }
 
-const displayReplies = function(context, more_btn) {
-    for(i = context.replies.length-1; i >= 0; --i) {
-        reply = createReplyObject(context.replies[i]);
-        $(`#reply-container-${context.post_id}`).append(reply);
+const displayReplies = function({ replies, cursor, has_next_page, post_id }, more_btn) {
+    for(i in replies) {
+        reply = createReplyObject(replies[i]);
+        $(`#reply-container-${post_id}`).append(reply);
     }
 
-    if (context.more) {
+    if (has_next_page) {
         if (more_btn == null)
-            more_btn = createMoreButton('replies', context.post_id);
+            more_btn = createMoreButton('replies', post_id);
         
-        more_btn.attr('index', context.index - context.amount_displaying).on('click', fetchObjects);
-        $(`#reply-container-${context.post_id}`).append(more_btn);
+        more_btn.attr('cursor', cursor).on('click', fetchObjects);
+        $(`#reply-container-${post_id}`).append(more_btn);
     }
 }
 
@@ -102,8 +102,6 @@ const fetchObjects = function() {
     cursor = object.attr('cursor');
     id = object.attr('value');
     type = object.attr('object-type');
-    
-    console.log(id);
 
     if (cursor === '')
         return;
@@ -123,14 +121,14 @@ const fetchObjectsAjax = function(url, data, more) {
         url: url,
         data: data,
         contentType: 'application/json',
-        success: function(data) {
-            console.log(data);
-            if ('replies' in data)
-                displayReplies(data, more);
-            else if ('posts' in data) 
-                displayPosts(data, more);
+        success: function(res) {
+            if ('replies' in res) {
+                res['post_id'] = data.id
+                displayReplies(res, more);
+            } else if ('posts' in res)
+                displayPosts(res, more);
             else
-            console.log(data);
+                console.log(res);
         },
         error: function(response) {
             console.log(response.responseJSON.error);
@@ -138,28 +136,34 @@ const fetchObjectsAjax = function(url, data, more) {
     });
 }
 
-const createPostObject = function(post_data) {
-    const pk = post_data.pk;
-    
+const createPostObject = function({ pk, author_id, author, n_replies, post, }) {
     const post_object = $('<div>', {'class': 'post-object', 'id': `post-cell-${pk}`});
-    const post = $('<div>', {'class': 'post'});
+    const text = $('<div>', {'class': 'post'});
     const reply = $('<span>', {'class': 'text-secondary link', 'value': pk, 'type': 'reply'});
     const replies = $('<span>', repliesAttributes(pk));
-    const author = $('<div>', {'class': 'post-actions d-flex align-items-center'});
-    const author_link = $('<a>', {'class': 'text-secondary author-link', 'href': `/profile/${post_data.author_id}`, 'text': post_data.author});
-    const replies_container = $('<div>', {'class': 'container-fluid', 'id': `reply-container-${pk}`, 'css': {'whitespace': 'pre-line'}});
+    const author_name = $('<div>', {'class': 'post-actions d-flex align-items-center'});
+    const author_link = $('<a>', {
+        'class': 'text-secondary author-link',
+        'href': `/profile/${author_id}`,
+        'text': author
+    });
+    const replies_container = $('<div>', {
+        'class': 'container-fluid',
+        'id': `reply-container-${pk}`,
+        'css': {'whitespace': 'pre-line'}
+    });
 
-    replies.attr('index', post_data.n_replies);
+    replies.attr('index', n_replies);
 
-    post.text(post_data.post);
+    text.text(post);
     reply.text('Reply');
-    replies.text(`Replies(${post_data.n_replies})`);
+    replies.text(`Replies(${n_replies})`);
 
     replies.on('click', fetchObjects);
     reply.on('click', displayModal);
 
-    author.append(replies, ' - ', reply, ' - ', author_link);
-    post_object.append(post, author, replies_container);
+    author_name.append(replies, ' - ', reply, ' - ', author_link);
+    post_object.append(text, author_name, replies_container);
 
     return post_object;
 }
@@ -174,16 +178,27 @@ const repliesAttributes = function(pk) {
     };
 }
 
-const createReplyObject = function(reply_data) {
+const createReplyObject = function({ reply, author_id, author }) {
     const reply_object = $('<div>', {'class': 'reply-object'});
-    const reply = $('<div>', {'class': 'reply', 'text': reply_data.reply});
-    const author_link = $('<a>', {'class': 'text-secondary link author-link', 'href': `/profile/${reply_data.author_id}`, 'text': `${reply_data.author}`});
-    const author = $('<div>', {'class': 'author reply-author'});
+    const text = $('<div>', {'class': 'reply', 'text': reply});
+    const author_link = $('<a>', {
+        'class': 'text-secondary link author-link',
+        'href': `/profile/${author_id}`,
+        'text': `${author}`
+    });
+    const author_name = $('<div>', {'class': 'author reply-author'});
 
-    author.append('- ', author_link);
-    reply_object.append(reply, author);
+    author_name.append('- ', author_link);
+    reply_object.append(text, author_name);
 
     return reply_object;
+}
+
+const createMoreButton = function(context, data) {
+    if (context === 'replies')
+        return createMoreButtonForReplies(data);
+    else if (context === 'posts')
+        return createMoreButtonForPosts(data);
 }
 
 const createMoreButtonForReplies = function(id) {
@@ -194,17 +209,8 @@ const createMoreButtonForPosts = function(id) {
     return createMore('posts', id, 'more posts...').attr('object-type', 'posts');
 }
 
-const createMoreButton = function(context, data) {
-    if (context === 'replies')
-        return createMoreButtonForReplies(data);
-    else if (context === 'posts')
-        return createMoreButtonForPosts(data);
-}
-
 const createMore = function(type, value, text) {
     const more = $('<div>', {'class': `more-btn more-btn-for-${type}`, 'value': value});
-
     more.text(text);
-
     return more;
 }

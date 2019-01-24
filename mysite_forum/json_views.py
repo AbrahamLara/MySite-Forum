@@ -30,10 +30,10 @@ def fetch_posts(request):
 @require_http_methods(['GET'])
 def fetch_replies(request):
     post_id = int(request.GET.get('id'))
-    index = int(request.GET.get('index'))
+    cursor = request.GET.get('cursor')
     post = Post.objects.get(pk=post_id)
 
-    context = ForumPaginator(index).fetch_replies_context(post)
+    context = ForumPaginator(Reply.objects.filter(post=post).order_by('-date_created')).fetch_replies_context(cursor)
 
     return HttpResponse(json.dumps(context), content_type='application/json')
 

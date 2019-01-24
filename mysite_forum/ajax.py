@@ -30,7 +30,7 @@ def create_post(request):
     thread = Thread.objects.get(pk=thread_id)
     Thread.objects.increment_n_posts(thread)
     
-    post = Post.objects.create_post(post, request.user, thread)._json_post()
+    post = Post.objects.create_post(post, request.user, thread).thread_context()
     post['n_posts'] = thread.n_posts+1
     return HttpResponse(json.dumps(post), content_type='application/json')
 
@@ -44,7 +44,7 @@ def create_reply(request):
     post = Post.objects.get(pk=post_id)
     Post.objects.increment_n_replies(post)
 
-    reply = Reply.objects.create_reply(reply, request.user, post, post.thread)._json_reply()
+    reply = Reply.objects.create_reply(reply, request.user, post, post.thread).thread_context()
     reply['n_replies'] = post.n_replies+1
     return HttpResponse(json.dumps(reply), content_type='application/json')
 
