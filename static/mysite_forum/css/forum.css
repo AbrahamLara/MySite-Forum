@@ -65,12 +65,7 @@ img {
     }
 
     .mobile-portrait {
-        display: unset !important;
-    }
-
-    .container {
-        margin: unset !important;
-        max-width: unset !important;
+        display: block !important;
     }
 }
 
