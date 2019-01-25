@@ -1,7 +1,7 @@
 <tr>
     <td class="mobile-portrait">
-        <div class="bold" scope="row"><a class="thread-title" href="/thread/{{ thread.pk }}"><div class="thread-title">{{ thread.title }}</div></a></div>
-        <div class="details" scope="row">created by <a class="thread-author" href="/profile/{{ thread.author_id}}">{{ thread.author }}</a> on {{ thread.date_created }}</div>
+        <strong><a class="thread-title mb-2" href="/thread/{{ thread.pk }}">{{ thread.title }}</a></strong>
+        <div class="details" scope="row">created by <strong class="mb-2"><a class="thread-author" href="/profile/{{ thread.author_id}}">{{ thread.author }}</a></strong> on {{ thread.date_created }}</div>
     </td>
     <td class="rv-fw" scope="row"><a class="thread-title" href="/thread/{{ thread.pk }}"><div class="thread-title">{{ thread.title }}</div></a></th>
     <td scope="row">{{ thread.date_created }}</td>

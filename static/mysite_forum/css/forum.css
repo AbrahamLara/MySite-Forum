@@ -12,7 +12,6 @@ table {
 
 .thread-title, .thread-author {
     color: black !important;
-    font-weight: unset !important;
 }
 
 .thread-title {

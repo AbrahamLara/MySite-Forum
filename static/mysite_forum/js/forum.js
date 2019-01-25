@@ -1,30 +1,28 @@
-$(document).ready(function() {
-    $('.justify-content-end').prepend('<li class="nav-item create-item d-none"><a class="nav-link text-info" href="/create">Create</a></li>');
-
+$(document).ready(() => {
     if (has_next_page) {
-        displayMoreButton();
+        displayFetchButton();
     }
 });
 
-const displayMoreButton = function(index) {
-    const more = $('<div>', {
+const displayFetchButton = () => {
+    const btn = $('<div>', {
         'class': 'more-btn',
         'text': 'Load More Threads...'
     });
-    more.attr('cursor', cursor);
-    more.on('click', fetchThreads);
+    btn.attr('cursor', cursor);
+    btn.on('click', fetchThreads);
 
-    $('.container').append(more);
+    $('.container').append(btn);
 }
 
-const displayThreads = function({ threads, has_next_page}) {
+const displayThreads = ({ threads, has_next_page}) => {
     for(i in threads) {
-        thread = createThreadObject(threads[i]);
+        thread = threadObj(threads[i]);
         $('#threads').append(thread);
     }
 
     if(has_next_page) {
-        displayMoreButton();
+        displayFetchButton();
     }
 }
 
@@ -35,7 +33,7 @@ const fetchThreads = function() {
         data: {cursor},
         contentType: 'application/json',
         success: function(threads) {
-            cursor = threads['cursor']
+            cursor = threads['cursor'];
             console.log(threads);
             displayThreads(threads);
         },
@@ -45,23 +43,35 @@ const fetchThreads = function() {
     });
 }
 
-const createThreadObject = function(thread_data) {
+const threadObj = ({ pk, title, author_id, author, date_created, }) => {
     const thread = $('<tr>');
-    const mobile_portrait = $('<td>', {'class': 'mobile-portrait'});
-    const mobile_thread_title = $('<div>', {'class': 'bold', 'scope': 'row'});
-    const mobile_details = $('<div>', {'class': 'details', 'scope': 'row'});
-    const thread_title_link = `<a class="thread-title" href="/thread/${thread_data.pk}"><div class="thread-title">${thread_data.title}</div></a>`;
-    const thread_author_link = `<a class="thread-author" href="/profile/${thread_data.author_id}">${thread_data.author}</a>`;;
+    const mobile_thread = mobileThreadObj(pk, title, author_id, author, date_created);
+    const title_link = $('<a>', {'class': 'thread-title', 'href': `/thread/${pk}`, 'text': title});
+    const author_link = $('<a>', {'class': 'thread-author', 'href': `/profile/${author_id}`, 'text': author});
     const thread_title = $('<td>', {'class': 'rv-fw', 'scope': 'row'});
     const thread_author = $('<td>', {'class': 'rv-fw', 'scope': 'row'});
-    const date_created = $('<td>', {'scope': 'row', 'text': thread_data.date_created});
+    const date = $('<td>', {'scope': 'row', 'text': date_created});
 
-    mobile_thread_title.append(thread_title_link);
-    mobile_details.append('created by ', thread_author_link, ` on ${thread_data.date_created}`);
-    mobile_portrait.append(mobile_thread_title, mobile_details);
-    thread_title.append(thread_title_link);
-    thread_author.append(thread_author_link);
-    thread.append(mobile_portrait, thread_title, date_created, thread_author);
+    thread_title.append(title_link);
+    thread_author.append(author_link);
+    thread.append(mobile_thread, thread_title, date, thread_author);
+
+    return thread;
+}
+
+const mobileThreadObj = (pk, title, author_id, author, date_created) => {
+    const thread = $('<td>', {'class': 'mobile-portrait'});
+    const title_strong = $('<strong>', {class: 'mb-2'});
+    const title_link = $('<a>', {'class': 'thread-title', 'href': `/thread/${pk}`, 'text': title});
+    const author_strong = $('<strong>', {class: 'mb-2'});
+    const author_link = $('<a>', {'class': 'thread-author', 'href': `/profile/${author_id}`, 'text': author});
+    const mobile_details = $('<div>', {'class': 'details', 'scope': 'row'});
+
+    title_strong.append(title_link);
+    author_strong.append(author_link);
+    mobile_details.append('created by ', author_strong, ` on ${date_created}`);
+
+    thread.append(title_strong, mobile_details);
 
     return thread;
 }
