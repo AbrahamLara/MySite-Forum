@@ -2,28 +2,20 @@
     margin-bottom: 20px !important;
 }
 
-.author {
-    font-weight: 1 !important;
+.link {
+    color: black;
 }
 
-.text-secondary:hover {
-    cursor: pointer !important;
-}
-
-.post-object, .reply-object {
+.post-obj, .reply-obj {
     border-top: 1px solid darkgray !important;
-    padding: 10px;
+    padding: 10px 10px 0px;
 }
 
 .post-count {
     margin-left: 10px !important;
 }
 
-.post-actions {
-    margin-top: 10px !important;
-}
-
-.display-4 {
+.nice-font {
     font-size: 1.5rem;
     font-weight: 300;
 }
@@ -53,10 +45,6 @@
 
 .my-4 {
     margin-bottom: 1px !important;
-}
-
-.author-link:hover {
-    text-decoration: none;
 }
 
 .more-btn {

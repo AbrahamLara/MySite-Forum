@@ -10,7 +10,7 @@ class ForumPaginator(object):
 
     _DISPLAY_N_THREADS = 15
     _DISPLAY_N_POSTS = 15
-    _DISPLAY_N_REPLIES = 1
+    _DISPLAY_N_REPLIES = 15
 
     def __init__(self, queryset):
         self.queryset = queryset

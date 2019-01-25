@@ -18,7 +18,7 @@
 
 <div class="container">
     <div class="jumbotron-fluid">
-        <h1 class="display-4">{{ title }}</h1>
+        <h1 class="nice-font">{{ title }}</h1>
         <h5 class="author">- <a class="text-info author-link" href="/profile/{{ author_id }}">{{ author }}</a></h5>
         <div class="lead">{{ body }}</div>
     </div>
@@ -30,7 +30,7 @@
             {% if n_posts == 0 %}
             Be the first to post on this thread!!!
             {% else %}
-            {{ n_posts }} Post(s)
+            Posts({{ n_posts }})
             {% endif%}
         </div>
     </div>
