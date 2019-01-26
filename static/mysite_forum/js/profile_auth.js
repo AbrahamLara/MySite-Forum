@@ -121,68 +121,108 @@ const selectedType = function() {
 
 const threadObj = ({ pk, title, date_created, n_posts, }) => {
     const thread_block = $('<tr>', {'id': `thread-block-${pk}`});
-    const td_for_radio = customCheckbox(pk, 'thread');
-    const td_for_link = $('<td>');
-    const thread_link = `<a class="thread-link text-dark" href="/thread/${pk}"><div class="thread-text">${title}</div></a>`;
-    const td_for_date = $('<td>', {'text': date_created});
-    const td_for_posts = $('<td>', {'text': n_posts});
+    const checkbox = customCheckbox(pk, 'thread');
+    const td = $('<td>');
+    const link = $('<a>', {'class': 'thread-link text-dark', 'href': `/thread/${pk}`});
+    const thread_txt = $('<div>', {'class': 'thread-text', 'text': title});
+    const date = $('<td>', {'text': date_created});
+    const posts_n = $('<td>', {'text': n_posts});
 
-    const td_mobile = $('<td>', {'class': 'mobile-td'});
-    const td_thread_label = $('<span>', {'class': 'label', 'text': 'Title'});
-    const td_mobile_posts = `<div class="counter"><span class="label">Posts:</span> ${n_posts}</div>`;
-    const td_mobile_date = `Created on <span>${date_created}</span>`;
-
-    td_mobile.append(td_thread_label, thread_link, td_mobile_posts, td_mobile_date);
+    const mobile_thread = mobileThreadObj(pk, title, date_created, n_posts);
     
-    td_for_link.append(thread_link);
-    thread_block.append(td_for_radio, td_mobile ,td_for_link, td_for_date, td_for_posts);
+    link.append(thread_txt);
+    td.append(link);
+    thread_block.append(checkbox, mobile_thread ,td, date, posts_n);
 
     return thread_block;
 };
 
+const mobileThreadObj = (pk, title, date_created, n_posts) => {
+    const obj = $('<td>', {'class': 'mobile-td'});
+    const title_span = $('<span>', {'class': 'label', 'text': 'Title'});
+    const link = $('<a>', {'class': 'thread-link text-dark', 'href': `/thread/${pk}`});
+    const thread_txt = $('<div>', {'class': 'thread-text', 'text': title, });
+    const counter = $('<div>', {'class': 'counter'});
+    const posts_n = $('<span>', {'class': 'label', 'text': 'Posts: '});
+    const date = $('<span>', {'text': date_created});
+
+    counter.append(posts_n, n_posts);
+    link.append(thread_txt);
+    obj.append(title_span, link, counter, 'Created on ', date);
+
+    return obj
+}
+
 const postObj = ({ pk, thread_id, date_created, n_replies, post, }) => {
     const post_block = $('<tr>', {'id': `post-block-${pk}`});
-    const td_for_radio = customCheckbox(pk, 'post');
-    const td_for_link = $('<td>');
-    const post_link = `<a class="post-link text-dark" href="/thread/${thread_id}"><div class="post-text">${post}</div></a>`;
-    const td_for_date = $('<td>', {'text': date_created});
-    const td_for_replies = $('<td>', {'text': n_replies});
+    const checkbox = customCheckbox(pk, 'post');
+    const link = $('<td>');
+    const post_link = $('<a>', {'class': 'post-link text-dark', 'href': `/thread/${thread_id}`});
+    const post_txt = $('<div>', {'class': 'post-text', 'text': post});
+    const date = $('<td>', {'text': date_created});
+    const replies_txt = $('<td>', {'text': n_replies});
 
-    const td_mobile = $('<td>', {'class': 'mobile-td'});
-    const td_post_label = $('<span>', {'class': 'label', 'text': 'Post'});
-    const td_mobile_replies = `<div class="counter"><span class="label">Replies:</span> ${n_replies}</div>`;
-    const td_mobile_date = `Posted on <span>${date_created}</span>`;
+    const mobile_post = mobilePostObj(thread_id, date_created, n_replies, post);
 
-    td_mobile.append(td_post_label, post_link, td_mobile_replies, td_mobile_date);
-
-    td_for_link.append(post_link);
-    post_block.append(td_for_radio, td_mobile, td_for_link, td_for_date, td_for_replies);
+    post_link.append(post_txt);
+    link.append(post_link);
+    post_block.append(checkbox, mobile_post, link, date, replies_txt);
 
     return post_block;
 };
 
+const mobilePostObj = (thread_id, date_created, n_replies, post) => {
+    const obj = $('<td>', {'class': 'mobile-td'});
+    const post_span = $('<span>', {'class': 'label', 'text': 'Post'});
+    const counter = $('<div>', {'class': 'counter'});
+    const label = $('<div>', {'class': 'label', 'text': 'Replies: '});
+    const date = $('<span>', {'text': date_created});
+    const link = $('<a>', {'class': 'post-link text-dark', 'href': `/thread/${thread_id}`});
+    const post_txt = $('<div>', {'class': 'post-text', 'text': post});
+
+    label.append(n_replies);
+    link.append(post_txt);
+    counter.append(label, n_replies);
+    obj.append(post_span, link, label, 'Posted on ', date);
+
+    return obj;
+}
+
 const replyObj = ({ pk, thread_id, reply, date_created, post, }) => {
-    const reply_block = $('<tr>', {'id': `reply-block-${pk}`});
-    const td_for_radio = customCheckbox(pk, 'reply');
-    const reply_link = `<a class="reply-link text-dark" href="/thread/${thread_id}"><div class="reply-text">${reply}</div></a>`;
+    const obj = $('<tr>', {'id': `reply-block-${pk}`});
+    const checkbox = customCheckbox(pk, 'reply');
+    const reply_link = $('<a>', {'class': 'reply-link text-dark', 'href': `/thread/${thread_id}`});
+    const reply_txt = $('<div>', {'class': 'reply-text', 'text': reply});
     const td_for_link = $('<td>');
-    const td_for_date = $('<td>', {'text': date_created});
     const td_for_post = $('<td>');
-    const post_text = `<div class="post-text">${post}</div>`
+    const date = $('<td>', {'text': date_created});
+    const post_txt = $('<div>', {'class': 'post-text', 'text': post});
 
-    const td_mobile = $('<td>', {'class': 'mobile-td'});
-    const td_reply_label = $('<span>', {'class': 'label', 'text': 'Reply'});
-    const td_post_label = $('<span>', {'class': 'label', 'text': 'To Post'});
-    const td_mobile_date = `Replied on <span>${date_created}</span>`;
-
-    td_mobile.append(td_reply_label, reply_link, td_post_label, post_text, td_mobile_date);
+    const td_mobile = mobileReplyObj(thread_id, reply, date_created, post);
     
+    reply_link.append(reply_txt);
     td_for_link.append(reply_link);
-    td_for_post.append(post_text);
-    reply_block.append(td_for_radio, td_mobile, td_for_link, td_for_post, td_for_date);
+    td_for_post.append(post_txt);
+    obj.append(checkbox, td_mobile, td_for_link, td_for_post, date);
 
-    return reply_block;
+    return obj;
 };
+
+const mobileReplyObj = (thread_id, reply, date_created, post) => {
+    const obj = $('<td>', {'class': 'mobile-td'});
+    const reply_label = $('<span>', {'class': 'label', 'text': 'Reply'});
+    const post_label = $('<span>', {'class': 'label', 'text': 'To Post'});
+    const date = $('<span>',  {'text': date_created});
+    const reply_link = $('<a>', {'class':'reply-link text-dark', 'href':`/thread/${thread_id}`});
+    const reply_txt = $('<div>', {'class': 'reply-text', 'text':  reply});
+    const post_text = $('<div>', {'class': 'post-text', 'text': post});
+
+    reply_link.append(reply_txt);
+
+    obj.append(reply_label, reply_link, post_label, post_text, 'Replied on ', date);
+
+    return obj;
+}
 
 const customCheckbox = (pk, object_type) => {
     const td = $('<td>');

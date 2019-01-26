@@ -22,7 +22,7 @@ def fetch_user_threads(request):
 @require_http_methods(['GET'])
 def fetch_user_posts(request):
 	user_id = request.GET.get('id')
-	cursor = int(request.GET.get('cursor'))
+	cursor = request.GET.get('cursor')
 
 	user = MySiteUser.objects.get(pk=user_id)
 
