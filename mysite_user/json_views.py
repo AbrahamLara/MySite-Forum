@@ -11,32 +11,32 @@ from mysite_forum.forum_paginator import ForumPaginator
 @require_http_methods(['GET'])
 def fetch_user_threads(request):
 	user_id = request.GET.get('id')
-	index = int(request.GET.get('index'))
+	cursor = request.GET.get('cursor')
 
 	user = MySiteUser.objects.get(pk=user_id)
 
-	threads = ForumPaginator(index).fetch_user_threads(user)
+	threads = ForumPaginator(Thread.objects.filter(author=user).order_by('-date_created')).fetch_user_threads_context(cursor)
 
 	return HttpResponse(json.dumps(threads), content_type='application/json')
 
 @require_http_methods(['GET'])
 def fetch_user_posts(request):
 	user_id = request.GET.get('id')
-	index = int(request.GET.get('index'))
+	cursor = int(request.GET.get('cursor'))
 
 	user = MySiteUser.objects.get(pk=user_id)
 
-	posts = ForumPaginator(index).fetch_user_posts(user)
+	posts = ForumPaginator(Post.objects.filter(author=user).order_by('-date_created')).fetch_user_posts_context(cursor)
 
 	return HttpResponse(json.dumps(posts), content_type='application/json')
 
 @require_http_methods(['GET'])
 def fetch_user_replies(request):
 	user_id = request.GET.get('id')
-	index = int(request.GET.get('index'))
+	cursor = request.GET.get('cursor')
 
 	user = MySiteUser.objects.get(pk=user_id)
 
-	replies = ForumPaginator(index).fetch_user_replies(user)
+	replies = ForumPaginator(Reply.objects.filter(author=user).order_by('-date_created')).fetch_user_replies_context(cursor)
 
 	return HttpResponse(json.dumps(replies), content_type='application/json')

@@ -38,7 +38,7 @@ const changeViews = function() {
     $(`#${plural[type]}-table`).removeClass('hide');
 }
 
-const setTypeUndefined = function() {
+const setTypeUndefined = () => {
     $('.modal-header').text('');
 };
 
@@ -48,23 +48,23 @@ const showModal = function() {
     $('#confirm-modal').modal('show');
 };
 
-const appendObject = function(context, objects, this_type) {
-    for (let i = objects.length-1; i >= 0; i--) {
+const appendObject = ({ has_next_page, cursor }, objects, this_type) => {
+    for (i in objects) {
         if (this_type == 'thread')
-            object = getThreadBlock(objects[i]);
+            object = threadObj(objects[i]);
         else if (this_type == 'post')
-            object = getPostBlock(objects[i]);
+            object = postObj(objects[i]);
         else if (this_type == 'reply')
-            object = getReplyBlock(objects[i]);
+            object = replyObj(objects[i]);
 
         container[this_type].append(object);
     }
 
-    if (context.more) {
-        more = createMoreObject(plural[this_type]);
-        more.attr('index', context.index-context.amount_displaying);
-        more.attr('type', this_type);
-        more.on('click', fetchObjects);
+    if (has_next_page) {
+        more = moreObj(plural[this_type]);
+        more.attr('cursor', cursor)
+            .attr('type', this_type)
+            .on('click', fetchObjects);
 
         $(`#${plural[this_type]}-table`).append(more);
     }
@@ -72,21 +72,21 @@ const appendObject = function(context, objects, this_type) {
 
 const fetchObjects = function() {
     $(this).remove();
-    index = $(this).attr('index');
+    cursor = $(this).attr('cursor');
     type = $(this).attr('type');
 
     $.ajax({
         url: `/fetch_user_${plural[type]}/`,
-        data: {'id': id, 'index': index},
+        data: { id, cursor, },
         contentType: 'application/json',
         success: function(data) {
-
             if (type == 'thread') 
                 objects = data.threads;
             else if (type == 'post') 
                 objects = data.posts;
             else if (type == 'reply') 
                 objects = data.replies;
+                
             appendObject(data, objects, type);
 
         },
@@ -96,7 +96,7 @@ const fetchObjects = function() {
     });
 }
 
-const deleteSelection = function() {
+const deleteSelection = () => {
     $.ajax({
         type: 'post',
         url: `/delete_${type}_selection/`,
@@ -119,18 +119,18 @@ const selectedType = function() {
     return $(this).find('input')[0].value;
 };
 
-const getThreadBlock = function(thread_data) {
-    const thread_block = $('<tr>', {'id': `thread-block-${thread_data.pk}`});
-    const td_for_radio = customCheckbox(thread_data, 'thread');
+const threadObj = ({ pk, title, date_created, n_posts, }) => {
+    const thread_block = $('<tr>', {'id': `thread-block-${pk}`});
+    const td_for_radio = customCheckbox(pk, 'thread');
     const td_for_link = $('<td>');
-    const thread_link = `<a class="thread-link text-dark" href="/thread/${thread_data.pk}"><div class="thread-text">${thread_data.title}</div></a>`;
-    const td_for_date = $('<td>', {'text': thread_data.date_created});
-    const td_for_posts = $('<td>', {'text': thread_data.n_posts});
+    const thread_link = `<a class="thread-link text-dark" href="/thread/${pk}"><div class="thread-text">${title}</div></a>`;
+    const td_for_date = $('<td>', {'text': date_created});
+    const td_for_posts = $('<td>', {'text': n_posts});
 
     const td_mobile = $('<td>', {'class': 'mobile-td'});
     const td_thread_label = $('<span>', {'class': 'label', 'text': 'Title'});
-    const td_mobile_posts = `<div class="counter"><span class="label">Posts:</span> ${thread_data.n_posts}</div>`;
-    const td_mobile_date = `Created on <span>${thread_data.date_created}</span>`;
+    const td_mobile_posts = `<div class="counter"><span class="label">Posts:</span> ${n_posts}</div>`;
+    const td_mobile_date = `Created on <span>${date_created}</span>`;
 
     td_mobile.append(td_thread_label, thread_link, td_mobile_posts, td_mobile_date);
     
@@ -140,18 +140,18 @@ const getThreadBlock = function(thread_data) {
     return thread_block;
 };
 
-const getPostBlock = function(post_data) {
-    const post_block = $('<tr>', {'id': `post-block-${post_data.pk}`});
-    const td_for_radio = customCheckbox(post_data, 'post');
+const postObj = ({ pk, thread_id, date_created, n_replies, post, }) => {
+    const post_block = $('<tr>', {'id': `post-block-${pk}`});
+    const td_for_radio = customCheckbox(pk, 'post');
     const td_for_link = $('<td>');
-    const post_link = `<a class="post-link text-dark" href="/thread/${post_data.thread_id}"><div class="post-text">${post_data.post}</div></a>`;
-    const td_for_date = $('<td>', {'text': post_data.date_posted});
-    const td_for_replies = $('<td>', {'text': post_data.n_replies});
+    const post_link = `<a class="post-link text-dark" href="/thread/${thread_id}"><div class="post-text">${post}</div></a>`;
+    const td_for_date = $('<td>', {'text': date_created});
+    const td_for_replies = $('<td>', {'text': n_replies});
 
     const td_mobile = $('<td>', {'class': 'mobile-td'});
     const td_post_label = $('<span>', {'class': 'label', 'text': 'Post'});
-    const td_mobile_replies = `<div class="counter"><span class="label">Replies:</span> ${post_data.n_replies}</div>`;
-    const td_mobile_date = `Posted on <span>${post_data.date_posted}</span>`;
+    const td_mobile_replies = `<div class="counter"><span class="label">Replies:</span> ${n_replies}</div>`;
+    const td_mobile_date = `Posted on <span>${date_created}</span>`;
 
     td_mobile.append(td_post_label, post_link, td_mobile_replies, td_mobile_date);
 
@@ -161,19 +161,19 @@ const getPostBlock = function(post_data) {
     return post_block;
 };
 
-const getReplyBlock = function(reply_data) {
-    const reply_block = $('<tr>', {'id': `reply-block-${reply_data.pk}`});
-    const td_for_radio = customCheckbox(reply_data, 'reply');
-    const reply_link = `<a class="reply-link text-dark" href="/thread/${reply_data.thread_id}"><div class="reply-text">${reply_data.reply}</div></a>`;
+const replyObj = ({ pk, thread_id, reply, date_created, post, }) => {
+    const reply_block = $('<tr>', {'id': `reply-block-${pk}`});
+    const td_for_radio = customCheckbox(pk, 'reply');
+    const reply_link = `<a class="reply-link text-dark" href="/thread/${thread_id}"><div class="reply-text">${reply}</div></a>`;
     const td_for_link = $('<td>');
-    const td_for_date = $('<td>', {'text': reply_data.date_replied});
+    const td_for_date = $('<td>', {'text': date_created});
     const td_for_post = $('<td>');
-    const post_text = `<div class="post-text">${reply_data.post}</div>`
+    const post_text = `<div class="post-text">${post}</div>`
 
     const td_mobile = $('<td>', {'class': 'mobile-td'});
     const td_reply_label = $('<span>', {'class': 'label', 'text': 'Reply'});
     const td_post_label = $('<span>', {'class': 'label', 'text': 'To Post'});
-    const td_mobile_date = `Replied on <span>${reply_data.date_replied}</span>`;
+    const td_mobile_date = `Replied on <span>${date_created}</span>`;
 
     td_mobile.append(td_reply_label, reply_link, td_post_label, post_text, td_mobile_date);
     
@@ -184,11 +184,11 @@ const getReplyBlock = function(reply_data) {
     return reply_block;
 };
 
-const customCheckbox = function(object_data, object_type) {
+const customCheckbox = (pk, object_type) => {
     const td = $('<td>');
     const radio_container = $('<label>', {'class': 'radio-container'});
-    const custom_checkbox = $('<div>', {'id': `custom-checkbox-${object_data.pk}`});
-    const checkbox = $('<input>', {'type': 'checkbox', 'value': object_data.pk, 'id': `thread${object_data.pk}`});
+    const custom_checkbox = $('<div>', {'id': `custom-checkbox-${pk}`});
+    const checkbox = $('<input>', {'type': 'checkbox', 'value': pk, 'id': `${object_type}-${pk}`});
     const checkmark = $('<span>', {'class': 'checkmark'});
 
     checkbox.attr('object', object_type);
@@ -208,7 +208,7 @@ const selectBlock = function(e) {
         $(`#${type}-block-${e.target.value}`).removeClass('selected');
 };
 
-const createMoreObject = function(this_type) {
+const moreObj = (this_type) => {
     const button = $('<div>', {
         'class': `more-btn more-btn-for-${this_type}`,
         'text': `Load more ${this_type}...`

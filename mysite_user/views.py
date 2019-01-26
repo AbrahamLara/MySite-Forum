@@ -15,13 +15,17 @@ def profile(request, uid):
 
 	user = MySiteUser.objects.get(pk=uid)
 
-	context['n_threads'] = Thread.objects.filter(author=user).count()
-	context['n_posts'] = Post.objects.filter(author=user).count()
-	context['n_replies'] = Reply.objects.filter(author=user).count()
+	threads_queryset = Thread.objects.filter(author=user).order_by('-date_created')
+	posts_queryset = Post.objects.filter(author=user).order_by('-date_created')
+	replies_queryset = Reply.objects.filter(author=user).order_by('-date_created')
+
+	context['n_threads'] = threads_queryset.count()
+	context['n_posts'] = posts_queryset.count()
+	context['n_replies'] = replies_queryset.count()
 	context['profile_user'] = user.name
-	context['threads'] = json.dumps(ForumPaginator(context['n_threads']).fetch_user_threads(user))
-	context['posts'] = json.dumps(ForumPaginator(context['n_posts']).fetch_user_posts(user))
-	context['replies'] = json.dumps(ForumPaginator(context['n_replies']).fetch_user_replies(user))
+	context['threads'] = json.dumps(ForumPaginator(threads_queryset).fetch_user_threads_context())
+	context['posts'] = json.dumps(ForumPaginator(posts_queryset).fetch_user_posts_context())
+	context['replies'] = json.dumps(ForumPaginator(replies_queryset).fetch_user_replies_context())
 	context['user_id'] = uid
 
 	return render(request, 'profile.html', context)

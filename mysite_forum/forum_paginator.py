@@ -30,6 +30,21 @@ class ForumPaginator(object):
         context['replies'] = Reply().to_json(context['replies'])
         return context
 
+    def fetch_user_threads_context(self, cursor=None):
+        context = self._fetch_context('threads', self._DISPLAY_N_THREADS, cursor)
+        context['threads'] = Thread().user_context_json(context['threads'])
+        return context
+
+    def fetch_user_posts_context(self, cursor=None):
+        context = self._fetch_context('posts', self._DISPLAY_N_POSTS, cursor)
+        context['posts'] = Post().user_context_json(context['posts'])
+        return context
+
+    def fetch_user_replies_context(self, cursor=None):
+        context = self._fetch_context('replies', self._DISPLAY_N_REPLIES, cursor)
+        context['replies'] = Reply().user_context_json(context['replies'])
+        return context
+
     def _fetch_context(self, type, per_page, cursor):
         paginator = Paginator(self.queryset, per_page, ('date_created', 'id'))
         self.pages = paginator.pages()

@@ -27,6 +27,9 @@ class Thread(models.Model):
 		context['body'] = self.body
 		return context
 
+	def user_context_json(self, threads):
+		return [thread.profile_context() for thread in threads]
+
 	def profile_context(self):
 		context = self._essential_context()
 		context['n_posts'] = self.n_posts
@@ -60,6 +63,9 @@ class Post(models.Model):
 	def to_json(self, posts):
 		return [post._essential_context() for post in posts]
 
+	def user_context_json(self, posts):
+		return [post.profile_context() for post in posts]
+
 	def profile_context(self):
 		context = self._essential_context()
 		context['thread_id'] = self.thread.id
@@ -92,6 +98,9 @@ class Reply(models.Model):
 
 	def to_json(self, replies):
 		return [reply._essential_context() for reply in replies]
+
+	def user_context_json(self, replies):
+			return [reply.profile_context() for reply in replies]
 
 	def profile_context(self):
 		context = self._essential_context()

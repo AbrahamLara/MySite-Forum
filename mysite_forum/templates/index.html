@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody id="threads">
-            {% for thread in threads reversed %}
+            {% for thread in threads %}
                 {% include 'partials/thread_card.html' with thread=thread %}
             {% endfor %}
         </tbody>
