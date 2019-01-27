@@ -1,4 +1,4 @@
-# MySite-Forum-django
+# MySite-Forum
 
 This web app is built using the Django web framework utilizing jQuery, Boostrap, and PostgreSQL.
 
