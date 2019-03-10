@@ -17,9 +17,9 @@ Users also have the ability to view other user profiles while also being able to
 pip install Django==2.0.6
 ```
 
-## Creating Database
+## Database Setup
 Open PostgreSQL in the terminal and type:
-```
+```sql
 CREATE ROLE admin WITH LOGIN PASSWORD 'mysite';
 CREATE DATABASE mysite;
 GRANT ALL PRIVILEGES ON DATABASE mysite TO admin;
@@ -33,11 +33,4 @@ python3 manage.py makemigrations
 python3 manage.py migrate
 python3 manage.py runserver
 ```
-Then visit __127.0.0.1:8000__ in a browser
-
-# Screenshots
-<image src="images/Screenshot1.png"/>
-<image src="images/Screenshot2.png"/>
-<image src="images/Screenshot3.png"/>
-<image src="images/Screenshot4.png"/>
-<image src="images/Screenshot5.png"/>
+Then visit __127.0.0.1:8000__ or __localhost:8000__ in a browser
